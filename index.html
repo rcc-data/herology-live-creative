@@ -1474,20 +1474,36 @@ function videoFallbackSrcs(adName) {
   }
   return FALLBACK_EXTS.map(ext => base + encodeURIComponent(adName) + ext);
 }
-// Lazy-load card videos: only start loading when a card is near the viewport
-let _lazyIO = null;
+// Video loading: buffer videos in small batches ahead of the scroll position,
+// so a card is already ready by the time the mouse reaches it.
+let _lazyIO = null, _vq = [], _vActive = 0;
+const VIDEO_CONCURRENCY = 6;
+function _vPump() {
+  while (_vActive < VIDEO_CONCURRENCY && _vq.length) {
+    const v = _vq.shift();
+    if (!v._lazyLoad || !v.isConnected) continue;
+    const f = v._lazyLoad; v._lazyLoad = null;
+    _vActive++;
+    let done = false;
+    const fin = () => { if (done) return; done = true; _vActive--; _vPump(); };
+    v.addEventListener("loadeddata", fin, { once: true });
+    setTimeout(fin, 5000);
+    v.preload = "auto";
+    f(fin);
+  }
+}
 function lazyVideoObserve(v) {
-  if (!("IntersectionObserver" in window)) { v._lazyLoad && v._lazyLoad(); return; }
+  if (!("IntersectionObserver" in window)) { v._lazyLoad && v._lazyLoad(function(){}); return; }
   if (!_lazyIO) _lazyIO = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        _lazyIO.unobserve(en.target);
-        const t = en.target;
-        if (t._lazyLoad) { const f = t._lazyLoad; t._lazyLoad = null; f(); }
-      }
-    });
-  }, { rootMargin: "300px" });
+    entries.filter(en => en.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left)
+      .forEach(en => { _lazyIO.unobserve(en.target); _vq.push(en.target); });
+    _vPump();
+  }, { rootMargin: "1400px 0px" });
   _lazyIO.observe(v);
+}
+function lazyVideoNow(v) {
+  if (v._lazyLoad) { _vq.unshift(v); _vActive = Math.max(0, _vActive - 0); const f = v._lazyLoad; v._lazyLoad = null; v.preload = "auto"; f(function(){}); }
 }
 function attachVideoWithFallback(videoEl, adName, onAllFailed) {
   const candidates = videoFallbackSrcs(adName);
@@ -1896,16 +1912,19 @@ function renderCard(c, perf, prev_perf) {
   videoWrap.className = "card-video-wrap" + (c.is_dpa ? " card-dpa" : "");
   if (c.is_dpa) {
     videoWrap.innerHTML = '<div class="card-video-placeholder"><span class="ph-icon">🛒</span><span class="ph-text">Dynamic Product Ad</span></div>';
+  } else if (c.placeholder_emoji) {
+    videoWrap.innerHTML = '<div class="card-video-placeholder"><span class="ph-icon" style="font-size:56px;">' + c.placeholder_emoji + '</span><span class="ph-text">Multivariation ad<br/>video not available</span></div>';
   } else if (c.ad_type === "VID" || c.ad_type === "GIF") {
     const video = document.createElement("video");
     video.muted = true; video.loop = true; video.playsInline = true; video.preload = "metadata";
     video.preload = "none";
-    video._lazyLoad = () => attachVideoWithFallback(video, c.ad_name, () => {
+    video._lazyLoad = (fin) => attachVideoWithFallback(video, c.ad_name, () => {
+      if (fin) fin();
       videoWrap.innerHTML = '<div class="card-video-placeholder"><span class="ph-icon">🎬</span><span class="ph-text">Video</span><br/><a href="#" class="fix-filename-link" data-ad="' + escapeHtml(c.ad_name) + '" style="font-size:10px;color:rgba(255,255,255,0.7);text-decoration:underline;margin-top:8px;display:inline-block;">Set R2 filename</a></div>';
     });
     videoWrap.appendChild(video);
     lazyVideoObserve(video);
-    card.addEventListener("mouseenter", () => video.play().catch(()=>{}));
+    card.addEventListener("mouseenter", () => { lazyVideoNow(video); video.play().catch(()=>{}); });
     card.addEventListener("mouseleave", () => { video.pause(); video.currentTime = 0; });
   } else if (c.ad_type === "IMG") {
     const mapped = BAKED_VIDEO_MAPPING[c.ad_name] || getUserOverrides()[c.ad_name];
@@ -2049,6 +2068,8 @@ function openModal(c, perf) {
   const bodyEl = document.getElementById("modal-body");
   if (c.is_dpa) {
     videoEl.innerHTML = '<div class="placeholder"><div class="ph-icon">🛒</div><div>Dynamic Product Ad<br/><small style="opacity:0.6;">Catalog-based</small></div></div>';
+  } else if (c.placeholder_emoji) {
+    videoEl.innerHTML = '<div class="placeholder"><div class="ph-icon" style="font-size:72px;">' + c.placeholder_emoji + '</div><div>Multivariation ad<br/><small style="opacity:0.6;">Video not available</small></div></div>';
   } else if (c.ad_type === "VID" || c.ad_type === "GIF") {
     videoEl.innerHTML = '';
     const v = document.createElement("video");
