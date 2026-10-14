@@ -24,7 +24,20 @@ body{line-height:1.5;overflow-x:hidden}
 .header-stat{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
 .header-stat .num{font-family:var(--font-display);font-size:24px;font-weight:500;color:var(--ink);letter-spacing:-.02em}
 .header-stat .num.purple{color:var(--purple)}
-#header-stats-2 .num{font-size:18px}
+.header-counts{gap:22px}
+.kpi-panel{display:flex;flex-wrap:wrap;gap:14px;padding:18px 36px 6px}
+.kpi-group{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 20px 16px;flex:1 1 auto;box-shadow:0 1px 2px rgba(60,50,110,.04)}
+.kpi-title{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:10px}
+.kpi-cells{display:flex;gap:0}
+.kpi-cell{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:0 22px;min-width:96px}
+.kpi-cell:first-child{padding-left:0}
+.kpi-cell:last-child{padding-right:0}
+.kpi-cell + .kpi-cell{border-left:1px solid var(--line)}
+.kpi-cell .label{font-size:10px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.kpi-cell .num{font-family:var(--font-display);font-size:26px;font-weight:500;color:var(--ink);letter-spacing:-.02em;line-height:1.1;font-variant-numeric:lining-nums tabular-nums}
+.kpi-cell .num.purple{color:var(--purple)}
+.kpi-delta{min-height:20px}
+@media(max-width:700px){.kpi-panel{padding:14px 20px 4px}.kpi-group{flex:1 1 100%}.kpi-cell .num{font-size:22px}}
 .header-stat .label{font-size:10px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.12em;margin-top:4px;font-weight:600}
 .date-bar{background:var(--purple-tint);border-bottom:1px solid var(--purple-bg);padding:12px 36px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .date-bar-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--purple-deep);font-weight:700}
@@ -1067,22 +1080,17 @@ body.compare-mode .compare-bar{display:flex}
       <h1>Creative <em>Hub</em></h1>
     </div>
   </div>
-  <div class="header-stats">
+  <div class="header-stats header-counts">
     <div class="header-stat"><span class="num" id="stat-total">0</span><span class="label">Creatives</span></div>
     <div class="header-stat"><span class="num purple" id="stat-live">0</span><span class="label">Live</span></div>
-    <div class="header-stat"><span class="num" id="stat-spend">€0</span><span id="stat-spend-delta"></span><span class="label">Spend in Range</span></div>
-    <div class="header-stat"><span class="num" id="stat-purch">0</span><span id="stat-purch-delta"></span><span class="label">Purchases</span></div>
-    <div class="header-stat"><span class="num purple" id="stat-roas">0×</span><span id="stat-roas-delta"></span><span class="label">Blended ROAS</span></div>
-  </div>
-  <div class="header-stats" id="header-stats-2" style="width:100%;justify-content:flex-end;margin-top:14px;padding-top:14px;border-top:1px solid rgba(89,84,164,.12);">
-    <div class="header-stat"><span class="num" id="stat-views">0</span><span id="stat-views-delta"></span><span class="label">Video Views</span></div>
-    <div class="header-stat"><span class="num" id="stat-cpv">—</span><span id="stat-cpv-delta"></span><span class="label">Cost / View</span></div>
-    <div class="header-stat"><span class="num" id="stat-clicks">0</span><span id="stat-clicks-delta"></span><span class="label">Traffic (Clicks)</span></div>
-    <div class="header-stat"><span class="num" id="stat-cpc">—</span><span id="stat-cpc-delta"></span><span class="label">Cost / Click</span></div>
-    <div class="header-stat"><span class="num" id="stat-follows">0</span><span id="stat-follows-delta"></span><span class="label" id="stat-follows-label">Follows</span></div>
-    <div class="header-stat"><span class="num" id="stat-social3">0</span><span id="stat-social3-delta"></span><span class="label" id="stat-social3-label">Saves</span></div>
   </div>
 </header>
+<section class="kpi-panel">
+  <div class="kpi-group"><div class="kpi-title">Sales</div><div class="kpi-cells"><div class="kpi-cell"><span class="label">Spend</span><span class="num" id="stat-spend">0</span><span class="kpi-delta" id="stat-spend-delta"></span></div><div class="kpi-cell"><span class="label">Purchases</span><span class="num" id="stat-purch">0</span><span class="kpi-delta" id="stat-purch-delta"></span></div><div class="kpi-cell"><span class="label">ROAS</span><span class="num purple" id="stat-roas">0</span><span class="kpi-delta" id="stat-roas-delta"></span></div></div></div>
+  <div class="kpi-group"><div class="kpi-title">Video</div><div class="kpi-cells"><div class="kpi-cell"><span class="label">Video Views</span><span class="num" id="stat-views">0</span><span class="kpi-delta" id="stat-views-delta"></span></div><div class="kpi-cell"><span class="label">Cost / View</span><span class="num" id="stat-cpv">0</span><span class="kpi-delta" id="stat-cpv-delta"></span></div></div></div>
+  <div class="kpi-group"><div class="kpi-title">Traffic</div><div class="kpi-cells"><div class="kpi-cell"><span class="label">Link Clicks</span><span class="num" id="stat-clicks">0</span><span class="kpi-delta" id="stat-clicks-delta"></span></div><div class="kpi-cell"><span class="label">Cost / Click</span><span class="num" id="stat-cpc">0</span><span class="kpi-delta" id="stat-cpc-delta"></span></div></div></div>
+  <div class="kpi-group"><div class="kpi-title">Social</div><div class="kpi-cells"><div class="kpi-cell"><span class="label" id="stat-follows-label">Follows</span><span class="num" id="stat-follows">0</span><span class="kpi-delta" id="stat-follows-delta"></span></div><div class="kpi-cell"><span class="label" id="stat-social3-label">Saves</span><span class="num" id="stat-social3">0</span><span class="kpi-delta" id="stat-social3-delta"></span></div></div></div>
+</section>
 
 <!-- VIEW SWITCHER ROW (cache check: v3.2-tabs) -->
 <div class="view-switcher-row">
