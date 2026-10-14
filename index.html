@@ -1111,6 +1111,9 @@ body.compare-mode .compare-bar{display:flex}
     <button class="date-preset" data-preset="14">Last 14 days</button>
     <button class="date-preset" data-preset="30">Last 30 days</button>
     <button class="date-preset" data-preset="90">Last 90 days</button>
+    <button class="date-preset" data-preset="mtd">This month</button>
+    <button class="date-preset" data-preset="lastmonth">Last month</button>
+    <input type="month" class="date-input" id="month-pick" title="Pick a month" style="padding:4px 8px;" />
     <button class="date-preset" data-preset="all">All time</button>
   </div>
 </div>
@@ -1126,8 +1129,8 @@ body.compare-mode .compare-bar{display:flex}
   <div class="filter-block">
     <span class="filter-label">Status</span>
     <div class="pill-group" id="status-filters">
-      <button class="pill active" data-status="all">All</button>
-      <button class="pill live-pill" data-status="live">● Live</button>
+      <button class="pill" data-status="all">All</button>
+      <button class="pill live-pill active" data-status="live">● Live</button>
       <button class="pill off-pill" data-status="off">Off</button>
       <button class="pill nodata-pill" data-status="nodata">No Performance Data</button>
     </div>
@@ -1373,7 +1376,7 @@ function setDebug() { /* removed */ }
 setDebug("Loading " + RAW_CARDS.length + " creatives... ");
 
 const state = {
-  search: "", status: "all",
+  search: "", status: "live",
   products: new Set(), types: new Set(), themes: new Set(), campaigns: new Set(),
   spendMin: null, spendMax: null, roasMin: null, roasMax: null, daysMin: null, daysMax: null,
   dateStart: (function() {
@@ -1470,6 +1473,21 @@ function videoFallbackSrcs(adName) {
     return out;
   }
   return FALLBACK_EXTS.map(ext => base + encodeURIComponent(adName) + ext);
+}
+// Lazy-load card videos: only start loading when a card is near the viewport
+let _lazyIO = null;
+function lazyVideoObserve(v) {
+  if (!("IntersectionObserver" in window)) { v._lazyLoad && v._lazyLoad(); return; }
+  if (!_lazyIO) _lazyIO = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        _lazyIO.unobserve(en.target);
+        const t = en.target;
+        if (t._lazyLoad) { const f = t._lazyLoad; t._lazyLoad = null; f(); }
+      }
+    });
+  }, { rootMargin: "300px" });
+  _lazyIO.observe(v);
 }
 function attachVideoWithFallback(videoEl, adName, onAllFailed) {
   const candidates = videoFallbackSrcs(adName);
@@ -1881,10 +1899,12 @@ function renderCard(c, perf, prev_perf) {
   } else if (c.ad_type === "VID" || c.ad_type === "GIF") {
     const video = document.createElement("video");
     video.muted = true; video.loop = true; video.playsInline = true; video.preload = "metadata";
-    attachVideoWithFallback(video, c.ad_name, () => {
+    video.preload = "none";
+    video._lazyLoad = () => attachVideoWithFallback(video, c.ad_name, () => {
       videoWrap.innerHTML = '<div class="card-video-placeholder"><span class="ph-icon">🎬</span><span class="ph-text">Video</span><br/><a href="#" class="fix-filename-link" data-ad="' + escapeHtml(c.ad_name) + '" style="font-size:10px;color:rgba(255,255,255,0.7);text-decoration:underline;margin-top:8px;display:inline-block;">Set R2 filename</a></div>';
     });
     videoWrap.appendChild(video);
+    lazyVideoObserve(video);
     card.addEventListener("mouseenter", () => video.play().catch(()=>{}));
     card.addEventListener("mouseleave", () => { video.pause(); video.currentTime = 0; });
   } else if (c.ad_type === "IMG") {
@@ -2001,6 +2021,7 @@ function render() {
     document.getElementById("result-count").textContent = sorted.length;
     document.getElementById("total-count").textContent = RAW_CARDS.length;
     const grid = document.getElementById("grid");
+    if (_lazyIO) _lazyIO.disconnect();
     grid.innerHTML = "";
     if (sorted.length === 0) {
       grid.style.display = "none";
@@ -2458,13 +2479,41 @@ document.getElementById("date-end").onchange = (e) => {
   updateDateMeta(); render();
   if (typeof renderDataTable === 'function') renderDataTable();
 };
+function setMonthRange(y, m) {
+  const pad = n => String(n).padStart(2, "0");
+  let s0 = y + "-" + pad(m + 1) + "-01";
+  let last = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+  let e0 = y + "-" + pad(m + 1) + "-" + pad(last);
+  if (s0 < EARLIEST_DATE) s0 = EARLIEST_DATE;
+  if (e0 > LATEST_DATE) e0 = LATEST_DATE;
+  state.dateStart = s0; state.dateEnd = e0;
+}
+(function() {
+  const mp = document.getElementById("month-pick");
+  if (!mp) return;
+  mp.onchange = () => {
+    if (!mp.value) return;
+    const [y, m] = mp.value.split("-").map(Number);
+    document.querySelectorAll(".date-preset").forEach(p => p.classList.remove("active"));
+    setMonthRange(y, m - 1);
+    document.getElementById("date-start").value = state.dateStart;
+    document.getElementById("date-end").value = state.dateEnd;
+    updateDateMeta(); render();
+    if (typeof renderDataTable === 'function') renderDataTable();
+  };
+})();
 document.querySelectorAll(".date-preset").forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll(".date-preset").forEach(p => p.classList.remove("active"));
     btn.classList.add("active");
     const preset = btn.dataset.preset;
     if (preset === "all") { state.dateStart = EARLIEST_DATE; state.dateEnd = LATEST_DATE; }
-    else {
+    else if (preset === "mtd" || preset === "lastmonth") {
+      const ld = new Date(LATEST_DATE + "T00:00:00Z");
+      let y = ld.getUTCFullYear(), m = ld.getUTCMonth();
+      if (preset === "lastmonth") { m -= 1; if (m < 0) { m = 11; y -= 1; } }
+      setMonthRange(y, m);
+    } else {
       const days = parseInt(preset);
       const endDt = new Date(LATEST_DATE);
       const startDt = new Date(endDt);
@@ -3177,7 +3226,7 @@ document.querySelectorAll("#metric-toggle .metric-toggle-btn").forEach(b => {
   };
 });
 document.getElementById("reset-btn").onclick = () => {
-  state.search = ""; state.status = "all";
+  state.search = ""; state.status = "live";
   state.products.clear(); state.types.clear(); state.themes.clear(); state.campaigns.clear();
   state.spendMin = state.spendMax = state.roasMin = state.roasMax = state.daysMin = state.daysMax = null;
   state.dateStart = EARLIEST_DATE; state.dateEnd = LATEST_DATE;
