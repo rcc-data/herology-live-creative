@@ -1116,11 +1116,11 @@ body.compare-mode .compare-bar{display:flex}
   <input type="date" class="date-input" id="date-end" />
   <span class="date-meta" id="date-meta">All time</span>
   <div class="date-presets">
-    <button class="date-preset active" data-preset="7">Last 7 days</button>
+    <button class="date-preset" data-preset="7">Last 7 days</button>
     <button class="date-preset" data-preset="14">Last 14 days</button>
     <button class="date-preset" data-preset="30">Last 30 days</button>
     <button class="date-preset" data-preset="90">Last 90 days</button>
-    <button class="date-preset" data-preset="mtd">This month</button>
+    <button class="date-preset active" data-preset="mtd">This month</button>
     <button class="date-preset" data-preset="lastmonth">Last month</button>
     <input type="month" class="date-input" id="month-pick" title="Pick a month" style="padding:4px 8px;" />
     <button class="date-preset" data-preset="all">All time</button>
@@ -1403,10 +1403,9 @@ const state = {
   products: new Set(), types: new Set(), themes: new Set(), campaigns: new Set(),
   spendMin: null, spendMax: null, roasMin: null, roasMax: null, daysMin: null, daysMax: null,
   dateStart: (function() {
-    var endDt = new Date(LATEST_DATE);
-    var startDt = new Date(endDt);
-    startDt.setDate(startDt.getDate() - 6);  // last 7 days inclusive
-    return startDt.toISOString().slice(0, 10);
+    // Default view = Month to Date (1st of the latest data month -> latest date)
+    var s0 = LATEST_DATE.slice(0, 8) + "01";
+    return s0 < EARLIEST_DATE ? EARLIEST_DATE : s0;
   })(), dateEnd: LATEST_DATE,
   sort: "purchases-desc", metric: "purchases-cpp",
   compareMode: false, selected: new Set(),
@@ -3342,12 +3341,12 @@ document.getElementById("reset-btn").onclick = () => {
   state.search = ""; state.status = "live";
   state.products.clear(); state.types.clear(); state.themes.clear(); state.campaigns.clear();
   state.spendMin = state.spendMax = state.roasMin = state.roasMax = state.daysMin = state.daysMax = null;
-  state.dateStart = EARLIEST_DATE; state.dateEnd = LATEST_DATE;
+  state.dateStart = (LATEST_DATE.slice(0, 8) + "01" < EARLIEST_DATE) ? EARLIEST_DATE : LATEST_DATE.slice(0, 8) + "01"; state.dateEnd = LATEST_DATE;
   document.getElementById("search-input").value = "";
-  document.getElementById("date-start").value = EARLIEST_DATE;
+  document.getElementById("date-start").value = state.dateStart;
   document.getElementById("date-end").value = LATEST_DATE;
   document.querySelectorAll(".date-preset").forEach(p => p.classList.remove("active"));
-  document.querySelector(".date-preset[data-preset='all']").classList.add("active");
+  document.querySelector(".date-preset[data-preset='mtd']").classList.add("active");
   Object.keys(RANGE_KEYS).forEach(id => document.getElementById(id).value = "");
   buildFilterPills(); updateCampaignButton(); updateDateMeta(); render();
 };
