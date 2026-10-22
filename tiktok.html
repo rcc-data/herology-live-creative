@@ -2232,14 +2232,13 @@ function openModal(c, perf) {
         for (const k in agg) if (a[k]) { agg[k].s += a[k].s; agg[k].p += a[k].p; agg[k].v += a[k].v; } }
       const tot = agg.new.s + agg.engaged.s + agg.existing.s;
       if (found && tot > 0) {
-        segHtml = '<div class="modal-section"><div class="modal-section-label">Audience split · spend, ' + AD_SEGMENTS.window[0] + ' → ' + AD_SEGMENTS.window[1] + ' (last 14 days)</div><div class="perf-grid">' +
+        segHtml = '<div class="modal-section"><div class="modal-section-label">Audience split · % of spend, ' + AD_SEGMENTS.window[0] + ' → ' + AD_SEGMENTS.window[1] + ' (last 14 days)</div><div class="perf-grid">' +
           SEG_META.map(m => { const a = agg[m[0]];
-            return '<div class="perf-cell"><span class="lbl">' + m[1] + (m[0] === "engaged" ? " (still new)" : "") + '</span><span class="val">' + (a.s / tot * 100).toFixed(0) + '%</span>' +
-              '<span style="font-size:10px;color:var(--ink-muted);display:block;margin-top:2px;">€' + a.s.toFixed(0) + ' · ' + a.p + ' purch' + (a.s > 0 && a.v > 0 ? ' · ' + (a.v / a.s).toFixed(2) + '× ROAS' : '') + '</span></div>'; }).join("") +
+            return '<div class="perf-cell"><span class="lbl">' + m[1] + '</span><span class="val">' + (a.s / tot * 100).toFixed(0) + '%</span></div>'; }).join("") +
           '</div></div>';
       }
     }
-    perfHtml = segHtml +
+    perfHtml =
       '<div class="modal-section"><div class="modal-section-label">Core Performance · ' + periodLabel + '</div>' +
       '<div class="perf-grid">' +
         kpiCell('purchases', 'Purchases', fmtNum(perf.purchases), 'up', true) +
@@ -2271,6 +2270,7 @@ function openModal(c, perf) {
         kpiCell('follows', FOLLOWS_LABEL, fmtNum(perf.follows), 'up', false) +
         kpiCell('video_completion_rate', 'Video Completions', perf.video_completion_rate.toFixed(2) + '%', 'up', false) +
       '</div></div>' +
+      segHtml +
       // === DAILY TREND CHART ===
       '<div class="modal-trend-section" id="modal-trend-section">' +
         '<div class="modal-trend-header">' +
