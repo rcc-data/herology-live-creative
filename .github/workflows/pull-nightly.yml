@@ -7,7 +7,7 @@ on:
   push:
     paths: ['.publish/**']   # the nightly cloud task writes .publish/request.json via the GitHub connector
   schedule:
-    - cron: '7,27,47 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 permissions:
   contents: write
