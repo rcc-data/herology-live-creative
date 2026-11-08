@@ -1,6 +1,7 @@
 name: Pull nightly dashboards from builder
 # Herology nightly: the cloud build commits finished pages to
-# rcc-data/herology-nightly-builder/dist/live-creative/ (public repo, no token needed).
+# branch `dist` of rcc-data/herology-nightly-builder, folder live-creative/
+# (public repo, no token needed; the branch is force-pushed as one commit each night).
 # This workflow copies them here and lets GitHub Pages redeploy.
 on:
   schedule:
@@ -23,9 +24,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/rcc-data/herology-nightly-builder /tmp/b
-          git -C /tmp/b sparse-checkout set dist/live-creative
-          SRC=/tmp/b/dist/live-creative
+          git clone -q --depth 1 --branch dist https://github.com/rcc-data/herology-nightly-builder /tmp/b
+          SRC=/tmp/b/live-creative
           [ -f "$SRC/MANIFEST.json" ] || { echo "No manifest in builder dist yet; nothing to do"; exit 0; }
           cat "$SRC/MANIFEST.json"
           for f in index.html tiktok.html; do
