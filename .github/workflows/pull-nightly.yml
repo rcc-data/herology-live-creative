@@ -1,0 +1,45 @@
+name: Pull nightly dashboards from builder
+# Herology nightly: the cloud build commits finished pages to
+# rcc-data/herology-nightly-builder/dist/live-creative/ (public repo, no token needed).
+# This workflow copies them here and lets GitHub Pages redeploy.
+on:
+  schedule:
+    - cron: '7,27,47 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: pull-nightly
+  cancel-in-progress: false
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy finished pages from the builder repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/rcc-data/herology-nightly-builder /tmp/b
+          git -C /tmp/b sparse-checkout set dist/live-creative
+          SRC=/tmp/b/dist/live-creative
+          [ -f "$SRC/MANIFEST.json" ] || { echo "No manifest in builder dist yet; nothing to do"; exit 0; }
+          cat "$SRC/MANIFEST.json"
+          for f in index.html tiktok.html; do
+            sz=$(stat -c %s "$SRC/$f")
+            [ "$sz" -gt 200000 ] || { echo "REFUSING: $f is only $sz bytes"; exit 1; }
+            grep -qi '</html>' "$SRC/$f" || { echo "REFUSING: $f is truncated (no </html>)"; exit 1; }
+            cp "$SRC/$f" "$f"
+          done
+          git add index.html tiktok.html
+          if git diff --cached --quiet; then echo "Live pages already match the builder; nothing to publish"; exit 0; fi
+          BSHA=$(git -C /tmp/b rev-parse --short HEAD)
+          DATA=$(python3 -c "import json;print(json.load(open('$SRC/MANIFEST.json')).get('data_to','?'))")
+          git -c user.name="Herology nightly (Actions)" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -qm "Nightly publish: data to $DATA (builder $BSHA)"
+          git push -q origin HEAD:main
+          echo "PUBLISHED $(git rev-parse --short HEAD)"
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" >/dev/null && echo "Pages build requested" || echo "Pages build request skipped (branch push triggers it anyway)"
