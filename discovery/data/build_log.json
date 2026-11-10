@@ -141,12 +141,13 @@
   "Hello Klean": {
    "raw": 503,
    "english": 431,
-   "scoped": 328,
+   "scoped": 117,
    "kept": 100,
    "drops": {
-    "no overlap": 103,
+    "no overlap": 41,
+    "not a supplement": 273,
     "not English": 72,
-    "over cap": 228
+    "over cap": 17
    },
    "market": "UK"
   },
@@ -479,15 +480,15 @@
    "market": "NA"
   },
   "Bloom Nutrition": {
-   "raw": 21,
-   "english": 21,
-   "scoped": 10,
-   "kept": 10,
+   "raw": 32,
+   "english": 32,
+   "scoped": 17,
+   "kept": 17,
    "drops": {
-    "no overlap": 7,
+    "no overlap": 11,
     "weight-loss": 4
    },
-   "market": "HH"
+   "market": "NA"
   },
   "Lemme": {
    "raw": 100,
@@ -589,7 +590,7 @@
     "no overlap": 15,
     "weight-loss": 1
    },
-   "market": "HH"
+   "market": "NA"
   },
   "Sunna Supplements": {
    "raw": 64,
@@ -610,7 +611,7 @@
     "no overlap": 10,
     "not English": 2
    },
-   "market": "HH"
+   "market": "NA"
   },
   "Seed": {
    "raw": 30,
@@ -621,7 +622,7 @@
     "no overlap": 20,
     "weight-loss": 10
    },
-   "market": "HH"
+   "market": "NA"
   },
   "Drink Magna": {
    "raw": 90,
@@ -669,30 +670,33 @@
    "market": "NA"
   },
   "IM8": {
-   "raw": 30,
-   "english": 30,
-   "scoped": 13,
-   "kept": 13,
+   "raw": 404,
+   "english": 404,
+   "scoped": 165,
+   "kept": 100,
    "drops": {
-    "no overlap": 12,
-    "gut-only": 3,
-    "weight-loss": 1,
-    "kids": 1
+    "no overlap": 179,
+    "gut-only": 21,
+    "weight-loss": 27,
+    "kids": 1,
+    "not in range": 8,
+    "advertorial": 3,
+    "over cap": 65
    },
-   "market": "HH"
+   "market": "NA"
   },
   "Gr\u00fcns": {
-   "raw": 30,
-   "english": 30,
-   "scoped": 7,
-   "kept": 7,
+   "raw": 293,
+   "english": 293,
+   "scoped": 89,
+   "kept": 89,
    "drops": {
-    "no overlap": 9,
-    "gut-only": 1,
-    "advertorial": 10,
-    "weight-loss": 3
+    "no overlap": 78,
+    "gut-only": 38,
+    "advertorial": 45,
+    "weight-loss": 43
    },
-   "market": "HH"
+   "market": "NA"
   },
   "Revive Collagen": {
    "raw": 59,
@@ -927,7 +931,7 @@
     "no overlap": 1,
     "advertorial": 8
    },
-   "market": "HH"
+   "market": "NA"
   }
  },
  "markets": {
@@ -939,36 +943,31 @@
   "UK": {
    "brands": 18,
    "ads": 1328,
-   "cards": 1284
+   "cards": 1283
   },
   "NA": {
-   "brands": 40,
-   "ads": 2622,
-   "cards": 2466
+   "brands": 46,
+   "ads": 2872,
+   "cards": 2710
   },
   "AU": {
    "brands": 3,
    "ads": 123,
    "cards": 120
-  },
-  "HH": {
-   "brands": 6,
-   "ads": 74,
-   "cards": 73
   }
  },
  "card_fix": {
-  "copy_groups_before": 2745,
-  "cards_after": 4633,
-  "multi_size_cards": 223,
+  "copy_groups_before": 2859,
+  "cards_after": 4803,
+  "multi_size_cards": 229,
   "repeated_size_cards": 0,
   "largest_card": 3,
-  "same_copy_cards": 2538
+  "same_copy_cards": 2618
  },
- "cards": 4633,
- "ads": 4860,
- "media_jobs": 9040,
- "video_ads": 2409,
- "hooks_read": 2341,
+ "cards": 4803,
+ "ads": 5036,
+ "media_jobs": 9383,
+ "video_ads": 2494,
+ "hooks_read": 2261,
  "media_done": 10487
 }

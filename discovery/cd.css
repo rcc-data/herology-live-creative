@@ -181,3 +181,25 @@
   .cd .cd-hbr{grid-template-columns:110px 1fr 40px}.cd .cd-kpis{grid-template-columns:repeat(2,1fr)}
   .cd .cd-h h2{font-size:23px}.cd .cd-count{margin-left:0;width:100%}
 }
+
+/* stage 1 (10 Nov): toggles, Motion type quick filters, skeleton */
+.cd .cd-row2{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:10px 0 4px}
+.cd .cd-sw{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);cursor:pointer;user-select:none;min-height:34px}
+.cd .cd-sw input{position:absolute;opacity:0;width:1px;height:1px}
+.cd .cd-sw span{width:34px;height:20px;border-radius:999px;background:var(--card2);border:1px solid var(--line);position:relative;transition:background .15s}
+.cd .cd-sw span::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--ink-muted);transition:transform .15s,background .15s}
+.cd .cd-sw input:checked+span{background:var(--purple-deep);border-color:var(--purple-deep)}
+.cd .cd-sw input:checked+span::after{transform:translateX(14px);background:#fff}
+.cd .cd-sw input:focus-visible+span{outline:2px solid var(--purple);outline-offset:2px}
+.cd .cd-vfq{display:flex;gap:6px;overflow-x:auto;flex:1 1 320px;min-width:0;padding-bottom:2px;align-items:center;scrollbar-width:thin}
+.cd .cd-vfq .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);white-space:nowrap;margin-right:2px}
+.cd .cd-q{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:6px 11px;font-size:12px;white-space:nowrap;cursor:pointer;min-height:32px}
+.cd .cd-q b{font-weight:500;color:var(--ink-muted);margin-left:3px}
+.cd .cd-q:hover{border-color:var(--purple)}
+.cd .cd-q.on{background:var(--purple-deep);border-color:var(--purple-deep);color:#fff}
+.cd .cd-q.on b{color:#dcd9f3}
+.cd .cd-pill.t{background:rgba(209,174,110,.16);color:var(--gold)}
+.cd .cd-skel{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.cd .cd-skel i{display:block;border-radius:var(--r);background:linear-gradient(90deg,#1c1a2a,#262238,#1c1a2a);background-size:200% 100%;animation:cdsh 1.4s linear infinite}
+@media(max-width:560px){.cd .cd-skel{grid-template-columns:repeat(2,1fr);gap:10px}.cd .cd-vfq{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){.cd .cd-skel i,.cd .cd-fr .cd-shim{animation:none}}

@@ -70,7 +70,7 @@ const { chromium } = require('playwright');
     }
     const gapN = await p.$$eval('.cd-gap', e => e.length);
     ok(`${w} gap list`, gapN > 0, gapN);
-    for (const mk of ['IE', 'UK', 'NA', 'HH']) {
+    for (const mk of ['IE', 'UK', 'NA', 'AU']) {
       const btn = await p.$(`[data-gm="${mk}"]`);
       if (!btn) { ok(`${w} gap market ${mk}`, false, 'no button'); continue; }
       await btn.click(); await p.waitForTimeout(500);

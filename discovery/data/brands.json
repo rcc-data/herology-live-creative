@@ -3,7 +3,7 @@
 "brand": "AG1",
 "slug": "ag1",
 "site": "drinkag1.com",
-"market": "HH",
+"market": "NA",
 "tier": "heavy",
 "cards": 17,
 "ads": 18,
@@ -467,21 +467,21 @@
 "brand": "Bloom Nutrition",
 "slug": "bloom-nutrition",
 "site": "bloomnu.com",
-"market": "HH",
+"market": "NA",
 "tier": "heavy",
-"cards": 10,
-"ads": 10,
+"cards": 17,
+"ads": 17,
 "live": 0,
 "proven": 1,
 "new30": 0,
-"medianDays": 16,
+"medianDays": 26,
 "formats": {
-"image": 4,
+"image": 11,
 "video": 6
 },
 "benefits": {
+"energy": 9,
 "performance": 6,
-"energy": 2,
 "skin/hair": 2,
 "hormones/PMS": 1,
 "sleep/stress": 1
@@ -496,19 +496,19 @@
 "bundle": 1
 },
 "match": {
+"Balance": 10,
 "Creatine": 5,
-"Balance": 3,
 "Collagen": 2
 },
-"raw": 21,
-"english": 21,
-"scoped": 10,
-"kept": 10,
+"raw": 32,
+"english": 32,
+"scoped": 17,
+"kept": 17,
 "drops": {
-"no overlap": 7,
+"no overlap": 11,
 "weight-loss": 4
 },
-"summary": "10 cards (0 live), mostly video (60%), led by performance (60%) and energy (20%). 1 have run 60+ days (median 16 days live) and 0 launched in the last 30 days; top proof is UGC testimonial (40%), top offer bundle (10%).",
+"summary": "17 cards (0 live), mostly image (65%), led by energy (53%) and performance (35%). 1 have run 60+ days (median 26 days live) and 0 launched in the last 30 days; top proof is UGC testimonial (24%), top offer bundle (6%).",
 "pending": false
 },
 {
@@ -748,7 +748,7 @@
 "brand": "Cymbiotika",
 "slug": "cymbiotika",
 "site": "cymbiotika.com",
-"market": "HH",
+"market": "NA",
 "tier": "heavy",
 "cards": 14,
 "ads": 14,
@@ -1197,46 +1197,59 @@
 "brand": "Grüns",
 "slug": "gr-ns",
 "site": "gruns.co",
-"market": "HH",
+"market": "NA",
 "tier": "heavy",
-"cards": 7,
-"ads": 7,
-"live": 7,
-"proven": 2,
-"new30": 5,
-"medianDays": 4,
+"cards": 86,
+"ads": 89,
+"live": 42,
+"proven": 25,
+"new30": 24,
+"medianDays": 29,
 "formats": {
-"image": 4,
-"video": 3
+"image": 37,
+"video": 49
 },
 "benefits": {
-"energy": 7,
-"gut": 4
+"gut": 70,
+"energy": 63,
+"sleep/stress": 15,
+"fertility/pregnancy": 9,
+"hormones/PMS": 8,
+"menopause": 6,
+"skin/hair": 5,
+"PCOS": 3
 },
 "proof": {
-"study": 5,
-"expert/GP": 3
+"study": 39,
+"UGC testimonial": 11,
+"before-after": 7,
+"expert/GP": 5,
+"reviews": 1
 },
 "offers": {
-"subscription": 7,
-"% off": 5,
-"gift": 4,
-"free shipping": 2
+"gift": 48,
+"% off": 34,
+"subscription": 30,
+"free shipping": 12
 },
 "match": {
-"Balance": 7
+"Balance": 58,
+"Zen": 12,
+"PPN": 9,
+"Meno": 6,
+"Collagen": 1
 },
-"raw": 30,
-"english": 30,
-"scoped": 7,
-"kept": 7,
+"raw": 293,
+"english": 293,
+"scoped": 89,
+"kept": 89,
 "drops": {
-"no overlap": 9,
-"gut-only": 1,
-"advertorial": 10,
-"weight-loss": 3
+"no overlap": 78,
+"gut-only": 38,
+"advertorial": 45,
+"weight-loss": 43
 },
-"summary": "7 cards (7 live), mostly image (57%), led by energy (100%) and gut (57%). 2 have run 60+ days (median 4 days live) and 5 launched in the last 30 days; top proof is study (71%), top offer subscription (100%).",
+"summary": "86 cards (42 live), mostly video (57%), led by gut (81%) and energy (73%). 25 have run 60+ days (median 29 days live) and 24 launched in the last 30 days; top proof is study (45%), top offer gift (56%).",
 "pending": false
 },
 {
@@ -1519,43 +1532,41 @@
 "site": "helloklean.com",
 "market": "UK",
 "tier": null,
-"cards": 100,
+"cards": 99,
 "ads": 100,
-"live": 45,
-"proven": 9,
-"new30": 44,
-"medianDays": 30,
+"live": 66,
+"proven": 1,
+"new30": 66,
+"medianDays": 7,
 "formats": {
-"video": 90,
-"image": 10
+"video": 71,
+"image": 28
 },
 "benefits": {
-"skin/hair": 100,
-"sleep/stress": 7
+"skin/hair": 99,
+"sleep/stress": 1
 },
 "proof": {
-"before-after": 8,
-"UGC testimonial": 4,
-"founder": 1,
-"study": 1
+"UGC testimonial": 12,
+"before-after": 4,
+"founder": 4
 },
-"offers": {
-"% off": 1
-},
+"offers": {},
 "match": {
-"Collagen": 93,
-"Zen": 7
+"Collagen": 98,
+"Zen": 1
 },
 "raw": 503,
 "english": 431,
-"scoped": 328,
+"scoped": 117,
 "kept": 100,
 "drops": {
-"no overlap": 103,
+"no overlap": 41,
+"not a supplement": 273,
 "not English": 72,
-"over cap": 228
+"over cap": 17
 },
-"summary": "100 cards (45 live), mostly video (90%), led by skin/hair (100%) and sleep/stress (7%). 9 have run 60+ days (median 30 days live) and 44 launched in the last 30 days; top proof is before-after (8%), top offer % off (1%).",
+"summary": "99 cards (66 live), mostly video (72%), led by skin/hair (100%) and sleep/stress (1%). 1 have run 60+ days (median 7 days live) and 66 launched in the last 30 days; top proof is UGC testimonial (12%), with no offer in most ads.",
 "pending": false
 },
 {
@@ -1717,55 +1728,61 @@
 "brand": "IM8",
 "slug": "im8",
 "site": "im8health.com",
-"market": "HH",
+"market": "NA",
 "tier": "heavy",
-"cards": 13,
-"ads": 13,
-"live": 13,
-"proven": 2,
-"new30": 10,
-"medianDays": 12,
+"cards": 98,
+"ads": 100,
+"live": 94,
+"proven": 13,
+"new30": 75,
+"medianDays": 16,
 "formats": {
-"video": 11,
-"image": 2
+"image": 29,
+"video": 69
 },
 "benefits": {
-"sleep/stress": 9,
-"energy": 5,
-"performance": 5,
-"gut": 3,
-"skin/hair": 3,
-"menopause": 2,
-"fertility/pregnancy": 2
+"energy": 80,
+"gut": 52,
+"skin/hair": 31,
+"sleep/stress": 22,
+"fertility/pregnancy": 11,
+"menopause": 7,
+"performance": 6,
+"hormones/PMS": 4
 },
 "proof": {
-"study": 8,
-"expert/GP": 5,
-"UGC testimonial": 3,
-"before-after": 1
+"study": 60,
+"UGC testimonial": 19,
+"before-after": 15,
+"expert/GP": 9,
+"reviews": 1
 },
 "offers": {
-"bundle": 3,
-"subscription": 2,
-"% off": 1
+"bundle": 55,
+"% off": 34,
+"subscription": 20
 },
 "match": {
-"Zen": 6,
-"Balance": 3,
-"Meno": 2,
-"Men's Prenatal": 2
+"Balance": 66,
+"Zen": 14,
+"Meno": 7,
+"Men's Prenatal": 6,
+"Collagen": 5
 },
-"raw": 30,
-"english": 30,
-"scoped": 13,
-"kept": 13,
+"raw": 404,
+"english": 404,
+"scoped": 165,
+"kept": 100,
 "drops": {
-"no overlap": 12,
-"gut-only": 3,
-"weight-loss": 1,
-"kids": 1
+"no overlap": 179,
+"gut-only": 21,
+"weight-loss": 27,
+"kids": 1,
+"not in range": 8,
+"advertorial": 3,
+"over cap": 65
 },
-"summary": "13 cards (13 live), mostly video (85%), led by sleep/stress (69%) and energy (38%). 2 have run 60+ days (median 12 days live) and 10 launched in the last 30 days; top proof is study (62%), top offer bundle (23%).",
+"summary": "98 cards (94 live), mostly video (70%), led by energy (82%) and gut (53%). 13 have run 60+ days (median 16 days live) and 75 launched in the last 30 days; top proof is study (61%), top offer bundle (56%).",
 "pending": false
 },
 {
@@ -3502,7 +3519,7 @@
 "brand": "Winks Sleep",
 "slug": "winks-sleep",
 "site": "getwinks.com",
-"market": "HH",
+"market": "NA",
 "tier": "heavy",
 "cards": 12,
 "ads": 12,

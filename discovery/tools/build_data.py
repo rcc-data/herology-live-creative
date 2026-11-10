@@ -42,29 +42,29 @@ def jl(p, d=None):
 
 
 # ---------------------------------------------------------------- load
-# Markets: IE (Ireland), UK, NA (North America), AU (Australia / NZ), HH (Heavy hitters: global brands, kept out of market
-# stats by default). motion_wide.json rows carry row[11] = "wide" | "heavy" (tier), not an extra dict.
+# Markets: IE (Ireland), UK, NA (North America), AU (Australia / NZ). Heavy hitters (IM8, AG1, ...) sit in their home market, cap 30; no separate section
+# motion_wide.json rows carry row[11] = "wide" | "heavy" (tier), not an extra dict.
 WIDE_MKT = {"Oriel Magnesium": "IE", "Revive Collagen": "UK", "Gold Collagen": "UK", "Free Soul": "UK", "Spacegoods": "UK",
             "Your Heights": "UK", "Metagenics ANZ": "AU", "The Gut Co": "AU", "Naternal": "AU"}
 HEAVY = {"IM8", "Grüns", "Winks Sleep", "AG1", "Cymbiotika", "Seed", "Bloom Nutrition"}
-MARKETS = {"IE": "Ireland", "UK": "UK", "NA": "North America", "AU": "Australia", "HH": "Heavy hitters"}
+MARKETS = {"IE": "Ireland", "UK": "UK", "NA": "North America", "AU": "Australia"}
 raw = []
 for f, mkt in (("raw/motion_ie.json", "IE"), ("raw/adlib_ie.json", "IE"), ("raw/herology_ads.json", "IE"),
-               ("raw/motion_uk.json", "UK"), ("raw/motion_na.json", "NA"), ("raw/motion_wide.json", None)):
+               ("raw/motion_uk.json", "UK"), ("raw/motion_na.json", "NA"), ("raw/motion_wide.json", None),
+               ("raw/motion_heavy.json", None)):
     rows = jl(f, [])
     for r in rows:
         r = list(r) + [None] * (12 - len(r))
         tier = None
-        if f.endswith("motion_wide.json"):
+        if f.endswith(("motion_wide.json", "motion_heavy.json")):
             tier = r[11] if isinstance(r[11], str) else "wide"
             r[11] = None
             if tier == "heavy" or r[1] in HEAVY:
-                tier, m = "heavy", "HH"
-            else:
-                m = WIDE_MKT.get(r[1], "NA")
+                tier = "heavy"  # cap only (30); no separate section (Ryan, 10 Nov): sits in its home market
+            m = WIDE_MKT.get(r[1], "NA")
         else:
             m = mkt
-        raw.append((r, m, f.split("/")[-1].split("_")[0] + ("_" + m.lower() if f.endswith("motion_wide.json") else ""), tier))
+        raw.append((r, m, f.split("/")[-1].split("_")[0] + ("_" + m.lower() if f.endswith(("motion_wide.json", "motion_heavy.json")) else ""), tier))
 hooks = jl("hooks.json", {})
 done = jl("media_done.json", {})
 msrc = jl("media_src.json", {})
@@ -193,6 +193,10 @@ MENONLY = rx(r"andropause", r"for men\b", r"men'?s health", r"testosterone")
 ADVERTORIAL = re.compile(r"advertorial|listicle|/articles?/|/blogs?/|\d+-reasons|reasons-why|-reasons\b|thequalityedit|/apps/jurni/", re.I)
 
 
+NONSUPP = re.compile(r"shower ?filter|filtered shower|shower ?head|hard water|chlorine|water filter", re.I)
+SUPPWORD = re.compile(r"supplement|vitamin|capsule|gumm(?:y|ies)|tablet|sachet|powder|collagen|biotin|magnesium|probiotic", re.I)
+
+
 def slug_of(link):
     s = re.sub(r"^https?://", "", (link or "").lower()).split("?")[0].rstrip("/")
     parts = s.split("/")
@@ -208,6 +212,9 @@ def classify_scope(brand, text, links, extra):
     slugs = [slug_of(l) for l in links if l]
     if any(ADVERTORIAL.search(l or "") for l in links):
         return False, "advertorial", None
+    # not a supplement (Hello Klean shower filters, 10 Nov): keep only if the ad also talks supplements
+    if NONSUPP.search(text) and not SUPPWORD.search(text) and not any(re.search(r"supplement|vitamin|capsule|gumm", s) for s in slugs):
+        return False, "not a supplement", None
     for reason, pat in DROP_SLUG:
         if any(re.search(pat, s) for s in slugs):
             # andropause etc. never kept; the rest kept only if the slug ALSO matches a keep pattern
@@ -282,8 +289,12 @@ log = collections.defaultdict(lambda: collections.Counter())
 drops = collections.defaultdict(lambda: collections.Counter())
 ads = []
 doubt = []
+_ids = set()
 for r, mkt, origin, tier in raw:
     (aid, brand, status, s_ms, e_ms, dfmt, saves, vfs, plats, alib, srcs, extra) = r[:12]
+    if aid in _ids:  # same Motion ad in two pulls (wide + heavy top-up)
+        continue
+    _ids.add(aid)
     srcs = srcs or []
     log[brand]["raw"] += 1
     if brand != "Herology":
@@ -389,12 +400,13 @@ for a in ads:
 # from all brands"). Herology keeps all. Other brands keep at most 100 kept ads: up to 34 longest-running, 33 newest, 33 most
 # saved (de-duplicated), then filled from the remaining in that order. Heavy tier keeps at most 30. Applied after language + scope.
 CAP, CAP_HEAVY = 100, 30
+MORE_HEAVY = {"Bloom Nutrition", "Grüns", "IM8"}  # Ryan, 10 Nov: "Add more Bloom, Gruns and IM8" -> normal cap of 100
 by_brand = collections.defaultdict(list)
 for a in ads:
     by_brand[a["brand"]].append(a)
 capped = []
 for b, lst in by_brand.items():
-    lim = None if b == "Herology" else (CAP_HEAVY if any(a["tier"] == "heavy" for a in lst) else CAP)
+    lim = None if b == "Herology" else (CAP_HEAVY if b not in MORE_HEAVY and any(a["tier"] == "heavy" for a in lst) else CAP)
     log[b]["scoped"] = len(lst)
     if lim is None or len(lst) <= lim:
         capped += lst
