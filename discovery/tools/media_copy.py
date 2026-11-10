@@ -24,7 +24,7 @@ vcap = float(os.environ.get("VIDEO_GB") or 6) * 1e9
 s3 = boto3.client("s3", endpoint_url=f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com")
 CT = {".mp4": "video/mp4", ".mov": "video/quicktime", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif"}
 lock = threading.Lock()
-stats = {"copied": 0, "failed": 0, "skipped_big": 0, "video_bytes": 0}
+stats = {"found": 0, "copied": 0, "failed": 0, "skipped_big": 0, "video_bytes": 0}
 
 
 def get(u):
@@ -90,9 +90,22 @@ def frame_of(data):
         return jpeg720(best), w, h, round(dur, 2)
 
 
+def exists(key):
+    try:
+        return s3.head_object(Bucket="herology-creative", Key=key).get("ContentLength") or 1
+    except Exception:
+        return 0
+
+
 def run(j):
     key = j["key"]
     try:
+        n0 = exists(key)  # already in R2 (e.g. a run whose commit step failed): record it, do not copy again
+        if n0:
+            with lock:
+                done[key] = n0
+                stats["found"] += 1
+            return
         if j.get("op") in ("poster", "thumb"):
             last = "no candidates"
             for u in j.get("cands") or []:
@@ -158,5 +171,5 @@ with cf.ThreadPoolExecutor(8) as ex:
             break
 json.dump(done, open(DONE, "w"), indent=0)
 json.dump(msrc, open(SRC, "w"), indent=0)
-print(f"RESULT copied {stats['copied']}, failed {stats['failed']}, skipped_big {stats['skipped_big']}, "
+print(f"RESULT found in R2 {stats['found']}, copied {stats['copied']}, failed {stats['failed']}, skipped_big {stats['skipped_big']}, "
       f"video GB {stats['video_bytes'] / 1e9:.2f}, total done {len(done)} of {len(jobs)}")
