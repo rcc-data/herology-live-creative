@@ -1,0 +1,44 @@
+name: Creative Discovery raw sync (Herology)
+# Copies the raw Motion pull from the transit table herology_cd_staging (public ad data)
+# into discovery/data/raw/<file>.json. Needs repo secret SUPABASE_ANON_KEY (added by Ryan).
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "Output file name (no extension)"
+        required: false
+        default: "motion_ie"
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull staging rows
+        env:
+          SB: https://cymkcvdsxoneojfisjgk.supabase.co/rest/v1/
+          K: ${{ secrets.SUPABASE_ANON_KEY }}
+          OUT: discovery/data/raw/${{ inputs.file }}.json
+        run: |
+          [ -n "$K" ] || { echo "Missing SUPABASE_ANON_KEY secret"; exit 1; }
+          mkdir -p discovery/data/raw
+          python3 - <<'P'
+          import json, os, urllib.request
+          rows, off = [], 0
+          while True:
+              req = urllib.request.Request(os.environ["SB"] + f"herology_cd_staging?select=payload&order=id&limit=1000&offset={off}",
+                  headers={"apikey": os.environ["K"], "Authorization": "Bearer " + os.environ["K"]})
+              page = json.load(urllib.request.urlopen(req, timeout=60))
+              rows += [r["payload"] for r in page]
+              if len(page) < 1000: break
+              off += 1000
+          json.dump(rows, open(os.environ["OUT"], "w"), separators=(",", ":"))
+          print("rows", len(rows))
+          P
+      - name: Commit
+        run: |
+          git add discovery/data/raw
+          git diff --cached --quiet && { echo nothing; exit 0; }
+          git -c user.name="Herology Discovery (Actions)" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -qm "Discovery raw Motion pull synced"
+          git pull -q --rebase && git push -q origin HEAD:main
