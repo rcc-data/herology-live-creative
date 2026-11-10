@@ -3,20 +3,24 @@
   "Happy Mammoth": {
    "raw": 1124,
    "english": 1124,
-   "kept": 630,
+   "scoped": 630,
+   "kept": 100,
    "drops": {
     "men-only": 8,
     "weight-loss": 461,
     "gut-only": 1,
     "kids": 3,
     "no overlap": 7,
-    "not in range": 14
-   }
+    "not in range": 14,
+    "over cap": 530
+   },
+   "market": "IE"
   },
   "Novomins Nutrition": {
    "raw": 771,
    "english": 673,
-   "kept": 148,
+   "scoped": 148,
+   "kept": 100,
    "drops": {
     "kids": 173,
     "not in range": 244,
@@ -24,50 +28,947 @@
     "weight-loss": 14,
     "gut-only": 68,
     "not English": 98,
-    "men-only": 4
-   }
+    "men-only": 4,
+    "over cap": 48
+   },
+   "market": "IE"
   },
   "Sisterly": {
    "raw": 162,
    "english": 162,
-   "kept": 160,
+   "scoped": 160,
+   "kept": 100,
    "drops": {
-    "no overlap": 2
-   }
+    "no overlap": 2,
+    "over cap": 60
+   },
+   "market": "IE"
   },
   "FabU": {
    "raw": 182,
    "english": 182,
-   "kept": 123,
+   "scoped": 123,
+   "kept": 100,
    "drops": {
     "no overlap": 4,
     "men-only": 23,
-    "not in range": 32
-   }
+    "not in range": 32,
+    "over cap": 23
+   },
+   "market": "IE"
   },
   "Revive Active": {
    "raw": 66,
    "english": 66,
+   "scoped": 54,
    "kept": 54,
    "drops": {
     "kids": 6,
     "not in range": 5,
     "no overlap": 1
-   }
+   },
+   "market": "IE"
   },
   "Herology": {
    "raw": 296,
    "english": 236,
+   "scoped": 236,
    "kept": 236,
    "drops": {
     "never ran": 60
-   }
+   },
+   "market": "IE"
+  },
+  "Vitabiotics": {
+   "raw": 239,
+   "english": 195,
+   "scoped": 67,
+   "kept": 67,
+   "drops": {
+    "no overlap": 94,
+    "not English": 44,
+    "men-only": 10,
+    "not in range": 24
+   },
+   "market": "UK"
+  },
+  "Ancient + Brave": {
+   "raw": 808,
+   "english": 668,
+   "scoped": 604,
+   "kept": 100,
+   "drops": {
+    "no overlap": 51,
+    "advertorial": 2,
+    "not English": 140,
+    "gut-only": 1,
+    "weight-loss": 10,
+    "over cap": 504
+   },
+   "market": "UK"
+  },
+  "Wild Nutrition": {
+   "raw": 716,
+   "english": 716,
+   "scoped": 468,
+   "kept": 100,
+   "drops": {
+    "no overlap": 130,
+    "weight-loss": 95,
+    "advertorial": 16,
+    "men-only": 1,
+    "not in range": 5,
+    "kids": 1,
+    "over cap": 368
+   },
+   "market": "UK"
+  },
+  "Feel": {
+   "raw": 494,
+   "english": 444,
+   "scoped": 267,
+   "kept": 100,
+   "drops": {
+    "weight-loss": 87,
+    "no overlap": 87,
+    "not English": 50,
+    "kids": 2,
+    "gut-only": 1,
+    "over cap": 167
+   },
+   "market": "UK"
+  },
+  "Hello Klean": {
+   "raw": 503,
+   "english": 431,
+   "scoped": 328,
+   "kept": 100,
+   "drops": {
+    "no overlap": 103,
+    "not English": 72,
+    "over cap": 228
+   },
+   "market": "UK"
+  },
+  "Vida Glow": {
+   "raw": 280,
+   "english": 280,
+   "scoped": 219,
+   "kept": 100,
+   "drops": {
+    "weight-loss": 9,
+    "no overlap": 52,
+    "over cap": 119
+   },
+   "market": "UK"
+  },
+  "Bare Biology": {
+   "raw": 165,
+   "english": 165,
+   "scoped": 70,
+   "kept": 70,
+   "drops": {
+    "kids": 10,
+    "not in range": 44,
+    "no overlap": 41
+   },
+   "market": "UK"
+  },
+  "Bio-Kult": {
+   "raw": 117,
+   "english": 117,
+   "scoped": 3,
+   "kept": 3,
+   "drops": {
+    "no overlap": 96,
+    "gut-only": 17,
+    "weight-loss": 1
+   },
+   "market": "UK"
+  },
+  "Lumity": {
+   "raw": 143,
+   "english": 143,
+   "scoped": 117,
+   "kept": 100,
+   "drops": {
+    "no overlap": 16,
+    "men-only": 10,
+    "over cap": 17
+   },
+   "market": "UK"
+  },
+  "Kollo Health": {
+   "raw": 120,
+   "english": 120,
+   "scoped": 107,
+   "kept": 100,
+   "drops": {
+    "not in range": 12,
+    "no overlap": 1,
+    "over cap": 7
+   },
+   "market": "UK"
+  },
+  "Health and Her": {
+   "raw": 107,
+   "english": 106,
+   "scoped": 75,
+   "kept": 75,
+   "drops": {
+    "men-only": 26,
+    "not English": 1,
+    "no overlap": 5
+   },
+   "market": "UK"
+  },
+  "Myvitamins": {
+   "raw": 63,
+   "english": 63,
+   "scoped": 26,
+   "kept": 26,
+   "drops": {
+    "no overlap": 37
+   },
+   "market": "UK"
+  },
+  "Equi London": {
+   "raw": 56,
+   "english": 56,
+   "scoped": 48,
+   "kept": 48,
+   "drops": {
+    "no overlap": 8
+   },
+   "market": "UK"
+  },
+  "Myprotein": {
+   "raw": 68,
+   "english": 19,
+   "scoped": 0,
+   "kept": 0,
+   "drops": {
+    "not English": 49,
+    "no overlap": 19
+   },
+   "market": "UK"
+  },
+  "Arrae": {
+   "raw": 1685,
+   "english": 1685,
+   "scoped": 489,
+   "kept": 100,
+   "drops": {
+    "weight-loss": 378,
+    "no overlap": 604,
+    "advertorial": 19,
+    "gut-only": 195,
+    "over cap": 389
+   },
+   "market": "NA"
+  },
+  "O Positiv": {
+   "raw": 623,
+   "english": 619,
+   "scoped": 225,
+   "kept": 100,
+   "drops": {
+    "weight-loss": 100,
+    "no overlap": 294,
+    "not English": 4,
+    "over cap": 125
+   },
+   "market": "NA"
+  },
+  "Ritual": {
+   "raw": 633,
+   "english": 633,
+   "scoped": 365,
+   "kept": 100,
+   "drops": {
+    "no overlap": 190,
+    "advertorial": 14,
+    "gut-only": 35,
+    "men-only": 12,
+    "weight-loss": 17,
+    "over cap": 265
+   },
+   "market": "NA"
+  },
+  "Create Wellness": {
+   "raw": 1004,
+   "english": 1004,
+   "scoped": 771,
+   "kept": 100,
+   "drops": {
+    "advertorial": 37,
+    "no overlap": 70,
+    "weight-loss": 126,
+    "over cap": 671
+   },
+   "market": "NA"
+  },
+  "Thorne": {
+   "raw": 500,
+   "english": 500,
+   "scoped": 191,
+   "kept": 100,
+   "drops": {
+    "not in range": 32,
+    "no overlap": 243,
+    "weight-loss": 22,
+    "men-only": 6,
+    "gut-only": 6,
+    "over cap": 91
+   },
+   "market": "NA"
+  },
+  "HUM Nutrition": {
+   "raw": 336,
+   "english": 336,
+   "scoped": 54,
+   "kept": 54,
+   "drops": {
+    "weight-loss": 221,
+    "no overlap": 61
+   },
+   "market": "NA"
+  },
+  "Bonafide": {
+   "raw": 431,
+   "english": 424,
+   "scoped": 324,
+   "kept": 100,
+   "drops": {
+    "not English": 7,
+    "no overlap": 67,
+    "advertorial": 33,
+    "over cap": 224
+   },
+   "market": "NA"
+  },
+  "Perelel": {
+   "raw": 459,
+   "english": 459,
+   "scoped": 387,
+   "kept": 100,
+   "drops": {
+    "no overlap": 42,
+    "advertorial": 30,
+    "over cap": 287
+   },
+   "market": "NA"
+  },
+  "Love Wellness": {
+   "raw": 364,
+   "english": 364,
+   "scoped": 282,
+   "kept": 100,
+   "drops": {
+    "no overlap": 70,
+    "gut-only": 5,
+    "weight-loss": 7,
+    "over cap": 182
+   },
+   "market": "NA"
+  },
+  "Momentous": {
+   "raw": 301,
+   "english": 301,
+   "scoped": 127,
+   "kept": 100,
+   "drops": {
+    "no overlap": 144,
+    "gut-only": 9,
+    "not in range": 8,
+    "weight-loss": 2,
+    "advertorial": 11,
+    "over cap": 27
+   },
+   "market": "NA"
+  },
+  "Semaine Health": {
+   "raw": 507,
+   "english": 507,
+   "scoped": 196,
+   "kept": 100,
+   "drops": {
+    "no overlap": 101,
+    "advertorial": 203,
+    "weight-loss": 7,
+    "over cap": 96
+   },
+   "market": "NA"
+  },
+  "Needed": {
+   "raw": 411,
+   "english": 411,
+   "scoped": 402,
+   "kept": 100,
+   "drops": {
+    "no overlap": 9,
+    "over cap": 302
+   },
+   "market": "NA"
+  },
+  "Elix": {
+   "raw": 253,
+   "english": 253,
+   "scoped": 243,
+   "kept": 100,
+   "drops": {
+    "weight-loss": 3,
+    "no overlap": 7,
+    "over cap": 143
+   },
+   "market": "NA"
+  },
+  "Womaness": {
+   "raw": 107,
+   "english": 107,
+   "scoped": 77,
+   "kept": 77,
+   "drops": {
+    "no overlap": 28,
+    "advertorial": 1,
+    "men-only": 1
+   },
+   "market": "NA"
+  },
+  "Kindra": {
+   "raw": 114,
+   "english": 114,
+   "scoped": 0,
+   "kept": 0,
+   "drops": {
+    "advertorial": 114
+   },
+   "market": "NA"
+  },
+  "Your Heights": {
+   "raw": 100,
+   "english": 100,
+   "scoped": 79,
+   "kept": 79,
+   "drops": {
+    "no overlap": 17,
+    "weight-loss": 4
+   },
+   "market": "UK"
+  },
+  "Rheal": {
+   "raw": 100,
+   "english": 100,
+   "scoped": 88,
+   "kept": 88,
+   "drops": {
+    "gut-only": 3,
+    "advertorial": 8,
+    "no overlap": 1
+   },
+   "market": "NA"
+  },
+  "Primal Queen": {
+   "raw": 100,
+   "english": 100,
+   "scoped": 30,
+   "kept": 30,
+   "drops": {
+    "no overlap": 70
+   },
+   "market": "NA"
+  },
+  "Bloom Nutrition": {
+   "raw": 21,
+   "english": 21,
+   "scoped": 10,
+   "kept": 10,
+   "drops": {
+    "no overlap": 7,
+    "weight-loss": 4
+   },
+   "market": "HH"
+  },
+  "Lemme": {
+   "raw": 100,
+   "english": 100,
+   "scoped": 58,
+   "kept": 58,
+   "drops": {
+    "no overlap": 15,
+    "gut-only": 22,
+    "weight-loss": 5
+   },
+   "market": "NA"
+  },
+  "Black Girl Vitamins": {
+   "raw": 100,
+   "english": 99,
+   "scoped": 85,
+   "kept": 85,
+   "drops": {
+    "no overlap": 14,
+    "not English": 1
+   },
+   "market": "NA"
+  },
+  "ARMRA": {
+   "raw": 83,
+   "english": 83,
+   "scoped": 15,
+   "kept": 15,
+   "drops": {
+    "advertorial": 28,
+    "weight-loss": 31,
+    "no overlap": 1,
+    "gut-only": 8
+   },
+   "market": "NA"
+  },
+  "Spacegoods": {
+   "raw": 56,
+   "english": 56,
+   "scoped": 53,
+   "kept": 53,
+   "drops": {
+    "no overlap": 3
+   },
+   "market": "UK"
+  },
+  "MaryRuth's": {
+   "raw": 60,
+   "english": 60,
+   "scoped": 22,
+   "kept": 22,
+   "drops": {
+    "no overlap": 25,
+    "men-only": 13
+   },
+   "market": "NA"
+  },
+  "Obvi Health": {
+   "raw": 70,
+   "english": 70,
+   "scoped": 0,
+   "kept": 0,
+   "drops": {
+    "weight-loss": 69,
+    "advertorial": 1
+   },
+   "market": "NA"
+  },
+  "Free Soul": {
+   "raw": 99,
+   "english": 99,
+   "scoped": 87,
+   "kept": 87,
+   "drops": {
+    "not in range": 1,
+    "weight-loss": 3,
+    "no overlap": 8
+   },
+   "market": "UK"
+  },
+  "MoonBrew": {
+   "raw": 71,
+   "english": 71,
+   "scoped": 62,
+   "kept": 62,
+   "drops": {
+    "advertorial": 7,
+    "no overlap": 2
+   },
+   "market": "NA"
+  },
+  "Cymbiotika": {
+   "raw": 30,
+   "english": 30,
+   "scoped": 14,
+   "kept": 14,
+   "drops": {
+    "no overlap": 15,
+    "weight-loss": 1
+   },
+   "market": "HH"
+  },
+  "Sunna Supplements": {
+   "raw": 64,
+   "english": 64,
+   "scoped": 60,
+   "kept": 60,
+   "drops": {
+    "advertorial": 4
+   },
+   "market": "NA"
+  },
+  "AG1": {
+   "raw": 30,
+   "english": 28,
+   "scoped": 18,
+   "kept": 18,
+   "drops": {
+    "no overlap": 10,
+    "not English": 2
+   },
+   "market": "HH"
+  },
+  "Seed": {
+   "raw": 30,
+   "english": 30,
+   "scoped": 0,
+   "kept": 0,
+   "drops": {
+    "no overlap": 20,
+    "weight-loss": 10
+   },
+   "market": "HH"
+  },
+  "Drink Magna": {
+   "raw": 90,
+   "english": 90,
+   "scoped": 89,
+   "kept": 89,
+   "drops": {
+    "no overlap": 1
+   },
+   "market": "NA"
+  },
+  "The Collagen Co.": {
+   "raw": 100,
+   "english": 100,
+   "scoped": 67,
+   "kept": 67,
+   "drops": {
+    "gut-only": 4,
+    "weight-loss": 28,
+    "no overlap": 1
+   },
+   "market": "NA"
+  },
+  "Creatine Gummy": {
+   "raw": 74,
+   "english": 74,
+   "scoped": 44,
+   "kept": 44,
+   "drops": {
+    "men-only": 10,
+    "weight-loss": 18,
+    "no overlap": 2
+   },
+   "market": "NA"
+  },
+  "Ancestral Supplements": {
+   "raw": 87,
+   "english": 87,
+   "scoped": 36,
+   "kept": 36,
+   "drops": {
+    "no overlap": 24,
+    "weight-loss": 27
+   },
+   "market": "NA"
+  },
+  "IM8": {
+   "raw": 30,
+   "english": 30,
+   "scoped": 13,
+   "kept": 13,
+   "drops": {
+    "no overlap": 12,
+    "gut-only": 3,
+    "weight-loss": 1,
+    "kids": 1
+   },
+   "market": "HH"
+  },
+  "Gr\u00fcns": {
+   "raw": 30,
+   "english": 30,
+   "scoped": 7,
+   "kept": 7,
+   "drops": {
+    "no overlap": 9,
+    "gut-only": 1,
+    "advertorial": 10,
+    "weight-loss": 3
+   },
+   "market": "HH"
+  },
+  "Revive Collagen": {
+   "raw": 59,
+   "english": 57,
+   "scoped": 57,
+   "kept": 57,
+   "drops": {
+    "not English": 2
+   },
+   "market": "UK"
+  },
+  "Pendulum Life": {
+   "raw": 91,
+   "english": 87,
+   "scoped": 24,
+   "kept": 24,
+   "drops": {
+    "weight-loss": 26,
+    "gut-only": 1,
+    "no overlap": 36,
+    "not English": 4
+   },
+   "market": "NA"
+  },
+  "Women's Wellness By Inno": {
+   "raw": 82,
+   "english": 82,
+   "scoped": 52,
+   "kept": 52,
+   "drops": {
+    "weight-loss": 30
+   },
+   "market": "NA"
+  },
+  "Fairhaven Health": {
+   "raw": 2,
+   "english": 2,
+   "scoped": 2,
+   "kept": 2,
+   "drops": {},
+   "market": "NA"
+  },
+  "Life with menopause": {
+   "raw": 64,
+   "english": 64,
+   "scoped": 58,
+   "kept": 58,
+   "drops": {
+    "advertorial": 3,
+    "weight-loss": 2,
+    "not in range": 1
+   },
+   "market": "NA"
+  },
+  "Marine Vitality": {
+   "raw": 49,
+   "english": 47,
+   "scoped": 21,
+   "kept": 21,
+   "drops": {
+    "not English": 2,
+    "no overlap": 26
+   },
+   "market": "NA"
+  },
+  "Her Vitality": {
+   "raw": 92,
+   "english": 92,
+   "scoped": 92,
+   "kept": 92,
+   "drops": {},
+   "market": "NA"
+  },
+  "The Gut Co": {
+   "raw": 70,
+   "english": 70,
+   "scoped": 44,
+   "kept": 44,
+   "drops": {
+    "gut-only": 4,
+    "weight-loss": 6,
+    "no overlap": 15,
+    "advertorial": 1
+   },
+   "market": "AU"
+  },
+  "Burst Creatine": {
+   "raw": 85,
+   "english": 85,
+   "scoped": 80,
+   "kept": 80,
+   "drops": {
+    "no overlap": 5
+   },
+   "market": "NA"
+  },
+  "Womenli": {
+   "raw": 54,
+   "english": 54,
+   "scoped": 4,
+   "kept": 4,
+   "drops": {
+    "no overlap": 50
+   },
+   "market": "NA"
+  },
+  "Naternal": {
+   "raw": 64,
+   "english": 63,
+   "scoped": 47,
+   "kept": 47,
+   "drops": {
+    "no overlap": 16,
+    "not English": 1
+   },
+   "market": "AU"
+  },
+  "BioEmblem": {
+   "raw": 53,
+   "english": 53,
+   "scoped": 38,
+   "kept": 38,
+   "drops": {
+    "no overlap": 15
+   },
+   "market": "NA"
+  },
+  "MOM PWDR": {
+   "raw": 26,
+   "english": 0,
+   "scoped": 0,
+   "kept": 0,
+   "drops": {
+    "not English": 26
+   },
+   "market": "NA"
+  },
+  "Gold Collagen": {
+   "raw": 79,
+   "english": 79,
+   "scoped": 63,
+   "kept": 63,
+   "drops": {
+    "no overlap": 16
+   },
+   "market": "UK"
+  },
+  "Oriel Magnesium": {
+   "raw": 24,
+   "english": 23,
+   "scoped": 23,
+   "kept": 23,
+   "drops": {
+    "not English": 1
+   },
+   "market": "IE"
+  },
+  "Conceive Plus": {
+   "raw": 51,
+   "english": 51,
+   "scoped": 33,
+   "kept": 33,
+   "drops": {
+    "no overlap": 17,
+    "weight-loss": 1
+   },
+   "market": "NA"
+  },
+  "Mighti": {
+   "raw": 80,
+   "english": 66,
+   "scoped": 66,
+   "kept": 66,
+   "drops": {
+    "not English": 14
+   },
+   "market": "NA"
+  },
+  "Heart & Soil": {
+   "raw": 100,
+   "english": 100,
+   "scoped": 49,
+   "kept": 49,
+   "drops": {
+    "no overlap": 34,
+    "men-only": 9,
+    "kids": 1,
+    "not in range": 3,
+    "advertorial": 4
+   },
+   "market": "NA"
+  },
+  "Gut Alive": {
+   "raw": 75,
+   "english": 75,
+   "scoped": 44,
+   "kept": 44,
+   "drops": {
+    "weight-loss": 25,
+    "no overlap": 6
+   },
+   "market": "NA"
+  },
+  "Metagenics ANZ": {
+   "raw": 85,
+   "english": 85,
+   "scoped": 32,
+   "kept": 32,
+   "drops": {
+    "weight-loss": 14,
+    "no overlap": 38,
+    "not in range": 1
+   },
+   "market": "AU"
+  },
+  "Her Bodhi": {
+   "raw": 97,
+   "english": 97,
+   "scoped": 72,
+   "kept": 72,
+   "drops": {
+    "weight-loss": 25
+   },
+   "market": "NA"
+  },
+  "Winks Sleep": {
+   "raw": 21,
+   "english": 21,
+   "scoped": 12,
+   "kept": 12,
+   "drops": {
+    "no overlap": 1,
+    "advertorial": 8
+   },
+   "market": "HH"
   }
  },
- "cards": 606,
- "ads": 1351,
- "media_jobs": 2291,
- "video_ads": 662,
- "hooks_read": 328,
+ "markets": {
+  "IE": {
+   "brands": 6,
+   "ads": 477,
+   "cards": 454
+  },
+  "UK": {
+   "brands": 18,
+   "ads": 1328,
+   "cards": 1284
+  },
+  "NA": {
+   "brands": 40,
+   "ads": 2622,
+   "cards": 2466
+  },
+  "AU": {
+   "brands": 3,
+   "ads": 123,
+   "cards": 120
+  },
+  "HH": {
+   "brands": 6,
+   "ads": 74,
+   "cards": 73
+  }
+ },
+ "card_fix": {
+  "copy_groups_before": 2745,
+  "cards_after": 4633,
+  "multi_size_cards": 223,
+  "repeated_size_cards": 0,
+  "largest_card": 3,
+  "same_copy_cards": 2538
+ },
+ "cards": 4633,
+ "ads": 4860,
+ "media_jobs": 9040,
+ "video_ads": 2409,
+ "hooks_read": 363,
  "media_done": 2536
 }

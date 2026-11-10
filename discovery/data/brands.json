@@ -1,144 +1,1691 @@
 [
 {
+"brand": "AG1",
+"slug": "ag1",
+"site": "drinkag1.com",
+"market": "HH",
+"tier": "heavy",
+"cards": 17,
+"ads": 18,
+"live": 16,
+"proven": 0,
+"new30": 16,
+"medianDays": 8,
+"formats": {
+"image": 12,
+"video": 5
+},
+"benefits": {
+"gut": 12,
+"energy": 10,
+"performance": 7
+},
+"proof": {
+"study": 13,
+"UGC testimonial": 6,
+"expert/GP": 1
+},
+"offers": {
+"subscription": 9,
+"gift": 5,
+"bundle": 4
+},
+"match": {
+"Balance": 10,
+"Creatine": 7
+},
+"raw": 30,
+"english": 28,
+"scoped": 18,
+"kept": 18,
+"drops": {
+"no overlap": 10,
+"not English": 2
+},
+"summary": "17 cards (16 live), mostly image (71%), led by gut (71%) and energy (59%). 0 have run 60+ days (median 8 days live) and 16 launched in the last 30 days; top proof is study (76%), top offer subscription (53%).",
+"pending": false
+},
+{
+"brand": "ARMRA",
+"slug": "armra",
+"site": "armra.com",
+"market": "NA",
+"tier": "wide",
+"cards": 12,
+"ads": 15,
+"live": 7,
+"proven": 2,
+"new30": 7,
+"medianDays": 10,
+"formats": {
+"image": 7,
+"video": 5
+},
+"benefits": {
+"energy": 12,
+"skin/hair": 12,
+"gut": 11,
+"performance": 10,
+"sleep/stress": 2,
+"hormones/PMS": 2
+},
+"proof": {
+"reviews": 12,
+"study": 10,
+"before-after": 7,
+"UGC testimonial": 4,
+"founder": 3,
+"expert/GP": 2
+},
+"offers": {
+"bundle": 3
+},
+"match": {
+"Collagen": 10,
+"Balance": 2
+},
+"raw": 83,
+"english": 83,
+"scoped": 15,
+"kept": 15,
+"drops": {
+"advertorial": 28,
+"weight-loss": 31,
+"no overlap": 1,
+"gut-only": 8
+},
+"summary": "12 cards (7 live), mostly image (58%), led by energy (100%) and skin/hair (100%). 2 have run 60+ days (median 10 days live) and 7 launched in the last 30 days; top proof is reviews (100%), top offer bundle (25%).",
+"pending": false
+},
+{
+"brand": "Ancestral Supplements",
+"slug": "ancestral-supplements",
+"site": "ancestralsupplements.com",
+"market": "NA",
+"tier": "wide",
+"cards": 35,
+"ads": 36,
+"live": 33,
+"proven": 1,
+"new30": 32,
+"medianDays": 13,
+"formats": {
+"video": 26,
+"image": 9
+},
+"benefits": {
+"energy": 30,
+"skin/hair": 15,
+"sleep/stress": 10,
+"hormones/PMS": 5,
+"gut": 2,
+"performance": 1,
+"postnatal": 1
+},
+"proof": {
+"reviews": 14,
+"expert/GP": 12,
+"UGC testimonial": 12,
+"study": 5
+},
+"offers": {
+"% off": 10,
+"gift": 3,
+"bundle": 1
+},
+"match": {
+"Balance": 28,
+"Collagen": 6,
+"Zen": 1
+},
+"raw": 87,
+"english": 87,
+"scoped": 36,
+"kept": 36,
+"drops": {
+"no overlap": 24,
+"weight-loss": 27
+},
+"summary": "35 cards (33 live), mostly video (74%), led by energy (86%) and skin/hair (43%). 1 have run 60+ days (median 13 days live) and 32 launched in the last 30 days; top proof is reviews (40%), top offer % off (29%).",
+"pending": false
+},
+{
+"brand": "Ancient + Brave",
+"slug": "ancient-brave",
+"site": "ancientandbrave.earth",
+"market": "UK",
+"tier": null,
+"cards": 96,
+"ads": 100,
+"live": 62,
+"proven": 50,
+"new30": 12,
+"medianDays": 81,
+"formats": {
+"image": 36,
+"video": 60
+},
+"benefits": {
+"skin/hair": 79,
+"energy": 25,
+"performance": 22,
+"hormones/PMS": 12,
+"sleep/stress": 8,
+"gut": 2,
+"postnatal": 2
+},
+"proof": {
+"study": 68,
+"press": 12,
+"expert/GP": 11,
+"UGC testimonial": 9,
+"before-after": 1,
+"reviews": 1
+},
+"offers": {
+"% off": 78,
+"subscription": 55,
+"bundle": 16,
+"free shipping": 2,
+"gift": 1
+},
+"match": {
+"Collagen": 76,
+"Creatine": 12,
+"Zen": 5,
+"Balance": 3
+},
+"raw": 808,
+"english": 668,
+"scoped": 604,
+"kept": 100,
+"drops": {
+"no overlap": 51,
+"advertorial": 2,
+"not English": 140,
+"gut-only": 1,
+"weight-loss": 10,
+"over cap": 504
+},
+"summary": "96 cards (62 live), mostly video (62%), led by skin/hair (82%) and energy (26%). 50 have run 60+ days (median 81 days live) and 12 launched in the last 30 days; top proof is study (71%), top offer % off (81%).",
+"pending": false
+},
+{
+"brand": "Arrae",
+"slug": "arrae",
+"site": "arrae.com",
+"market": "NA",
+"tier": null,
+"cards": 97,
+"ads": 100,
+"live": 73,
+"proven": 36,
+"new30": 37,
+"medianDays": 16,
+"formats": {
+"video": 62,
+"image": 35
+},
+"benefits": {
+"performance": 68,
+"skin/hair": 18,
+"gut": 15,
+"energy": 11,
+"hormones/PMS": 9,
+"PCOS": 6,
+"postnatal": 5,
+"sleep/stress": 4,
+"menopause": 4
+},
+"proof": {
+"UGC testimonial": 16,
+"before-after": 8,
+"study": 8
+},
+"offers": {
+"% off": 2,
+"subscription": 1
+},
+"match": {
+"Creatine": 66,
+"Balance": 14,
+"Collagen": 10,
+"PPN": 5,
+"Zen": 1,
+"Inositol": 1
+},
+"raw": 1685,
+"english": 1685,
+"scoped": 489,
+"kept": 100,
+"drops": {
+"weight-loss": 378,
+"no overlap": 604,
+"advertorial": 19,
+"gut-only": 195,
+"over cap": 389
+},
+"summary": "97 cards (73 live), mostly video (64%), led by performance (70%) and skin/hair (19%). 36 have run 60+ days (median 16 days live) and 37 launched in the last 30 days; top proof is UGC testimonial (16%), top offer % off (2%).",
+"pending": false
+},
+{
+"brand": "Bare Biology",
+"slug": "bare-biology",
+"site": "barebiology.com",
+"market": "UK",
+"tier": null,
+"cards": 67,
+"ads": 70,
+"live": 14,
+"proven": 0,
+"new30": 14,
+"medianDays": 8,
+"formats": {
+"image": 34,
+"video": 33
+},
+"benefits": {
+"energy": 29,
+"performance": 23,
+"sleep/stress": 20,
+"skin/hair": 12,
+"fertility/pregnancy": 1,
+"gut": 1
+},
+"proof": {
+"reviews": 13,
+"UGC testimonial": 7,
+"expert/GP": 3,
+"study": 1
+},
+"offers": {
+"gift": 1
+},
+"match": {
+"Zen": 32,
+"Creatine": 22,
+"Collagen": 12,
+"PPN": 1
+},
+"raw": 165,
+"english": 165,
+"scoped": 70,
+"kept": 70,
+"drops": {
+"kids": 10,
+"not in range": 44,
+"no overlap": 41
+},
+"summary": "67 cards (14 live), mostly image (51%), led by energy (43%) and performance (34%). 0 have run 60+ days (median 8 days live) and 14 launched in the last 30 days; top proof is reviews (19%), top offer gift (1%).",
+"pending": false
+},
+{
+"brand": "Bio-Kult",
+"slug": "bio-kult",
+"site": "bio-kult.com",
+"market": "UK",
+"tier": null,
+"cards": 3,
+"ads": 3,
+"live": 1,
+"proven": 0,
+"new30": 1,
+"medianDays": 5,
+"formats": {
+"image": 1,
+"carousel": 2
+},
+"benefits": {
+"sleep/stress": 2,
+"energy": 1,
+"gut": 1
+},
+"proof": {
+"study": 1,
+"expert/GP": 1
+},
+"offers": {
+"% off": 1,
+"subscription": 1
+},
+"match": {
+"Zen": 2,
+"Balance": 1
+},
+"raw": 117,
+"english": 117,
+"scoped": 3,
+"kept": 3,
+"drops": {
+"no overlap": 96,
+"gut-only": 17,
+"weight-loss": 1
+},
+"summary": "3 cards (1 live), mostly carousel (67%), led by sleep/stress (67%) and energy (33%). 0 have run 60+ days (median 5 days live) and 1 launched in the last 30 days; top proof is study (33%), top offer % off (33%).",
+"pending": false
+},
+{
+"brand": "BioEmblem",
+"slug": "bioemblem",
+"site": "bioemblem.com",
+"market": "NA",
+"tier": "wide",
+"cards": 28,
+"ads": 38,
+"live": 12,
+"proven": 0,
+"new30": 12,
+"medianDays": 8,
+"formats": {
+"image": 17,
+"video": 11
+},
+"benefits": {
+"sleep/stress": 28,
+"energy": 4
+},
+"proof": {
+"study": 14,
+"expert/GP": 5,
+"reviews": 5
+},
+"offers": {
+"% off": 28,
+"subscription": 26,
+"free shipping": 16,
+"bundle": 12
+},
+"match": {
+"Zen": 24,
+"Balance": 4
+},
+"raw": 53,
+"english": 53,
+"scoped": 38,
+"kept": 38,
+"drops": {
+"no overlap": 15
+},
+"summary": "28 cards (12 live), mostly image (61%), led by sleep/stress (100%) and energy (14%). 0 have run 60+ days (median 8 days live) and 12 launched in the last 30 days; top proof is study (50%), top offer % off (100%).",
+"pending": false
+},
+{
+"brand": "Black Girl Vitamins",
+"slug": "black-girl-vitamins",
+"site": "blackgirlvitamins.co",
+"market": "NA",
+"tier": "wide",
+"cards": 76,
+"ads": 85,
+"live": 73,
+"proven": 1,
+"new30": 70,
+"medianDays": 13,
+"formats": {
+"video": 43,
+"image": 31,
+"carousel": 2
+},
+"benefits": {
+"hormones/PMS": 36,
+"skin/hair": 30,
+"gut": 29,
+"menopause": 29,
+"energy": 28,
+"sleep/stress": 27,
+"PCOS": 23,
+"performance": 1
+},
+"proof": {
+"UGC testimonial": 5,
+"expert/GP": 4,
+"press": 1,
+"before-after": 1
+},
+"offers": {
+"% off": 9
+},
+"match": {
+"Meno": 29,
+"Collagen": 22,
+"Balance": 14,
+"Inositol": 10,
+"Creatine": 1
+},
+"raw": 100,
+"english": 99,
+"scoped": 85,
+"kept": 85,
+"drops": {
+"no overlap": 14,
+"not English": 1
+},
+"summary": "76 cards (73 live), mostly video (57%), led by hormones/PMS (47%) and skin/hair (39%). 1 have run 60+ days (median 13 days live) and 70 launched in the last 30 days; top proof is UGC testimonial (7%), top offer % off (12%).",
+"pending": false
+},
+{
+"brand": "Bloom Nutrition",
+"slug": "bloom-nutrition",
+"site": "bloomnu.com",
+"market": "HH",
+"tier": "heavy",
+"cards": 10,
+"ads": 10,
+"live": 0,
+"proven": 1,
+"new30": 0,
+"medianDays": 16,
+"formats": {
+"image": 4,
+"video": 6
+},
+"benefits": {
+"performance": 6,
+"energy": 2,
+"skin/hair": 2,
+"hormones/PMS": 1,
+"sleep/stress": 1
+},
+"proof": {
+"UGC testimonial": 4,
+"study": 2,
+"expert/GP": 1,
+"before-after": 1
+},
+"offers": {
+"bundle": 1
+},
+"match": {
+"Creatine": 5,
+"Balance": 3,
+"Collagen": 2
+},
+"raw": 21,
+"english": 21,
+"scoped": 10,
+"kept": 10,
+"drops": {
+"no overlap": 7,
+"weight-loss": 4
+},
+"summary": "10 cards (0 live), mostly video (60%), led by performance (60%) and energy (20%). 1 have run 60+ days (median 16 days live) and 0 launched in the last 30 days; top proof is UGC testimonial (40%), top offer bundle (10%).",
+"pending": false
+},
+{
+"brand": "Bonafide",
+"slug": "bonafide",
+"site": "hellobonafide.com",
+"market": "NA",
+"tier": null,
+"cards": 93,
+"ads": 100,
+"live": 2,
+"proven": 16,
+"new30": 2,
+"medianDays": 43,
+"formats": {
+"image": 40,
+"video": 53
+},
+"benefits": {
+"hormones/PMS": 77,
+"menopause": 33,
+"sleep/stress": 19
+},
+"proof": {
+"study": 37,
+"UGC testimonial": 22
+},
+"offers": {
+"% off": 69,
+"subscription": 37,
+"gift": 12
+},
+"match": {
+"Balance": 62,
+"Meno": 19,
+"Zen": 12
+},
+"raw": 431,
+"english": 424,
+"scoped": 324,
+"kept": 100,
+"drops": {
+"not English": 7,
+"no overlap": 67,
+"advertorial": 33,
+"over cap": 224
+},
+"summary": "93 cards (2 live), mostly video (57%), led by hormones/PMS (83%) and menopause (35%). 16 have run 60+ days (median 43 days live) and 2 launched in the last 30 days; top proof is study (40%), top offer % off (74%).",
+"pending": false
+},
+{
+"brand": "Burst Creatine",
+"slug": "burst-creatine",
+"site": "burstcreatine.com",
+"market": "NA",
+"tier": "wide",
+"cards": 76,
+"ads": 80,
+"live": 70,
+"proven": 0,
+"new30": 70,
+"medianDays": 7,
+"formats": {
+"video": 69,
+"carousel": 1,
+"image": 6
+},
+"benefits": {
+"performance": 76
+},
+"proof": {},
+"offers": {
+"% off": 1
+},
+"match": {
+"Creatine": 76
+},
+"raw": 85,
+"english": 85,
+"scoped": 80,
+"kept": 80,
+"drops": {
+"no overlap": 5
+},
+"summary": "76 cards (70 live), mostly video (91%), led by performance (100%). 0 have run 60+ days (median 7 days live) and 70 launched in the last 30 days, top offer % off (1%).",
+"pending": false
+},
+{
+"brand": "Conceive Plus",
+"slug": "conceive-plus",
+"site": "conceive-plus.com",
+"market": "NA",
+"tier": "wide",
+"cards": 33,
+"ads": 33,
+"live": 25,
+"proven": 1,
+"new30": 25,
+"medianDays": 13,
+"formats": {
+"image": 13,
+"video": 20
+},
+"benefits": {
+"fertility/pregnancy": 33,
+"hormones/PMS": 10,
+"PCOS": 5,
+"energy": 4,
+"sleep/stress": 2
+},
+"proof": {
+"expert/GP": 6,
+"study": 5,
+"reviews": 2
+},
+"offers": {
+"bundle": 4
+},
+"match": {
+"PPN": 31,
+"Balance": 2
+},
+"raw": 51,
+"english": 51,
+"scoped": 33,
+"kept": 33,
+"drops": {
+"no overlap": 17,
+"weight-loss": 1
+},
+"summary": "33 cards (25 live), mostly video (61%), led by fertility/pregnancy (100%) and hormones/PMS (30%). 1 have run 60+ days (median 13 days live) and 25 launched in the last 30 days; top proof is expert/GP (18%), top offer bundle (12%).",
+"pending": false
+},
+{
+"brand": "Create Wellness",
+"slug": "create-wellness",
+"site": "trycreate.co",
+"market": "NA",
+"tier": null,
+"cards": 96,
+"ads": 100,
+"live": 60,
+"proven": 30,
+"new30": 32,
+"medianDays": 31,
+"formats": {
+"video": 60,
+"image": 36
+},
+"benefits": {
+"performance": 96,
+"energy": 27,
+"menopause": 1
+},
+"proof": {
+"study": 35,
+"UGC testimonial": 14,
+"before-after": 3,
+"expert/GP": 2,
+"reviews": 1
+},
+"offers": {
+"% off": 85,
+"bundle": 17,
+"free shipping": 11,
+"subscription": 7
+},
+"match": {
+"Creatine": 92,
+"Balance": 4
+},
+"raw": 1004,
+"english": 1004,
+"scoped": 771,
+"kept": 100,
+"drops": {
+"advertorial": 37,
+"no overlap": 70,
+"weight-loss": 126,
+"over cap": 671
+},
+"summary": "96 cards (60 live), mostly video (62%), led by performance (100%) and energy (28%). 30 have run 60+ days (median 31 days live) and 32 launched in the last 30 days; top proof is study (36%), top offer % off (89%).",
+"pending": false
+},
+{
+"brand": "Creatine Gummy",
+"slug": "creatine-gummy",
+"site": "creatinegummies.com",
+"market": "NA",
+"tier": "wide",
+"cards": 43,
+"ads": 44,
+"live": 35,
+"proven": 1,
+"new30": 33,
+"medianDays": 7,
+"formats": {
+"video": 31,
+"image": 12
+},
+"benefits": {
+"performance": 43,
+"energy": 20,
+"sleep/stress": 19,
+"skin/hair": 3,
+"gut": 2,
+"hormones/PMS": 1
+},
+"proof": {
+"study": 14,
+"before-after": 3,
+"press": 1,
+"expert/GP": 1
+},
+"offers": {
+"% off": 17,
+"bundle": 13
+},
+"match": {
+"Creatine": 37,
+"Balance": 3,
+"Zen": 3
+},
+"raw": 74,
+"english": 74,
+"scoped": 44,
+"kept": 44,
+"drops": {
+"men-only": 10,
+"weight-loss": 18,
+"no overlap": 2
+},
+"summary": "43 cards (35 live), mostly video (72%), led by performance (100%) and energy (47%). 1 have run 60+ days (median 7 days live) and 33 launched in the last 30 days; top proof is study (33%), top offer % off (40%).",
+"pending": false
+},
+{
+"brand": "Cymbiotika",
+"slug": "cymbiotika",
+"site": "cymbiotika.com",
+"market": "HH",
+"tier": "heavy",
+"cards": 14,
+"ads": 14,
+"live": 14,
+"proven": 1,
+"new30": 13,
+"medianDays": 15,
+"formats": {
+"image": 6,
+"video": 8
+},
+"benefits": {
+"skin/hair": 10,
+"sleep/stress": 4,
+"gut": 2,
+"energy": 1
+},
+"proof": {
+"study": 1,
+"UGC testimonial": 1
+},
+"offers": {
+"% off": 1,
+"gift": 1
+},
+"match": {
+"Collagen": 10,
+"Zen": 3,
+"Balance": 1
+},
+"raw": 30,
+"english": 30,
+"scoped": 14,
+"kept": 14,
+"drops": {
+"no overlap": 15,
+"weight-loss": 1
+},
+"summary": "14 cards (14 live), mostly video (57%), led by skin/hair (71%) and sleep/stress (29%). 1 have run 60+ days (median 15 days live) and 13 launched in the last 30 days; top proof is study (7%), top offer % off (7%).",
+"pending": false
+},
+{
+"brand": "Drink Magna",
+"slug": "drink-magna",
+"site": "drinkmagna.com",
+"market": "NA",
+"tier": "wide",
+"cards": 88,
+"ads": 89,
+"live": 76,
+"proven": 5,
+"new30": 72,
+"medianDays": 7,
+"formats": {
+"video": 24,
+"image": 63,
+"carousel": 1
+},
+"benefits": {
+"energy": 88,
+"sleep/stress": 65,
+"hormones/PMS": 1
+},
+"proof": {
+"study": 17,
+"UGC testimonial": 16,
+"before-after": 1
+},
+"offers": {
+"bundle": 73,
+"gift": 42,
+"% off": 17,
+"free shipping": 12
+},
+"match": {
+"Zen": 65,
+"Balance": 23
+},
+"raw": 90,
+"english": 90,
+"scoped": 89,
+"kept": 89,
+"drops": {
+"no overlap": 1
+},
+"summary": "88 cards (76 live), mostly image (72%), led by energy (100%) and sleep/stress (74%). 5 have run 60+ days (median 7 days live) and 72 launched in the last 30 days; top proof is study (19%), top offer bundle (83%).",
+"pending": false
+},
+{
+"brand": "Elix",
+"slug": "elix",
+"site": "elixhealing.com",
+"market": "NA",
+"tier": null,
+"cards": 99,
+"ads": 100,
+"live": 86,
+"proven": 18,
+"new30": 44,
+"medianDays": 35,
+"formats": {
+"video": 66,
+"image": 26,
+"carousel": 7
+},
+"benefits": {
+"hormones/PMS": 94,
+"sleep/stress": 58,
+"gut": 54,
+"energy": 33,
+"PCOS": 27,
+"skin/hair": 22,
+"fertility/pregnancy": 3,
+"menopause": 1,
+"performance": 1
+},
+"proof": {
+"study": 77,
+"UGC testimonial": 11,
+"expert/GP": 8,
+"reviews": 8,
+"press": 1
+},
+"offers": {
+"% off": 30,
+"bundle": 13,
+"subscription": 1
+},
+"match": {
+"Balance": 90,
+"PPN": 3,
+"Zen": 3,
+"Inositol": 2,
+"Collagen": 1
+},
+"raw": 253,
+"english": 253,
+"scoped": 243,
+"kept": 100,
+"drops": {
+"weight-loss": 3,
+"no overlap": 7,
+"over cap": 143
+},
+"summary": "99 cards (86 live), mostly video (67%), led by hormones/PMS (95%) and sleep/stress (59%). 18 have run 60+ days (median 35 days live) and 44 launched in the last 30 days; top proof is study (78%), top offer % off (30%).",
+"pending": false
+},
+{
+"brand": "Equi London",
+"slug": "equi-london",
+"site": "equilondon.com",
+"market": "UK",
+"tier": null,
+"cards": 45,
+"ads": 48,
+"live": 15,
+"proven": 2,
+"new30": 15,
+"medianDays": 19,
+"formats": {
+"video": 24,
+"image": 21
+},
+"benefits": {
+"skin/hair": 37,
+"hormones/PMS": 28,
+"energy": 17,
+"gut": 16,
+"sleep/stress": 8,
+"menopause": 8
+},
+"proof": {
+"expert/GP": 25,
+"press": 17,
+"study": 16,
+"founder": 7,
+"UGC testimonial": 3,
+"reviews": 2
+},
+"offers": {
+"% off": 13,
+"subscription": 11,
+"bundle": 2
+},
+"match": {
+"Collagen": 19,
+"Balance": 19,
+"Meno": 7
+},
+"raw": 56,
+"english": 56,
+"scoped": 48,
+"kept": 48,
+"drops": {
+"no overlap": 8
+},
+"summary": "45 cards (15 live), mostly video (53%), led by skin/hair (82%) and hormones/PMS (62%). 2 have run 60+ days (median 19 days live) and 15 launched in the last 30 days; top proof is expert/GP (56%), top offer % off (29%).",
+"pending": false
+},
+{
 "brand": "FabU",
 "slug": "fabu",
 "site": "fabuwellness.com",
-"cards": 33,
-"ads": 123,
-"live": 14,
+"market": "IE",
+"tier": null,
+"cards": 95,
+"ads": 100,
+"live": 37,
 "proven": 0,
-"new30": 9,
-"medianDays": 22,
+"new30": 29,
+"medianDays": 15,
 "formats": {
-"video": 11,
-"image": 22
+"video": 50,
+"image": 45
 },
 "benefits": {
-"menopause": 26,
-"hormones/PMS": 14,
-"energy": 12,
-"skin/hair": 5,
+"menopause": 87,
+"hormones/PMS": 58,
+"energy": 26,
+"skin/hair": 6,
 "sleep/stress": 4
 },
 "proof": {
-"expert/GP": 20,
-"study": 1,
+"expert/GP": 80,
 "reviews": 1,
 "press": 1
 },
 "offers": {
 "subscription": 3,
-"gift": 2,
-"% off": 1,
-"bundle": 1
+"gift": 2
 },
 "match": {
-"Meno": 26,
-"Collagen": 5,
+"Meno": 87,
+"Collagen": 6,
 "Zen": 2
 },
 "raw": 182,
 "english": 182,
-"kept": 123,
+"scoped": 123,
+"kept": 100,
 "drops": {
 "no overlap": 4,
 "men-only": 23,
-"not in range": 32
+"not in range": 32,
+"over cap": 23
 },
-"summary": "33 cards (14 live), mostly image (67%), led by menopause (79%) and hormones/PMS (42%). 0 have run 60+ days (median 22 days live) and 9 launched in the last 30 days; top proof is expert/GP (61%), top offer subscription (9%).",
+"summary": "95 cards (37 live), mostly video (53%), led by menopause (92%) and hormones/PMS (61%). 0 have run 60+ days (median 15 days live) and 29 launched in the last 30 days; top proof is expert/GP (84%), top offer subscription (3%).",
+"pending": false
+},
+{
+"brand": "Fairhaven Health",
+"slug": "fairhaven-health",
+"site": "fairhavenhealth.com",
+"market": "NA",
+"tier": "wide",
+"cards": 2,
+"ads": 2,
+"live": 2,
+"proven": 2,
+"new30": 0,
+"medianDays": 90,
+"formats": {
+"image": 2
+},
+"benefits": {
+"PCOS": 1,
+"fertility/pregnancy": 1,
+"hormones/PMS": 1,
+"menopause": 1
+},
+"proof": {},
+"offers": {},
+"match": {
+"Balance": 1,
+"Meno": 1
+},
+"raw": 2,
+"english": 2,
+"scoped": 2,
+"kept": 2,
+"drops": {},
+"summary": "2 cards (2 live), mostly image (100%), led by PCOS (50%) and fertility/pregnancy (50%). 2 have run 60+ days (median 90 days live) and 0 launched in the last 30 days, with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Feel",
+"slug": "feel",
+"site": "wearefeel.com",
+"market": "UK",
+"tier": null,
+"cards": 95,
+"ads": 100,
+"live": 53,
+"proven": 53,
+"new30": 0,
+"medianDays": 78,
+"formats": {
+"image": 46,
+"video": 49
+},
+"benefits": {
+"skin/hair": 70,
+"hormones/PMS": 34,
+"energy": 20,
+"menopause": 16,
+"gut": 10,
+"sleep/stress": 3,
+"performance": 2
+},
+"proof": {
+"study": 92,
+"expert/GP": 21,
+"UGC testimonial": 10,
+"press": 7,
+"before-after": 5,
+"reviews": 2
+},
+"offers": {
+"% off": 91,
+"subscription": 4,
+"bundle": 4,
+"gift": 2
+},
+"match": {
+"Collagen": 61,
+"Balance": 18,
+"Meno": 14,
+"Creatine": 2
+},
+"raw": 494,
+"english": 444,
+"scoped": 267,
+"kept": 100,
+"drops": {
+"weight-loss": 87,
+"no overlap": 87,
+"not English": 50,
+"kids": 2,
+"gut-only": 1,
+"over cap": 167
+},
+"summary": "95 cards (53 live), mostly video (52%), led by skin/hair (74%) and hormones/PMS (36%). 53 have run 60+ days (median 78 days live) and 0 launched in the last 30 days; top proof is study (97%), top offer % off (96%).",
+"pending": false
+},
+{
+"brand": "Free Soul",
+"slug": "free-soul",
+"site": "freesoul.com",
+"market": "UK",
+"tier": "wide",
+"cards": 78,
+"ads": 87,
+"live": 73,
+"proven": 6,
+"new30": 65,
+"medianDays": 14,
+"formats": {
+"image": 35,
+"video": 43
+},
+"benefits": {
+"performance": 62,
+"skin/hair": 62,
+"energy": 58,
+"gut": 12,
+"hormones/PMS": 12,
+"sleep/stress": 4
+},
+"proof": {
+"study": 62,
+"UGC testimonial": 6,
+"press": 3,
+"before-after": 2
+},
+"offers": {
+"% off": 62,
+"gift": 57,
+"subscription": 57
+},
+"match": {
+"Collagen": 61,
+"Balance": 13,
+"Zen": 4
+},
+"raw": 99,
+"english": 99,
+"scoped": 87,
+"kept": 87,
+"drops": {
+"not in range": 1,
+"weight-loss": 3,
+"no overlap": 8
+},
+"summary": "78 cards (73 live), mostly video (55%), led by performance (79%) and skin/hair (79%). 6 have run 60+ days (median 14 days live) and 65 launched in the last 30 days; top proof is study (79%), top offer % off (79%).",
+"pending": false
+},
+{
+"brand": "Gold Collagen",
+"slug": "gold-collagen",
+"site": "gold-collagen.com",
+"market": "UK",
+"tier": "wide",
+"cards": 63,
+"ads": 63,
+"live": 35,
+"proven": 1,
+"new30": 31,
+"medianDays": 12,
+"formats": {
+"image": 34,
+"video": 27,
+"carousel": 2
+},
+"benefits": {
+"skin/hair": 63,
+"hormones/PMS": 3,
+"energy": 3,
+"sleep/stress": 2,
+"performance": 1
+},
+"proof": {
+"study": 17,
+"expert/GP": 1
+},
+"offers": {
+"% off": 43,
+"subscription": 33,
+"bundle": 22,
+"gift": 15
+},
+"match": {
+"Collagen": 57,
+"Balance": 6
+},
+"raw": 79,
+"english": 79,
+"scoped": 63,
+"kept": 63,
+"drops": {
+"no overlap": 16
+},
+"summary": "63 cards (35 live), mostly image (54%), led by skin/hair (100%) and hormones/PMS (5%). 1 have run 60+ days (median 12 days live) and 31 launched in the last 30 days; top proof is study (27%), top offer % off (68%).",
+"pending": false
+},
+{
+"brand": "Grüns",
+"slug": "gr-ns",
+"site": "gruns.co",
+"market": "HH",
+"tier": "heavy",
+"cards": 7,
+"ads": 7,
+"live": 7,
+"proven": 2,
+"new30": 5,
+"medianDays": 4,
+"formats": {
+"image": 4,
+"video": 3
+},
+"benefits": {
+"energy": 7,
+"gut": 4
+},
+"proof": {
+"study": 5,
+"expert/GP": 3
+},
+"offers": {
+"subscription": 7,
+"% off": 5,
+"gift": 4,
+"free shipping": 2
+},
+"match": {
+"Balance": 7
+},
+"raw": 30,
+"english": 30,
+"scoped": 7,
+"kept": 7,
+"drops": {
+"no overlap": 9,
+"gut-only": 1,
+"advertorial": 10,
+"weight-loss": 3
+},
+"summary": "7 cards (7 live), mostly image (57%), led by energy (100%) and gut (57%). 2 have run 60+ days (median 4 days live) and 5 launched in the last 30 days; top proof is study (71%), top offer subscription (100%).",
+"pending": false
+},
+{
+"brand": "Gut Alive",
+"slug": "gut-alive",
+"site": "dev.holistichealthlabs.com",
+"market": "NA",
+"tier": "wide",
+"cards": 44,
+"ads": 44,
+"live": 34,
+"proven": 0,
+"new30": 34,
+"medianDays": 7,
+"formats": {
+"image": 39,
+"video": 5
+},
+"benefits": {
+"gut": 44,
+"sleep/stress": 44,
+"hormones/PMS": 28,
+"energy": 5,
+"skin/hair": 5,
+"performance": 1
+},
+"proof": {
+"expert/GP": 34,
+"study": 15,
+"UGC testimonial": 10,
+"reviews": 10,
+"before-after": 3
+},
+"offers": {
+"bundle": 23,
+"subscription": 10,
+"% off": 6,
+"free shipping": 1,
+"gift": 1
+},
+"match": {
+"Balance": 28,
+"Zen": 16
+},
+"raw": 75,
+"english": 75,
+"scoped": 44,
+"kept": 44,
+"drops": {
+"weight-loss": 25,
+"no overlap": 6
+},
+"summary": "44 cards (34 live), mostly image (89%), led by gut (100%) and sleep/stress (100%). 0 have run 60+ days (median 7 days live) and 34 launched in the last 30 days; top proof is expert/GP (77%), top offer bundle (52%).",
+"pending": false
+},
+{
+"brand": "HUM Nutrition",
+"slug": "hum-nutrition",
+"site": "humnutrition.com",
+"market": "NA",
+"tier": null,
+"cards": 44,
+"ads": 54,
+"live": 16,
+"proven": 4,
+"new30": 8,
+"medianDays": 13,
+"formats": {
+"image": 38,
+"video": 6
+},
+"benefits": {
+"performance": 42,
+"energy": 5,
+"skin/hair": 2,
+"sleep/stress": 1
+},
+"proof": {
+"study": 30,
+"expert/GP": 30,
+"UGC testimonial": 3
+},
+"offers": {
+"bundle": 42
+},
+"match": {
+"Creatine": 42,
+"Balance": 1,
+"Zen": 1
+},
+"raw": 336,
+"english": 336,
+"scoped": 54,
+"kept": 54,
+"drops": {
+"weight-loss": 221,
+"no overlap": 61
+},
+"summary": "44 cards (16 live), mostly image (86%), led by performance (95%) and energy (11%). 4 have run 60+ days (median 13 days live) and 8 launched in the last 30 days; top proof is study (68%), top offer bundle (95%).",
 "pending": false
 },
 {
 "brand": "Happy Mammoth",
 "slug": "happy-mammoth",
 "site": "happymammoth.com",
-"cards": 124,
-"ads": 630,
-"live": 70,
-"proven": 39,
-"new30": 22,
-"medianDays": 13,
+"market": "IE",
+"tier": null,
+"cards": 94,
+"ads": 100,
+"live": 87,
+"proven": 49,
+"new30": 38,
+"medianDays": 91,
 "formats": {
-"video": 56,
-"image": 67,
-"carousel": 1
+"video": 54,
+"image": 40
 },
 "benefits": {
-"hormones/PMS": 115,
-"energy": 101,
-"sleep/stress": 97,
-"gut": 33,
-"skin/hair": 30,
-"menopause": 29,
-"performance": 7,
-"fertility/pregnancy": 3
+"hormones/PMS": 94,
+"energy": 87,
+"sleep/stress": 82,
+"skin/hair": 16,
+"gut": 14,
+"menopause": 14,
+"performance": 6
 },
 "proof": {
-"expert/GP": 43,
-"UGC testimonial": 40,
-"before-after": 23,
-"study": 22,
-"reviews": 18,
-"press": 2
+"expert/GP": 31,
+"UGC testimonial": 28,
+"study": 15,
+"reviews": 15,
+"before-after": 11,
+"press": 5
 },
 "offers": {
-"bundle": 18,
-"% off": 15,
-"subscription": 7,
-"free shipping": 1
+"bundle": 12,
+"% off": 6,
+"subscription": 2
 },
 "match": {
-"Balance": 106,
-"Meno": 12,
-"Collagen": 5,
-"Zen": 1
+"Balance": 84,
+"Meno": 10
 },
 "raw": 1124,
 "english": 1124,
-"kept": 630,
+"scoped": 630,
+"kept": 100,
 "drops": {
 "men-only": 8,
 "weight-loss": 461,
 "gut-only": 1,
 "kids": 3,
 "no overlap": 7,
-"not in range": 14
+"not in range": 14,
+"over cap": 530
 },
-"summary": "124 cards (70 live), mostly image (54%), led by hormones/PMS (93%) and energy (81%). 39 have run 60+ days (median 13 days live) and 22 launched in the last 30 days; top proof is expert/GP (35%), top offer bundle (15%).",
+"summary": "94 cards (87 live), mostly video (57%), led by hormones/PMS (100%) and energy (93%). 49 have run 60+ days (median 91 days live) and 38 launched in the last 30 days; top proof is expert/GP (33%), top offer bundle (13%).",
+"pending": false
+},
+{
+"brand": "Health and Her",
+"slug": "health-and-her",
+"site": "healthandher.com",
+"market": "UK",
+"tier": null,
+"cards": 71,
+"ads": 75,
+"live": 31,
+"proven": 12,
+"new30": 14,
+"medianDays": 16,
+"formats": {
+"image": 64,
+"video": 6,
+"carousel": 1
+},
+"benefits": {
+"menopause": 44,
+"hormones/PMS": 25,
+"performance": 22,
+"fertility/pregnancy": 20,
+"sleep/stress": 15,
+"PCOS": 14,
+"skin/hair": 12,
+"energy": 6,
+"postnatal": 5,
+"gut": 1
+},
+"proof": {
+"expert/GP": 62,
+"study": 37,
+"press": 26,
+"reviews": 19,
+"UGC testimonial": 1
+},
+"offers": {
+"% off": 29,
+"subscription": 21,
+"bundle": 1
+},
+"match": {
+"Meno": 43,
+"PPN": 17,
+"Balance": 11
+},
+"raw": 107,
+"english": 106,
+"scoped": 75,
+"kept": 75,
+"drops": {
+"men-only": 26,
+"not English": 1,
+"no overlap": 5
+},
+"summary": "71 cards (31 live), mostly image (90%), led by menopause (62%) and hormones/PMS (35%). 12 have run 60+ days (median 16 days live) and 14 launched in the last 30 days; top proof is expert/GP (87%), top offer % off (41%).",
+"pending": false
+},
+{
+"brand": "Heart & Soil",
+"slug": "heart-soil",
+"site": "heartandsoil.co",
+"market": "NA",
+"tier": "wide",
+"cards": 47,
+"ads": 49,
+"live": 47,
+"proven": 1,
+"new30": 44,
+"medianDays": 13,
+"formats": {
+"image": 22,
+"video": 25
+},
+"benefits": {
+"hormones/PMS": 36,
+"energy": 33,
+"fertility/pregnancy": 21,
+"sleep/stress": 7,
+"skin/hair": 5,
+"performance": 4,
+"postnatal": 2,
+"menopause": 2,
+"PCOS": 1,
+"gut": 1
+},
+"proof": {
+"expert/GP": 15,
+"reviews": 14,
+"UGC testimonial": 3,
+"study": 3
+},
+"offers": {
+"% off": 19,
+"free shipping": 14,
+"bundle": 3,
+"subscription": 2
+},
+"match": {
+"Balance": 28,
+"PPN": 17,
+"Collagen": 2
+},
+"raw": 100,
+"english": 100,
+"scoped": 49,
+"kept": 49,
+"drops": {
+"no overlap": 34,
+"men-only": 9,
+"kids": 1,
+"not in range": 3,
+"advertorial": 4
+},
+"summary": "47 cards (47 live), mostly video (53%), led by hormones/PMS (77%) and energy (70%). 1 have run 60+ days (median 13 days live) and 44 launched in the last 30 days; top proof is expert/GP (32%), top offer % off (40%).",
+"pending": false
+},
+{
+"brand": "Hello Klean",
+"slug": "hello-klean",
+"site": "helloklean.com",
+"market": "UK",
+"tier": null,
+"cards": 100,
+"ads": 100,
+"live": 45,
+"proven": 9,
+"new30": 44,
+"medianDays": 30,
+"formats": {
+"video": 90,
+"image": 10
+},
+"benefits": {
+"skin/hair": 100,
+"sleep/stress": 7
+},
+"proof": {
+"before-after": 8,
+"UGC testimonial": 4,
+"founder": 1,
+"study": 1
+},
+"offers": {
+"% off": 1
+},
+"match": {
+"Collagen": 93,
+"Zen": 7
+},
+"raw": 503,
+"english": 431,
+"scoped": 328,
+"kept": 100,
+"drops": {
+"no overlap": 103,
+"not English": 72,
+"over cap": 228
+},
+"summary": "100 cards (45 live), mostly video (90%), led by skin/hair (100%) and sleep/stress (7%). 9 have run 60+ days (median 30 days live) and 44 launched in the last 30 days; top proof is before-after (8%), top offer % off (1%).",
+"pending": false
+},
+{
+"brand": "Her Bodhi",
+"slug": "her-bodhi",
+"site": "herbodhi.com",
+"market": "NA",
+"tier": "wide",
+"cards": 72,
+"ads": 72,
+"live": 70,
+"proven": 2,
+"new30": 67,
+"medianDays": 8,
+"formats": {
+"video": 18,
+"image": 54
+},
+"benefits": {
+"energy": 72,
+"sleep/stress": 51,
+"menopause": 45,
+"hormones/PMS": 29,
+"performance": 13,
+"gut": 8
+},
+"proof": {
+"study": 62,
+"UGC testimonial": 12
+},
+"offers": {
+"% off": 61,
+"free shipping": 47,
+"gift": 39
+},
+"match": {
+"Meno": 44,
+"Balance": 21,
+"Zen": 7
+},
+"raw": 97,
+"english": 97,
+"scoped": 72,
+"kept": 72,
+"drops": {
+"weight-loss": 25
+},
+"summary": "72 cards (70 live), mostly image (75%), led by energy (100%) and sleep/stress (71%). 2 have run 60+ days (median 8 days live) and 67 launched in the last 30 days; top proof is study (86%), top offer % off (85%).",
+"pending": false
+},
+{
+"brand": "Her Vitality",
+"slug": "her-vitality",
+"site": "hervitality.co",
+"market": "NA",
+"tier": "wide",
+"cards": 89,
+"ads": 92,
+"live": 89,
+"proven": 2,
+"new30": 84,
+"medianDays": 9,
+"formats": {
+"image": 40,
+"video": 49
+},
+"benefits": {
+"hormones/PMS": 89,
+"skin/hair": 75,
+"menopause": 71,
+"sleep/stress": 66,
+"performance": 7,
+"energy": 4
+},
+"proof": {
+"study": 83,
+"expert/GP": 77,
+"reviews": 20,
+"UGC testimonial": 4
+},
+"offers": {
+"% off": 62,
+"subscription": 55
+},
+"match": {
+"Meno": 57,
+"Balance": 32
+},
+"raw": 92,
+"english": 92,
+"scoped": 92,
+"kept": 92,
+"drops": {},
+"summary": "89 cards (89 live), mostly video (55%), led by hormones/PMS (100%) and skin/hair (84%). 2 have run 60+ days (median 9 days live) and 84 launched in the last 30 days; top proof is study (93%), top offer % off (70%).",
 "pending": false
 },
 {
 "brand": "Herology",
 "slug": "herology",
 "site": "herologysupplements.com",
-"cards": 198,
+"market": "IE",
+"tier": null,
+"cards": 236,
 "ads": 236,
-"live": 87,
-"proven": 96,
-"new30": 17,
-"medianDays": 57,
+"live": 91,
+"proven": 107,
+"new30": 18,
+"medianDays": 56,
 "formats": {
-"video": 136,
-"image": 62
+"video": 165,
+"image": 71
 },
 "benefits": {
-"hormones/PMS": 72,
-"fertility/pregnancy": 52,
-"postnatal": 52,
-"sleep/stress": 39,
-"energy": 38,
+"hormones/PMS": 90,
+"postnatal": 61,
+"sleep/stress": 59,
+"fertility/pregnancy": 58,
+"energy": 55,
+"menopause": 18,
 "performance": 17,
-"menopause": 14,
+"gut": 13,
 "skin/hair": 11,
-"gut": 9,
 "PCOS": 7
 },
 "proof": {
-"UGC testimonial": 124,
-"expert/GP": 85,
-"study": 25,
+"UGC testimonial": 140,
+"expert/GP": 98,
+"study": 28,
+"founder": 9,
 "reviews": 9,
-"founder": 7,
 "press": 1
 },
 "offers": {
@@ -147,10 +1694,10 @@
 "% off": 1
 },
 "match": {
-"Balance": 65,
-"PPN": 51,
-"Zen": 16,
-"Meno": 13,
+"Balance": 82,
+"PPN": 59,
+"Zen": 19,
+"Meno": 16,
 "Creatine": 11,
 "Inositol": 7,
 "Collagen": 5,
@@ -158,61 +1705,814 @@
 },
 "raw": 296,
 "english": 236,
+"scoped": 236,
 "kept": 236,
 "drops": {
 "never ran": 60
 },
-"summary": "198 cards (87 live), mostly video (69%), led by hormones/PMS (36%) and fertility/pregnancy (26%). 96 have run 60+ days (median 57 days live) and 17 launched in the last 30 days; top proof is UGC testimonial (63%), top offer subscription (4%).",
+"summary": "236 cards (91 live), mostly video (70%), led by hormones/PMS (38%) and postnatal (26%). 107 have run 60+ days (median 56 days live) and 18 launched in the last 30 days; top proof is UGC testimonial (59%), top offer subscription (3%).",
+"pending": false
+},
+{
+"brand": "IM8",
+"slug": "im8",
+"site": "im8health.com",
+"market": "HH",
+"tier": "heavy",
+"cards": 13,
+"ads": 13,
+"live": 13,
+"proven": 2,
+"new30": 10,
+"medianDays": 12,
+"formats": {
+"video": 11,
+"image": 2
+},
+"benefits": {
+"sleep/stress": 9,
+"energy": 5,
+"performance": 5,
+"gut": 3,
+"skin/hair": 3,
+"menopause": 2,
+"fertility/pregnancy": 2
+},
+"proof": {
+"study": 8,
+"expert/GP": 5,
+"UGC testimonial": 3,
+"before-after": 1
+},
+"offers": {
+"bundle": 3,
+"subscription": 2,
+"% off": 1
+},
+"match": {
+"Zen": 6,
+"Balance": 3,
+"Meno": 2,
+"Men's Prenatal": 2
+},
+"raw": 30,
+"english": 30,
+"scoped": 13,
+"kept": 13,
+"drops": {
+"no overlap": 12,
+"gut-only": 3,
+"weight-loss": 1,
+"kids": 1
+},
+"summary": "13 cards (13 live), mostly video (85%), led by sleep/stress (69%) and energy (38%). 2 have run 60+ days (median 12 days live) and 10 launched in the last 30 days; top proof is study (62%), top offer bundle (23%).",
+"pending": false
+},
+{
+"brand": "Kollo Health",
+"slug": "kollo-health",
+"site": "kollohealth.com",
+"market": "UK",
+"tier": null,
+"cards": 92,
+"ads": 100,
+"live": 22,
+"proven": 0,
+"new30": 22,
+"medianDays": 6,
+"formats": {
+"video": 60,
+"image": 32
+},
+"benefits": {
+"skin/hair": 87,
+"performance": 9,
+"energy": 5
+},
+"proof": {
+"study": 57,
+"press": 51,
+"reviews": 5,
+"founder": 1
+},
+"offers": {
+"% off": 74,
+"gift": 36,
+"subscription": 36
+},
+"match": {
+"Collagen": 87,
+"Creatine": 5
+},
+"raw": 120,
+"english": 120,
+"scoped": 107,
+"kept": 100,
+"drops": {
+"not in range": 12,
+"no overlap": 1,
+"over cap": 7
+},
+"summary": "92 cards (22 live), mostly video (65%), led by skin/hair (95%) and performance (10%). 0 have run 60+ days (median 6 days live) and 22 launched in the last 30 days; top proof is study (62%), top offer % off (80%).",
+"pending": false
+},
+{
+"brand": "Lemme",
+"slug": "lemme",
+"site": "lemmelive.com",
+"market": "NA",
+"tier": "wide",
+"cards": 58,
+"ads": 58,
+"live": 54,
+"proven": 0,
+"new30": 54,
+"medianDays": 5,
+"formats": {
+"image": 48,
+"video": 10
+},
+"benefits": {
+"skin/hair": 49,
+"hormones/PMS": 24,
+"fertility/pregnancy": 7,
+"performance": 5,
+"sleep/stress": 4
+},
+"proof": {
+"study": 20,
+"expert/GP": 17,
+"UGC testimonial": 5,
+"before-after": 1
+},
+"offers": {},
+"match": {
+"Collagen": 25,
+"Balance": 24,
+"Creatine": 5,
+"Zen": 4
+},
+"raw": 100,
+"english": 100,
+"scoped": 58,
+"kept": 58,
+"drops": {
+"no overlap": 15,
+"gut-only": 22,
+"weight-loss": 5
+},
+"summary": "58 cards (54 live), mostly image (83%), led by skin/hair (84%) and hormones/PMS (41%). 0 have run 60+ days (median 5 days live) and 54 launched in the last 30 days; top proof is study (34%), with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Life with menopause",
+"slug": "life-with-menopause",
+"site": "hernovabottle.com",
+"market": "NA",
+"tier": "wide",
+"cards": 58,
+"ads": 58,
+"live": 41,
+"proven": 11,
+"new30": 40,
+"medianDays": 24,
+"formats": {
+"video": 45,
+"image": 13
+},
+"benefits": {
+"skin/hair": 45,
+"sleep/stress": 24,
+"menopause": 20,
+"gut": 17,
+"hormones/PMS": 13,
+"performance": 1
+},
+"proof": {
+"study": 18,
+"reviews": 15,
+"UGC testimonial": 7,
+"expert/GP": 4
+},
+"offers": {
+"% off": 1
+},
+"match": {
+"Collagen": 31,
+"Meno": 18,
+"Balance": 5,
+"Zen": 4
+},
+"raw": 64,
+"english": 64,
+"scoped": 58,
+"kept": 58,
+"drops": {
+"advertorial": 3,
+"weight-loss": 2,
+"not in range": 1
+},
+"summary": "58 cards (41 live), mostly video (78%), led by skin/hair (78%) and sleep/stress (41%). 11 have run 60+ days (median 24 days live) and 40 launched in the last 30 days; top proof is study (31%), top offer % off (2%).",
+"pending": false
+},
+{
+"brand": "Love Wellness",
+"slug": "love-wellness",
+"site": "lovewellness.com",
+"market": "NA",
+"tier": null,
+"cards": 100,
+"ads": 100,
+"live": 81,
+"proven": 0,
+"new30": 72,
+"medianDays": 26,
+"formats": {
+"video": 89,
+"image": 11
+},
+"benefits": {
+"hormones/PMS": 60,
+"gut": 57,
+"skin/hair": 38,
+"sleep/stress": 24,
+"energy": 12,
+"performance": 12,
+"postnatal": 7,
+"menopause": 2,
+"PCOS": 1
+},
+"proof": {
+"study": 71,
+"UGC testimonial": 36,
+"expert/GP": 12,
+"reviews": 5
+},
+"offers": {},
+"match": {
+"Balance": 58,
+"Collagen": 35,
+"PPN": 6,
+"Meno": 1
+},
+"raw": 364,
+"english": 364,
+"scoped": 282,
+"kept": 100,
+"drops": {
+"no overlap": 70,
+"gut-only": 5,
+"weight-loss": 7,
+"over cap": 182
+},
+"summary": "100 cards (81 live), mostly video (89%), led by hormones/PMS (60%) and gut (57%). 0 have run 60+ days (median 26 days live) and 72 launched in the last 30 days; top proof is study (71%), with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Lumity",
+"slug": "lumity",
+"site": "lumitylife.co.uk",
+"market": "UK",
+"tier": null,
+"cards": 98,
+"ads": 100,
+"live": 34,
+"proven": 6,
+"new30": 17,
+"medianDays": 12,
+"formats": {
+"video": 44,
+"image": 52,
+"carousel": 2
+},
+"benefits": {
+"skin/hair": 73,
+"sleep/stress": 69,
+"energy": 64,
+"hormones/PMS": 27,
+"menopause": 15,
+"performance": 4
+},
+"proof": {
+"study": 70,
+"expert/GP": 31,
+"reviews": 13,
+"before-after": 9,
+"UGC testimonial": 7,
+"press": 7
+},
+"offers": {
+"% off": 30,
+"subscription": 17,
+"bundle": 13,
+"gift": 8,
+"free shipping": 2
+},
+"match": {
+"Balance": 44,
+"Collagen": 28,
+"Zen": 18,
+"Meno": 8
+},
+"raw": 143,
+"english": 143,
+"scoped": 117,
+"kept": 100,
+"drops": {
+"no overlap": 16,
+"men-only": 10,
+"over cap": 17
+},
+"summary": "98 cards (34 live), mostly image (53%), led by skin/hair (74%) and sleep/stress (70%). 6 have run 60+ days (median 12 days live) and 17 launched in the last 30 days; top proof is study (71%), top offer % off (31%).",
+"pending": false
+},
+{
+"brand": "Marine Vitality",
+"slug": "marine-vitality",
+"site": "marinevitality.com.au",
+"market": "NA",
+"tier": "wide",
+"cards": 21,
+"ads": 21,
+"live": 7,
+"proven": 2,
+"new30": 3,
+"medianDays": 27,
+"formats": {
+"video": 16,
+"carousel": 2,
+"image": 3
+},
+"benefits": {
+"energy": 21,
+"skin/hair": 21,
+"gut": 8
+},
+"proof": {
+"expert/GP": 2,
+"reviews": 1
+},
+"offers": {
+"free shipping": 3,
+"subscription": 3,
+"% off": 2,
+"bundle": 1
+},
+"match": {
+"Collagen": 19,
+"Balance": 2
+},
+"raw": 49,
+"english": 47,
+"scoped": 21,
+"kept": 21,
+"drops": {
+"not English": 2,
+"no overlap": 26
+},
+"summary": "21 cards (7 live), mostly video (76%), led by energy (100%) and skin/hair (100%). 2 have run 60+ days (median 27 days live) and 3 launched in the last 30 days; top proof is expert/GP (10%), top offer free shipping (14%).",
+"pending": false
+},
+{
+"brand": "MaryRuth's",
+"slug": "maryruth-s",
+"site": "maryruthorganics.com",
+"market": "NA",
+"tier": "wide",
+"cards": 22,
+"ads": 22,
+"live": 11,
+"proven": 3,
+"new30": 11,
+"medianDays": 5,
+"formats": {
+"video": 16,
+"image": 6
+},
+"benefits": {
+"skin/hair": 19,
+"energy": 7,
+"sleep/stress": 1,
+"performance": 1
+},
+"proof": {
+"study": 5,
+"before-after": 2,
+"UGC testimonial": 1,
+"expert/GP": 1
+},
+"offers": {
+"% off": 1,
+"bundle": 1
+},
+"match": {
+"Collagen": 13,
+"Balance": 7,
+"Zen": 1,
+"Creatine": 1
+},
+"raw": 60,
+"english": 60,
+"scoped": 22,
+"kept": 22,
+"drops": {
+"no overlap": 25,
+"men-only": 13
+},
+"summary": "22 cards (11 live), mostly video (73%), led by skin/hair (86%) and energy (32%). 3 have run 60+ days (median 5 days live) and 11 launched in the last 30 days; top proof is study (23%), top offer % off (5%).",
+"pending": false
+},
+{
+"brand": "Metagenics ANZ",
+"slug": "metagenics-anz",
+"site": "metagenics.com.au",
+"market": "AU",
+"tier": "wide",
+"cards": 30,
+"ads": 32,
+"live": 29,
+"proven": 0,
+"new30": 29,
+"medianDays": 9,
+"formats": {
+"video": 22,
+"image": 7,
+"carousel": 1
+},
+"benefits": {
+"sleep/stress": 24,
+"hormones/PMS": 10,
+"gut": 4,
+"energy": 3,
+"menopause": 3
+},
+"proof": {
+"expert/GP": 28,
+"study": 2
+},
+"offers": {
+"bundle": 2,
+"% off": 1
+},
+"match": {
+"Zen": 25,
+"Meno": 3,
+"Balance": 2
+},
+"raw": 85,
+"english": 85,
+"scoped": 32,
+"kept": 32,
+"drops": {
+"weight-loss": 14,
+"no overlap": 38,
+"not in range": 1
+},
+"summary": "30 cards (29 live), mostly video (73%), led by sleep/stress (80%) and hormones/PMS (33%). 0 have run 60+ days (median 9 days live) and 29 launched in the last 30 days; top proof is expert/GP (93%), top offer bundle (7%).",
+"pending": false
+},
+{
+"brand": "Mighti",
+"slug": "mighti",
+"site": "getmighti.com",
+"market": "NA",
+"tier": "wide",
+"cards": 57,
+"ads": 66,
+"live": 55,
+"proven": 0,
+"new30": 55,
+"medianDays": 9,
+"formats": {
+"image": 52,
+"video": 5
+},
+"benefits": {
+"hormones/PMS": 55,
+"sleep/stress": 55,
+"energy": 2
+},
+"proof": {},
+"offers": {
+"bundle": 57
+},
+"match": {
+"Zen": 55,
+"Balance": 2
+},
+"raw": 80,
+"english": 66,
+"scoped": 66,
+"kept": 66,
+"drops": {
+"not English": 14
+},
+"summary": "57 cards (55 live), mostly image (91%), led by hormones/PMS (96%) and sleep/stress (96%). 0 have run 60+ days (median 9 days live) and 55 launched in the last 30 days, top offer bundle (100%).",
+"pending": false
+},
+{
+"brand": "Momentous",
+"slug": "momentous",
+"site": "livemomentous.com",
+"market": "NA",
+"tier": null,
+"cards": 91,
+"ads": 100,
+"live": 28,
+"proven": 8,
+"new30": 17,
+"medianDays": 13,
+"formats": {
+"video": 63,
+"image": 26,
+"carousel": 2
+},
+"benefits": {
+"performance": 63,
+"energy": 17,
+"sleep/stress": 13,
+"gut": 11,
+"skin/hair": 9,
+"hormones/PMS": 3
+},
+"proof": {
+"study": 15,
+"expert/GP": 7,
+"UGC testimonial": 5
+},
+"offers": {
+"% off": 12,
+"subscription": 9,
+"bundle": 4
+},
+"match": {
+"Creatine": 57,
+"Balance": 14,
+"Zen": 13,
+"Collagen": 7
+},
+"raw": 301,
+"english": 301,
+"scoped": 127,
+"kept": 100,
+"drops": {
+"no overlap": 144,
+"gut-only": 9,
+"not in range": 8,
+"weight-loss": 2,
+"advertorial": 11,
+"over cap": 27
+},
+"summary": "91 cards (28 live), mostly video (69%), led by performance (69%) and energy (19%). 8 have run 60+ days (median 13 days live) and 17 launched in the last 30 days; top proof is study (16%), top offer % off (13%).",
+"pending": false
+},
+{
+"brand": "MoonBrew",
+"slug": "moonbrew",
+"site": "moonbrew.co",
+"market": "NA",
+"tier": "wide",
+"cards": 58,
+"ads": 62,
+"live": 44,
+"proven": 4,
+"new30": 40,
+"medianDays": 7,
+"formats": {
+"video": 35,
+"image": 22,
+"carousel": 1
+},
+"benefits": {
+"sleep/stress": 58,
+"gut": 2
+},
+"proof": {
+"UGC testimonial": 11,
+"expert/GP": 10,
+"before-after": 4,
+"reviews": 4,
+"study": 3
+},
+"offers": {
+"% off": 2
+},
+"match": {
+"Zen": 58
+},
+"raw": 71,
+"english": 71,
+"scoped": 62,
+"kept": 62,
+"drops": {
+"advertorial": 7,
+"no overlap": 2
+},
+"summary": "58 cards (44 live), mostly video (60%), led by sleep/stress (100%) and gut (3%). 4 have run 60+ days (median 7 days live) and 40 launched in the last 30 days; top proof is UGC testimonial (19%), top offer % off (3%).",
+"pending": false
+},
+{
+"brand": "Myvitamins",
+"slug": "myvitamins",
+"site": "myvitamins.com",
+"market": "UK",
+"tier": null,
+"cards": 26,
+"ads": 26,
+"live": 17,
+"proven": 3,
+"new30": 9,
+"medianDays": 27,
+"formats": {
+"video": 16,
+"image": 10
+},
+"benefits": {
+"skin/hair": 18,
+"hormones/PMS": 5,
+"performance": 3,
+"gut": 2,
+"PCOS": 2,
+"energy": 2,
+"sleep/stress": 1
+},
+"proof": {
+"expert/GP": 1
+},
+"offers": {
+"bundle": 4,
+"% off": 2
+},
+"match": {
+"Collagen": 18,
+"Balance": 7,
+"Zen": 1
+},
+"raw": 63,
+"english": 63,
+"scoped": 26,
+"kept": 26,
+"drops": {
+"no overlap": 37
+},
+"summary": "26 cards (17 live), mostly video (62%), led by skin/hair (69%) and hormones/PMS (19%). 3 have run 60+ days (median 27 days live) and 9 launched in the last 30 days; top proof is expert/GP (4%), top offer bundle (15%).",
+"pending": false
+},
+{
+"brand": "Naternal",
+"slug": "naternal",
+"site": "naternalvitamins.com.au",
+"market": "AU",
+"tier": "wide",
+"cards": 47,
+"ads": 47,
+"live": 25,
+"proven": 5,
+"new30": 15,
+"medianDays": 19,
+"formats": {
+"video": 20,
+"image": 27
+},
+"benefits": {
+"fertility/pregnancy": 35,
+"postnatal": 23,
+"gut": 16,
+"energy": 11,
+"performance": 10,
+"sleep/stress": 1
+},
+"proof": {
+"study": 8,
+"expert/GP": 7,
+"founder": 2
+},
+"offers": {
+"% off": 2
+},
+"match": {
+"PPN": 34,
+"Creatine": 10,
+"Zen": 2,
+"Men's Prenatal": 1
+},
+"raw": 64,
+"english": 63,
+"scoped": 47,
+"kept": 47,
+"drops": {
+"no overlap": 16,
+"not English": 1
+},
+"summary": "47 cards (25 live), mostly image (57%), led by fertility/pregnancy (74%) and postnatal (49%). 5 have run 60+ days (median 19 days live) and 15 launched in the last 30 days; top proof is study (17%), top offer % off (4%).",
+"pending": false
+},
+{
+"brand": "Needed",
+"slug": "needed",
+"site": "thisisneeded.com",
+"market": "NA",
+"tier": null,
+"cards": 91,
+"ads": 100,
+"live": 51,
+"proven": 27,
+"new30": 33,
+"medianDays": 51,
+"formats": {
+"image": 62,
+"video": 28,
+"carousel": 1
+},
+"benefits": {
+"fertility/pregnancy": 59,
+"menopause": 30,
+"skin/hair": 29,
+"hormones/PMS": 28,
+"energy": 7,
+"postnatal": 2,
+"gut": 1
+},
+"proof": {
+"expert/GP": 25,
+"UGC testimonial": 7,
+"study": 3,
+"founder": 1
+},
+"offers": {
+"% off": 3,
+"subscription": 3,
+"bundle": 3
+},
+"match": {
+"PPN": 52,
+"Meno": 30,
+"Balance": 6,
+"Collagen": 2,
+"Men's Prenatal": 1
+},
+"raw": 411,
+"english": 411,
+"scoped": 402,
+"kept": 100,
+"drops": {
+"no overlap": 9,
+"over cap": 302
+},
+"summary": "91 cards (51 live), mostly image (68%), led by fertility/pregnancy (65%) and menopause (33%). 27 have run 60+ days (median 51 days live) and 33 launched in the last 30 days; top proof is expert/GP (27%), top offer % off (3%).",
 "pending": false
 },
 {
 "brand": "Novomins Nutrition",
 "slug": "novomins-nutrition",
 "site": "novomins.com",
-"cards": 76,
-"ads": 148,
-"live": 32,
+"market": "IE",
+"tier": null,
+"cards": 94,
+"ads": 100,
+"live": 48,
 "proven": 3,
-"new30": 24,
-"medianDays": 15,
+"new30": 34,
+"medianDays": 16,
 "formats": {
-"image": 35,
-"video": 40,
+"video": 32,
+"image": 61,
 "carousel": 1
 },
 "benefits": {
-"sleep/stress": 29,
-"energy": 15,
-"skin/hair": 14,
-"hormones/PMS": 13,
-"performance": 12,
-"menopause": 10,
-"fertility/pregnancy": 5,
+"skin/hair": 26,
+"sleep/stress": 26,
+"performance": 16,
+"hormones/PMS": 16,
+"menopause": 15,
+"energy": 13,
+"fertility/pregnancy": 9,
 "gut": 3
 },
 "proof": {
-"UGC testimonial": 19,
-"study": 8,
-"before-after": 6,
-"expert/GP": 4
+"UGC testimonial": 12,
+"study": 7,
+"before-after": 5,
+"expert/GP": 3
 },
 "offers": {
-"% off": 13,
-"bundle": 13,
-"subscription": 2,
-"free shipping": 1
+"% off": 20,
+"bundle": 19,
+"free shipping": 1,
+"subscription": 1
 },
 "match": {
-"Zen": 31,
-"Balance": 18,
-"Collagen": 11,
-"Meno": 8,
-"Creatine": 4,
-"PPN": 4
+"Zen": 26,
+"Balance": 22,
+"Collagen": 22,
+"Meno": 14,
+"PPN": 8,
+"Creatine": 2
 },
 "raw": 771,
 "english": 673,
-"kept": 148,
+"scoped": 148,
+"kept": 100,
 "drops": {
 "kids": 173,
 "not in range": 244,
@@ -220,108 +2520,1224 @@
 "weight-loss": 14,
 "gut-only": 68,
 "not English": 98,
-"men-only": 4
+"men-only": 4,
+"over cap": 48
 },
-"summary": "76 cards (32 live), mostly video (53%), led by sleep/stress (38%) and energy (20%). 3 have run 60+ days (median 15 days live) and 24 launched in the last 30 days; top proof is UGC testimonial (25%), top offer % off (17%).",
+"summary": "94 cards (48 live), mostly image (65%), led by skin/hair (28%) and sleep/stress (28%). 3 have run 60+ days (median 16 days live) and 34 launched in the last 30 days; top proof is UGC testimonial (13%), top offer % off (21%).",
+"pending": false
+},
+{
+"brand": "O Positiv",
+"slug": "o-positiv",
+"site": "opositiv.com",
+"market": "NA",
+"tier": null,
+"cards": 77,
+"ads": 100,
+"live": 18,
+"proven": 29,
+"new30": 5,
+"medianDays": 42,
+"formats": {
+"video": 23,
+"image": 54
+},
+"benefits": {
+"performance": 21,
+"gut": 20,
+"sleep/stress": 19,
+"skin/hair": 19,
+"hormones/PMS": 19,
+"menopause": 18,
+"energy": 9,
+"postnatal": 3,
+"PCOS": 1
+},
+"proof": {
+"study": 50,
+"reviews": 19,
+"expert/GP": 17,
+"UGC testimonial": 12,
+"before-after": 7
+},
+"offers": {
+"subscription": 21,
+"% off": 17,
+"bundle": 7
+},
+"match": {
+"Creatine": 21,
+"Balance": 20,
+"Meno": 18,
+"Collagen": 15,
+"PPN": 3
+},
+"raw": 623,
+"english": 619,
+"scoped": 225,
+"kept": 100,
+"drops": {
+"weight-loss": 100,
+"no overlap": 294,
+"not English": 4,
+"over cap": 125
+},
+"summary": "77 cards (18 live), mostly image (70%), led by performance (27%) and gut (26%). 29 have run 60+ days (median 42 days live) and 5 launched in the last 30 days; top proof is study (65%), top offer subscription (27%).",
+"pending": false
+},
+{
+"brand": "Oriel Magnesium",
+"slug": "oriel-magnesium",
+"site": "magnesiumstore.com",
+"market": "IE",
+"tier": "wide",
+"cards": 22,
+"ads": 23,
+"live": 15,
+"proven": 4,
+"new30": 4,
+"medianDays": 47,
+"formats": {
+"image": 11,
+"video": 11
+},
+"benefits": {
+"sleep/stress": 22,
+"energy": 10,
+"gut": 3
+},
+"proof": {
+"study": 7
+},
+"offers": {},
+"match": {
+"Zen": 22
+},
+"raw": 24,
+"english": 23,
+"scoped": 23,
+"kept": 23,
+"drops": {
+"not English": 1
+},
+"summary": "22 cards (15 live), mostly image (50%), led by sleep/stress (100%) and energy (45%). 4 have run 60+ days (median 47 days live) and 4 launched in the last 30 days; top proof is study (32%), with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Pendulum Life",
+"slug": "pendulum-life",
+"site": "pendulumlife.com",
+"market": "NA",
+"tier": "wide",
+"cards": 24,
+"ads": 24,
+"live": 24,
+"proven": 0,
+"new30": 24,
+"medianDays": 8,
+"formats": {
+"image": 13,
+"video": 11
+},
+"benefits": {
+"menopause": 17,
+"gut": 15,
+"energy": 7,
+"sleep/stress": 4,
+"hormones/PMS": 2
+},
+"proof": {
+"study": 6,
+"expert/GP": 5,
+"UGC testimonial": 2,
+"reviews": 2
+},
+"offers": {},
+"match": {
+"Meno": 17,
+"Balance": 7
+},
+"raw": 91,
+"english": 87,
+"scoped": 24,
+"kept": 24,
+"drops": {
+"weight-loss": 26,
+"gut-only": 1,
+"no overlap": 36,
+"not English": 4
+},
+"summary": "24 cards (24 live), mostly image (54%), led by menopause (71%) and gut (62%). 0 have run 60+ days (median 8 days live) and 24 launched in the last 30 days; top proof is study (25%), with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Perelel",
+"slug": "perelel",
+"site": "perelelhealth.com",
+"market": "NA",
+"tier": null,
+"cards": 93,
+"ads": 100,
+"live": 87,
+"proven": 36,
+"new30": 40,
+"medianDays": 55,
+"formats": {
+"video": 24,
+"image": 69
+},
+"benefits": {
+"fertility/pregnancy": 78,
+"hormones/PMS": 11,
+"postnatal": 11,
+"skin/hair": 10,
+"PCOS": 7,
+"menopause": 7,
+"gut": 7,
+"performance": 6
+},
+"proof": {
+"study": 49,
+"expert/GP": 44,
+"UGC testimonial": 21,
+"before-after": 2,
+"founder": 1,
+"press": 1
+},
+"offers": {
+"bundle": 10,
+"% off": 1
+},
+"match": {
+"PPN": 68,
+"Collagen": 7,
+"Balance": 6,
+"Meno": 6,
+"Creatine": 4,
+"Inositol": 2
+},
+"raw": 459,
+"english": 459,
+"scoped": 387,
+"kept": 100,
+"drops": {
+"no overlap": 42,
+"advertorial": 30,
+"over cap": 287
+},
+"summary": "93 cards (87 live), mostly image (74%), led by fertility/pregnancy (84%) and hormones/PMS (12%). 36 have run 60+ days (median 55 days live) and 40 launched in the last 30 days; top proof is study (53%), top offer bundle (11%).",
+"pending": false
+},
+{
+"brand": "Primal Queen",
+"slug": "primal-queen",
+"site": "primalqueen.com",
+"market": "NA",
+"tier": "wide",
+"cards": 30,
+"ads": 30,
+"live": 26,
+"proven": 7,
+"new30": 18,
+"medianDays": 24,
+"formats": {
+"image": 16,
+"video": 14
+},
+"benefits": {
+"energy": 25,
+"sleep/stress": 15,
+"hormones/PMS": 7,
+"gut": 6,
+"performance": 4,
+"skin/hair": 4,
+"menopause": 1
+},
+"proof": {
+"UGC testimonial": 11,
+"study": 10,
+"before-after": 7,
+"reviews": 1
+},
+"offers": {},
+"match": {
+"Balance": 24,
+"Collagen": 4,
+"Meno": 1,
+"Zen": 1
+},
+"raw": 100,
+"english": 100,
+"scoped": 30,
+"kept": 30,
+"drops": {
+"no overlap": 70
+},
+"summary": "30 cards (26 live), mostly image (53%), led by energy (83%) and sleep/stress (50%). 7 have run 60+ days (median 24 days live) and 18 launched in the last 30 days; top proof is UGC testimonial (37%), with no offer in most ads.",
 "pending": false
 },
 {
 "brand": "Revive Active",
 "slug": "revive-active",
 "site": "reviveactive.com",
-"cards": 36,
+"market": "IE",
+"tier": null,
+"cards": 50,
 "ads": 54,
-"live": 21,
-"proven": 12,
-"new30": 6,
-"medianDays": 44,
+"live": 31,
+"proven": 18,
+"new30": 7,
+"medianDays": 42,
 "formats": {
+"image": 35,
 "carousel": 3,
-"image": 25,
-"video": 8
+"video": 12
 },
 "benefits": {
-"energy": 23,
-"sleep/stress": 6,
-"skin/hair": 4,
+"energy": 32,
+"sleep/stress": 10,
+"skin/hair": 5,
 "menopause": 3
 },
 "proof": {
-"study": 6,
-"expert/GP": 5
+"expert/GP": 8,
+"study": 7
 },
 "offers": {},
 "match": {
-"Balance": 22,
-"Zen": 7,
-"Collagen": 4,
+"Balance": 30,
+"Zen": 12,
+"Collagen": 5,
 "Meno": 3
 },
 "raw": 66,
 "english": 66,
+"scoped": 54,
 "kept": 54,
 "drops": {
 "kids": 6,
 "not in range": 5,
 "no overlap": 1
 },
-"summary": "36 cards (21 live), mostly image (69%), led by energy (64%) and sleep/stress (17%). 12 have run 60+ days (median 44 days live) and 6 launched in the last 30 days; top proof is study (17%), with no offer in most ads.",
+"summary": "50 cards (31 live), mostly image (70%), led by energy (64%) and sleep/stress (20%). 18 have run 60+ days (median 42 days live) and 7 launched in the last 30 days; top proof is expert/GP (16%), with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Revive Collagen",
+"slug": "revive-collagen",
+"site": "revivecollagen.com",
+"market": "UK",
+"tier": "wide",
+"cards": 55,
+"ads": 57,
+"live": 44,
+"proven": 0,
+"new30": 44,
+"medianDays": 15,
+"formats": {
+"image": 17,
+"video": 38
+},
+"benefits": {
+"skin/hair": 55,
+"sleep/stress": 13,
+"energy": 9,
+"menopause": 7
+},
+"proof": {
+"study": 37,
+"press": 14,
+"reviews": 10,
+"UGC testimonial": 1
+},
+"offers": {
+"% off": 32,
+"subscription": 32
+},
+"match": {
+"Collagen": 48,
+"Meno": 5,
+"Zen": 2
+},
+"raw": 59,
+"english": 57,
+"scoped": 57,
+"kept": 57,
+"drops": {
+"not English": 2
+},
+"summary": "55 cards (44 live), mostly video (69%), led by skin/hair (100%) and sleep/stress (24%). 0 have run 60+ days (median 15 days live) and 44 launched in the last 30 days; top proof is study (67%), top offer % off (58%).",
+"pending": false
+},
+{
+"brand": "Rheal",
+"slug": "rheal",
+"site": "rhealsuperfoods.com",
+"market": "NA",
+"tier": "wide",
+"cards": 83,
+"ads": 88,
+"live": 81,
+"proven": 2,
+"new30": 75,
+"medianDays": 13,
+"formats": {
+"video": 29,
+"image": 54
+},
+"benefits": {
+"hormones/PMS": 51,
+"menopause": 46,
+"skin/hair": 30,
+"energy": 25,
+"sleep/stress": 23
+},
+"proof": {
+"study": 45,
+"UGC testimonial": 8
+},
+"offers": {
+"bundle": 15,
+"gift": 12
+},
+"match": {
+"Balance": 42,
+"Meno": 25,
+"Collagen": 15,
+"Zen": 1
+},
+"raw": 100,
+"english": 100,
+"scoped": 88,
+"kept": 88,
+"drops": {
+"gut-only": 3,
+"advertorial": 8,
+"no overlap": 1
+},
+"summary": "83 cards (81 live), mostly image (65%), led by hormones/PMS (61%) and menopause (55%). 2 have run 60+ days (median 13 days live) and 75 launched in the last 30 days; top proof is study (54%), top offer bundle (18%).",
+"pending": false
+},
+{
+"brand": "Ritual",
+"slug": "ritual",
+"site": "ritual.com",
+"market": "NA",
+"tier": null,
+"cards": 95,
+"ads": 100,
+"live": 54,
+"proven": 9,
+"new30": 37,
+"medianDays": 15,
+"formats": {
+"video": 30,
+"image": 65
+},
+"benefits": {
+"fertility/pregnancy": 42,
+"menopause": 27,
+"sleep/stress": 18,
+"hormones/PMS": 16,
+"skin/hair": 13,
+"postnatal": 12,
+"gut": 8,
+"performance": 4
+},
+"proof": {
+"study": 41,
+"UGC testimonial": 14,
+"expert/GP": 2,
+"founder": 1
+},
+"offers": {
+"% off": 30,
+"gift": 12,
+"bundle": 10,
+"subscription": 1
+},
+"match": {
+"PPN": 46,
+"Meno": 26,
+"Zen": 11,
+"Collagen": 11,
+"Balance": 1
+},
+"raw": 633,
+"english": 633,
+"scoped": 365,
+"kept": 100,
+"drops": {
+"no overlap": 190,
+"advertorial": 14,
+"gut-only": 35,
+"men-only": 12,
+"weight-loss": 17,
+"over cap": 265
+},
+"summary": "95 cards (54 live), mostly image (68%), led by fertility/pregnancy (44%) and menopause (28%). 9 have run 60+ days (median 15 days live) and 37 launched in the last 30 days; top proof is study (43%), top offer % off (32%).",
+"pending": false
+},
+{
+"brand": "Semaine Health",
+"slug": "semaine-health",
+"site": "semainehealth.com",
+"market": "NA",
+"tier": null,
+"cards": 99,
+"ads": 100,
+"live": 85,
+"proven": 13,
+"new30": 73,
+"medianDays": 21,
+"formats": {
+"video": 44,
+"image": 55
+},
+"benefits": {
+"hormones/PMS": 87,
+"skin/hair": 51,
+"energy": 34,
+"sleep/stress": 29,
+"menopause": 24,
+"PCOS": 10
+},
+"proof": {
+"founder": 63,
+"study": 22,
+"UGC testimonial": 10,
+"before-after": 6,
+"reviews": 6,
+"expert/GP": 1
+},
+"offers": {
+"bundle": 1
+},
+"match": {
+"Balance": 78,
+"Meno": 12,
+"Zen": 9
+},
+"raw": 507,
+"english": 507,
+"scoped": 196,
+"kept": 100,
+"drops": {
+"no overlap": 101,
+"advertorial": 203,
+"weight-loss": 7,
+"over cap": 96
+},
+"summary": "99 cards (85 live), mostly image (56%), led by hormones/PMS (88%) and skin/hair (52%). 13 have run 60+ days (median 21 days live) and 73 launched in the last 30 days; top proof is founder (64%), top offer bundle (1%).",
 "pending": false
 },
 {
 "brand": "Sisterly",
 "slug": "sisterly",
 "site": "sisterlylab.com",
-"cards": 139,
-"ads": 160,
-"live": 55,
+"market": "IE",
+"tier": null,
+"cards": 99,
+"ads": 100,
+"live": 62,
 "proven": 25,
-"new30": 27,
-"medianDays": 25,
+"new30": 33,
+"medianDays": 35,
 "formats": {
-"image": 60,
-"video": 79
+"image": 46,
+"video": 53
 },
 "benefits": {
-"energy": 88,
-"hormones/PMS": 74,
-"skin/hair": 38,
-"sleep/stress": 30,
-"menopause": 10,
+"energy": 63,
+"hormones/PMS": 50,
+"skin/hair": 22,
+"sleep/stress": 21,
+"menopause": 12,
 "performance": 1,
 "fertility/pregnancy": 1
 },
 "proof": {
-"study": 21,
-"expert/GP": 16,
-"reviews": 12,
-"founder": 9,
-"press": 8,
-"UGC testimonial": 5,
-"before-after": 4
+"study": 17,
+"reviews": 13,
+"expert/GP": 12,
+"press": 7,
+"UGC testimonial": 3,
+"founder": 3,
+"before-after": 1
 },
 "offers": {
-"% off": 19,
-"subscription": 10,
+"% off": 16,
+"subscription": 8,
 "bundle": 4
 },
 "match": {
-"Balance": 128,
-"Meno": 9,
-"Collagen": 2
+"Balance": 87,
+"Meno": 11,
+"Collagen": 1
 },
 "raw": 162,
 "english": 162,
-"kept": 160,
+"scoped": 160,
+"kept": 100,
 "drops": {
-"no overlap": 2
+"no overlap": 2,
+"over cap": 60
 },
-"summary": "139 cards (55 live), mostly video (57%), led by energy (63%) and hormones/PMS (53%). 25 have run 60+ days (median 25 days live) and 27 launched in the last 30 days; top proof is study (15%), top offer % off (14%).",
+"summary": "99 cards (62 live), mostly video (54%), led by energy (64%) and hormones/PMS (51%). 25 have run 60+ days (median 35 days live) and 33 launched in the last 30 days; top proof is study (17%), top offer % off (16%).",
+"pending": false
+},
+{
+"brand": "Spacegoods",
+"slug": "spacegoods",
+"site": "spacegoods.com",
+"market": "UK",
+"tier": "wide",
+"cards": 53,
+"ads": 53,
+"live": 31,
+"proven": 21,
+"new30": 9,
+"medianDays": 24,
+"formats": {
+"video": 26,
+"image": 27
+},
+"benefits": {
+"sleep/stress": 52,
+"energy": 15,
+"gut": 8,
+"hormones/PMS": 8
+},
+"proof": {
+"UGC testimonial": 14,
+"before-after": 4,
+"study": 1
+},
+"offers": {
+"bundle": 53,
+"% off": 1,
+"free shipping": 1
+},
+"match": {
+"Zen": 44,
+"Balance": 9
+},
+"raw": 56,
+"english": 56,
+"scoped": 53,
+"kept": 53,
+"drops": {
+"no overlap": 3
+},
+"summary": "53 cards (31 live), mostly image (51%), led by sleep/stress (98%) and energy (28%). 21 have run 60+ days (median 24 days live) and 9 launched in the last 30 days; top proof is UGC testimonial (26%), top offer bundle (100%).",
+"pending": false
+},
+{
+"brand": "Sunna Supplements",
+"slug": "sunna-supplements",
+"site": "us.sunnasupplements.com",
+"market": "NA",
+"tier": "wide",
+"cards": 55,
+"ads": 60,
+"live": 28,
+"proven": 7,
+"new30": 21,
+"medianDays": 5,
+"formats": {
+"image": 34,
+"video": 21
+},
+"benefits": {
+"skin/hair": 55,
+"energy": 13
+},
+"proof": {
+"reviews": 55,
+"study": 20
+},
+"offers": {
+"gift": 55,
+"% off": 20
+},
+"match": {
+"Collagen": 55
+},
+"raw": 64,
+"english": 64,
+"scoped": 60,
+"kept": 60,
+"drops": {
+"advertorial": 4
+},
+"summary": "55 cards (28 live), mostly image (62%), led by skin/hair (100%) and energy (24%). 7 have run 60+ days (median 5 days live) and 21 launched in the last 30 days; top proof is reviews (100%), top offer gift (100%).",
+"pending": false
+},
+{
+"brand": "The Collagen Co.",
+"slug": "the-collagen-co",
+"site": "thecollagen.co",
+"market": "NA",
+"tier": "wide",
+"cards": 64,
+"ads": 67,
+"live": 63,
+"proven": 4,
+"new30": 58,
+"medianDays": 8,
+"formats": {
+"video": 29,
+"image": 35
+},
+"benefits": {
+"skin/hair": 64,
+"gut": 18,
+"performance": 7,
+"postnatal": 1
+},
+"proof": {
+"study": 32,
+"UGC testimonial": 11,
+"expert/GP": 7,
+"reviews": 6,
+"before-after": 3,
+"press": 2
+},
+"offers": {
+"% off": 32
+},
+"match": {
+"Collagen": 64
+},
+"raw": 100,
+"english": 100,
+"scoped": 67,
+"kept": 67,
+"drops": {
+"gut-only": 4,
+"weight-loss": 28,
+"no overlap": 1
+},
+"summary": "64 cards (63 live), mostly image (55%), led by skin/hair (100%) and gut (28%). 4 have run 60+ days (median 8 days live) and 58 launched in the last 30 days; top proof is study (50%), top offer % off (50%).",
+"pending": false
+},
+{
+"brand": "The Gut Co",
+"slug": "the-gut-co",
+"site": "thegutco.com.au",
+"market": "AU",
+"tier": "wide",
+"cards": 43,
+"ads": 44,
+"live": 19,
+"proven": 6,
+"new30": 16,
+"medianDays": 20,
+"formats": {
+"video": 35,
+"image": 8
+},
+"benefits": {
+"skin/hair": 38,
+"gut": 32,
+"energy": 10,
+"performance": 9,
+"sleep/stress": 8,
+"hormones/PMS": 1
+},
+"proof": {
+"study": 9,
+"founder": 7,
+"expert/GP": 5,
+"press": 1
+},
+"offers": {
+"bundle": 7,
+"% off": 1
+},
+"match": {
+"Collagen": 37,
+"Zen": 5,
+"Balance": 1
+},
+"raw": 70,
+"english": 70,
+"scoped": 44,
+"kept": 44,
+"drops": {
+"gut-only": 4,
+"weight-loss": 6,
+"no overlap": 15,
+"advertorial": 1
+},
+"summary": "43 cards (19 live), mostly video (81%), led by skin/hair (88%) and gut (74%). 6 have run 60+ days (median 20 days live) and 16 launched in the last 30 days; top proof is study (21%), top offer bundle (16%).",
+"pending": false
+},
+{
+"brand": "Thorne",
+"slug": "thorne",
+"site": "thorne.com",
+"market": "NA",
+"tier": null,
+"cards": 94,
+"ads": 100,
+"live": 57,
+"proven": 7,
+"new30": 33,
+"medianDays": 25,
+"formats": {
+"image": 77,
+"video": 14,
+"carousel": 3
+},
+"benefits": {
+"sleep/stress": 47,
+"performance": 33,
+"energy": 16,
+"skin/hair": 5,
+"hormones/PMS": 2,
+"fertility/pregnancy": 2,
+"menopause": 2,
+"gut": 1
+},
+"proof": {
+"study": 17,
+"UGC testimonial": 4,
+"expert/GP": 1
+},
+"offers": {
+"subscription": 7,
+"% off": 3
+},
+"match": {
+"Zen": 46,
+"Creatine": 28,
+"Balance": 11,
+"Collagen": 5,
+"PPN": 2,
+"Meno": 2
+},
+"raw": 500,
+"english": 500,
+"scoped": 191,
+"kept": 100,
+"drops": {
+"not in range": 32,
+"no overlap": 243,
+"weight-loss": 22,
+"men-only": 6,
+"gut-only": 6,
+"over cap": 91
+},
+"summary": "94 cards (57 live), mostly image (82%), led by sleep/stress (50%) and performance (35%). 7 have run 60+ days (median 25 days live) and 33 launched in the last 30 days; top proof is study (18%), top offer subscription (7%).",
+"pending": false
+},
+{
+"brand": "Vida Glow",
+"slug": "vida-glow",
+"site": "ausnz.vidaglow.com",
+"market": "UK",
+"tier": null,
+"cards": 98,
+"ads": 100,
+"live": 52,
+"proven": 29,
+"new30": 7,
+"medianDays": 50,
+"formats": {
+"image": 56,
+"video": 39,
+"carousel": 3
+},
+"benefits": {
+"skin/hair": 98,
+"energy": 20,
+"sleep/stress": 5,
+"gut": 2,
+"performance": 1
+},
+"proof": {
+"study": 20,
+"press": 7,
+"UGC testimonial": 5,
+"reviews": 4,
+"before-after": 2
+},
+"offers": {
+"% off": 8,
+"gift": 6,
+"bundle": 3,
+"subscription": 3
+},
+"match": {
+"Collagen": 98
+},
+"raw": 280,
+"english": 280,
+"scoped": 219,
+"kept": 100,
+"drops": {
+"weight-loss": 9,
+"no overlap": 52,
+"over cap": 119
+},
+"summary": "98 cards (52 live), mostly image (57%), led by skin/hair (100%) and energy (20%). 29 have run 60+ days (median 50 days live) and 7 launched in the last 30 days; top proof is study (20%), top offer % off (8%).",
+"pending": false
+},
+{
+"brand": "Vitabiotics",
+"slug": "vitabiotics",
+"site": "vitabiotics.com",
+"market": "UK",
+"tier": null,
+"cards": 67,
+"ads": 67,
+"live": 22,
+"proven": 5,
+"new30": 7,
+"medianDays": 8,
+"formats": {
+"image": 64,
+"video": 3
+},
+"benefits": {
+"sleep/stress": 55,
+"skin/hair": 5,
+"energy": 4,
+"menopause": 3,
+"performance": 2,
+"hormones/PMS": 1
+},
+"proof": {
+"UGC testimonial": 14,
+"before-after": 1
+},
+"offers": {
+"bundle": 60,
+"% off": 1
+},
+"match": {
+"Zen": 55,
+"Collagen": 5,
+"Balance": 4,
+"Meno": 3
+},
+"raw": 239,
+"english": 195,
+"scoped": 67,
+"kept": 67,
+"drops": {
+"no overlap": 94,
+"not English": 44,
+"men-only": 10,
+"not in range": 24
+},
+"summary": "67 cards (22 live), mostly image (96%), led by sleep/stress (82%) and skin/hair (7%). 5 have run 60+ days (median 8 days live) and 7 launched in the last 30 days; top proof is UGC testimonial (21%), top offer bundle (90%).",
+"pending": false
+},
+{
+"brand": "Wild Nutrition",
+"slug": "wild-nutrition",
+"site": "wildnutrition.com",
+"market": "UK",
+"tier": null,
+"cards": 98,
+"ads": 100,
+"live": 23,
+"proven": 4,
+"new30": 21,
+"medianDays": 26,
+"formats": {
+"video": 61,
+"image": 34,
+"carousel": 3
+},
+"benefits": {
+"sleep/stress": 68,
+"skin/hair": 52,
+"fertility/pregnancy": 43,
+"postnatal": 40,
+"energy": 31,
+"menopause": 8,
+"hormones/PMS": 8,
+"performance": 7
+},
+"proof": {
+"study": 30,
+"UGC testimonial": 20,
+"press": 17,
+"expert/GP": 6
+},
+"offers": {
+"% off": 60,
+"bundle": 3,
+"free shipping": 1,
+"subscription": 1
+},
+"match": {
+"Collagen": 48,
+"Zen": 22,
+"PPN": 9,
+"Meno": 7,
+"Creatine": 6,
+"Balance": 6
+},
+"raw": 716,
+"english": 716,
+"scoped": 468,
+"kept": 100,
+"drops": {
+"no overlap": 130,
+"weight-loss": 95,
+"advertorial": 16,
+"men-only": 1,
+"not in range": 5,
+"kids": 1,
+"over cap": 368
+},
+"summary": "98 cards (23 live), mostly video (62%), led by sleep/stress (69%) and skin/hair (53%). 4 have run 60+ days (median 26 days live) and 21 launched in the last 30 days; top proof is study (31%), top offer % off (61%).",
+"pending": false
+},
+{
+"brand": "Winks Sleep",
+"slug": "winks-sleep",
+"site": "getwinks.com",
+"market": "HH",
+"tier": "heavy",
+"cards": 12,
+"ads": 12,
+"live": 12,
+"proven": 0,
+"new30": 11,
+"medianDays": 30,
+"formats": {
+"video": 10,
+"image": 2
+},
+"benefits": {
+"sleep/stress": 12,
+"energy": 4,
+"hormones/PMS": 4
+},
+"proof": {
+"study": 12,
+"expert/GP": 2
+},
+"offers": {
+"% off": 9,
+"gift": 8,
+"free shipping": 1
+},
+"match": {
+"Zen": 12
+},
+"raw": 21,
+"english": 21,
+"scoped": 12,
+"kept": 12,
+"drops": {
+"no overlap": 1,
+"advertorial": 8
+},
+"summary": "12 cards (12 live), mostly video (83%), led by sleep/stress (100%) and energy (33%). 0 have run 60+ days (median 30 days live) and 11 launched in the last 30 days; top proof is study (100%), top offer % off (75%).",
+"pending": false
+},
+{
+"brand": "Womaness",
+"slug": "womaness",
+"site": "womaness.com",
+"market": "NA",
+"tier": null,
+"cards": 70,
+"ads": 77,
+"live": 5,
+"proven": 3,
+"new30": 2,
+"medianDays": 10,
+"formats": {
+"video": 40,
+"image": 30
+},
+"benefits": {
+"menopause": 55,
+"skin/hair": 47,
+"hormones/PMS": 23,
+"energy": 7,
+"sleep/stress": 7
+},
+"proof": {
+"study": 23,
+"expert/GP": 22,
+"UGC testimonial": 8,
+"before-after": 2
+},
+"offers": {
+"% off": 35,
+"subscription": 21,
+"bundle": 13,
+"free shipping": 4
+},
+"match": {
+"Collagen": 39,
+"Meno": 18,
+"Zen": 7,
+"Balance": 6
+},
+"raw": 107,
+"english": 107,
+"scoped": 77,
+"kept": 77,
+"drops": {
+"no overlap": 28,
+"advertorial": 1,
+"men-only": 1
+},
+"summary": "70 cards (5 live), mostly video (57%), led by menopause (79%) and skin/hair (67%). 3 have run 60+ days (median 10 days live) and 2 launched in the last 30 days; top proof is study (33%), top offer % off (50%).",
+"pending": false
+},
+{
+"brand": "Women's Wellness By Inno",
+"slug": "women-s-wellness-by-inno",
+"site": "innosupps.com",
+"market": "NA",
+"tier": "wide",
+"cards": 48,
+"ads": 52,
+"live": 7,
+"proven": 0,
+"new30": 7,
+"medianDays": 13,
+"formats": {
+"image": 31,
+"video": 17
+},
+"benefits": {
+"sleep/stress": 48,
+"hormones/PMS": 44,
+"energy": 39,
+"gut": 12,
+"performance": 2,
+"menopause": 1
+},
+"proof": {
+"study": 41,
+"expert/GP": 19,
+"reviews": 10,
+"founder": 5,
+"UGC testimonial": 2
+},
+"offers": {
+"% off": 38,
+"bundle": 18
+},
+"match": {
+"Balance": 43,
+"Zen": 5
+},
+"raw": 82,
+"english": 82,
+"scoped": 52,
+"kept": 52,
+"drops": {
+"weight-loss": 30
+},
+"summary": "48 cards (7 live), mostly image (65%), led by sleep/stress (100%) and hormones/PMS (92%). 0 have run 60+ days (median 13 days live) and 7 launched in the last 30 days; top proof is study (85%), top offer % off (79%).",
+"pending": false
+},
+{
+"brand": "Womenli",
+"slug": "womenli",
+"site": "trywomenli.com",
+"market": "NA",
+"tier": "wide",
+"cards": 4,
+"ads": 4,
+"live": 4,
+"proven": 0,
+"new30": 4,
+"medianDays": 19,
+"formats": {
+"image": 1,
+"video": 3
+},
+"benefits": {
+"gut": 4,
+"hormones/PMS": 4,
+"sleep/stress": 3,
+"energy": 1,
+"performance": 1
+},
+"proof": {
+"UGC testimonial": 1,
+"expert/GP": 1
+},
+"offers": {},
+"match": {
+"Balance": 4
+},
+"raw": 54,
+"english": 54,
+"scoped": 4,
+"kept": 4,
+"drops": {
+"no overlap": 50
+},
+"summary": "4 cards (4 live), mostly video (75%), led by gut (100%) and hormones/PMS (100%). 0 have run 60+ days (median 19 days live) and 4 launched in the last 30 days; top proof is UGC testimonial (25%), with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Your Heights",
+"slug": "your-heights",
+"site": "heights.com",
+"market": "UK",
+"tier": "wide",
+"cards": 79,
+"ads": 79,
+"live": 70,
+"proven": 5,
+"new30": 67,
+"medianDays": 8,
+"formats": {
+"video": 49,
+"image": 30
+},
+"benefits": {
+"energy": 78,
+"sleep/stress": 54,
+"performance": 28
+},
+"proof": {
+"study": 73,
+"expert/GP": 60,
+"UGC testimonial": 15,
+"reviews": 2,
+"before-after": 2,
+"press": 1
+},
+"offers": {
+"gift": 2,
+"bundle": 1,
+"subscription": 1
+},
+"match": {
+"Balance": 61,
+"Zen": 18
+},
+"raw": 100,
+"english": 100,
+"scoped": 79,
+"kept": 79,
+"drops": {
+"no overlap": 17,
+"weight-loss": 4
+},
+"summary": "79 cards (70 live), mostly video (62%), led by energy (99%) and sleep/stress (68%). 5 have run 60+ days (median 8 days live) and 67 launched in the last 30 days; top proof is study (92%), top offer gift (3%).",
 "pending": false
 },
 {
 "brand": "Gigi Supplements",
 "slug": "gigi-supplements",
+"market": "IE",
 "cards": 0,
 "pending": true,
 "summary": "Not in Motion. Coming from Meta Ad Library in a later run."
@@ -329,6 +3745,7 @@
 {
 "brand": "Cleanmarine",
 "slug": "cleanmarine",
+"market": "IE",
 "cards": 0,
 "pending": true,
 "summary": "Not in Motion. Coming from Meta Ad Library in a later run."
@@ -336,6 +3753,7 @@
 {
 "brand": "Sentro Labs",
 "slug": "sentro-labs",
+"market": "IE",
 "cards": 0,
 "pending": true,
 "summary": "Not in Motion. Coming from Meta Ad Library in a later run."
@@ -343,6 +3761,7 @@
 {
 "brand": "Mountaindrop",
 "slug": "mountaindrop",
+"market": "IE",
 "cards": 0,
 "pending": true,
 "summary": "Not in Motion. Coming from Meta Ad Library in a later run."
@@ -350,6 +3769,7 @@
 {
 "brand": "Grova",
 "slug": "grova",
+"market": "IE",
 "cards": 0,
 "pending": true,
 "summary": "Not in Motion. Coming from Meta Ad Library in a later run."
@@ -357,6 +3777,7 @@
 {
 "brand": "Byontale",
 "slug": "byontale",
+"market": "IE",
 "cards": 0,
 "pending": true,
 "summary": "Not in Motion. Coming from Meta Ad Library in a later run."

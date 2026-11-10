@@ -42,12 +42,29 @@ def jl(p, d=None):
 
 
 # ---------------------------------------------------------------- load
+# Markets: IE (Ireland), UK, NA (North America), AU (Australia / NZ), HH (Heavy hitters: global brands, kept out of market
+# stats by default). motion_wide.json rows carry row[11] = "wide" | "heavy" (tier), not an extra dict.
+WIDE_MKT = {"Oriel Magnesium": "IE", "Revive Collagen": "UK", "Gold Collagen": "UK", "Free Soul": "UK", "Spacegoods": "UK",
+            "Your Heights": "UK", "Metagenics ANZ": "AU", "The Gut Co": "AU", "Naternal": "AU"}
+HEAVY = {"IM8", "Grüns", "Winks Sleep", "AG1", "Cymbiotika", "Seed", "Bloom Nutrition"}
+MARKETS = {"IE": "Ireland", "UK": "UK", "NA": "North America", "AU": "Australia", "HH": "Heavy hitters"}
 raw = []
-for f, mkt in (("raw/motion_ie.json", "IE"), ("raw/adlib_ie.json", "IE"), ("raw/herology_ads.json", "IE")):
+for f, mkt in (("raw/motion_ie.json", "IE"), ("raw/adlib_ie.json", "IE"), ("raw/herology_ads.json", "IE"),
+               ("raw/motion_uk.json", "UK"), ("raw/motion_na.json", "NA"), ("raw/motion_wide.json", None)):
     rows = jl(f, [])
     for r in rows:
         r = list(r) + [None] * (12 - len(r))
-        raw.append((r, mkt, f.split("/")[-1].split("_")[0]))
+        tier = None
+        if f.endswith("motion_wide.json"):
+            tier = r[11] if isinstance(r[11], str) else "wide"
+            r[11] = None
+            if tier == "heavy" or r[1] in HEAVY:
+                tier, m = "heavy", "HH"
+            else:
+                m = WIDE_MKT.get(r[1], "NA")
+        else:
+            m = mkt
+        raw.append((r, m, f.split("/")[-1].split("_")[0] + ("_" + m.lower() if f.endswith("motion_wide.json") else ""), tier))
 hooks = jl("hooks.json", {})
 done = jl("media_done.json", {})
 msrc = jl("media_src.json", {})
@@ -172,6 +189,10 @@ KIDS = rx(r"for (?:your |the )?kids", r"kids'? ?(?:gummies|vitamins|magnesium|sl
 MENONLY = rx(r"andropause", r"for men\b", r"men'?s health", r"testosterone")
 
 
+# advertorial / listicle landers (no advertorials, as in the Ireland build)
+ADVERTORIAL = re.compile(r"advertorial|listicle|/articles?/|/blogs?/|\d+-reasons|reasons-why|-reasons\b|thequalityedit|/apps/jurni/", re.I)
+
+
 def slug_of(link):
     s = re.sub(r"^https?://", "", (link or "").lower()).split("?")[0].rstrip("/")
     parts = s.split("/")
@@ -185,6 +206,8 @@ def classify_scope(brand, text, links, extra):
         m = {"Brand (Overall)": None, "Quiz": None}.get(p, p) or None
         return True, "herology", m
     slugs = [slug_of(l) for l in links if l]
+    if any(ADVERTORIAL.search(l or "") for l in links):
+        return False, "advertorial", None
     for reason, pat in DROP_SLUG:
         if any(re.search(pat, s) for s in slugs):
             # andropause etc. never kept; the rest kept only if the slug ALSO matches a keep pattern
@@ -259,7 +282,7 @@ log = collections.defaultdict(lambda: collections.Counter())
 drops = collections.defaultdict(lambda: collections.Counter())
 ads = []
 doubt = []
-for r, mkt, origin in raw:
+for r, mkt, origin, tier in raw:
     (aid, brand, status, s_ms, e_ms, dfmt, saves, vfs, plats, alib, srcs, extra) = r[:12]
     srcs = srcs or []
     log[brand]["raw"] += 1
@@ -339,7 +362,7 @@ for r, mkt, origin in raw:
     asp = aspect_bucket(s0[5] if len(s0) > 5 else None, w, h) or ("9:16" if fmt == "video" else ("1:1" if fmt == "carousel" else "4:5"))
     if brand == "Herology" and not (w and h):
         asp = "9:16" if fmt == "video" else "4:5"
-    ads.append(dict(id=aid, brand=brand, market=mkt, origin=origin, status="active" if live else "ended", fmt=fmt, aspect=asp,
+    ads.append(dict(id=aid, brand=brand, market=mkt, origin=origin, tier=tier, status="active" if live else "ended", fmt=fmt, aspect=asp,
                     start=start.isoformat() if start else None, end=end.isoformat() if end else None, days=days,
                     saves=saves or 0, vf=vf, plats=[p for p in (plats or "").split("|") if p], alib=alib or "",
                     text=text, title=title, cta=(s0[6] if len(s0) > 6 else "") or "", link=(s0[7] if len(s0) > 7 else "") or "",
@@ -362,7 +385,53 @@ for a in ads:
     a["proven"] = min(a["days"], 90) + variants + par
     a["is_proven"] = a["days"] >= 60
 
-# variant_group: brand + normalised headline and copy + landing URL without query, chained by start dates within 7 days
+# ---------------------------------------------------------------- cap per brand (Ryan, 10 Nov: "I dont necessarily need all ads
+# from all brands"). Herology keeps all. Other brands keep at most 100 kept ads: up to 34 longest-running, 33 newest, 33 most
+# saved (de-duplicated), then filled from the remaining in that order. Heavy tier keeps at most 30. Applied after language + scope.
+CAP, CAP_HEAVY = 100, 30
+by_brand = collections.defaultdict(list)
+for a in ads:
+    by_brand[a["brand"]].append(a)
+capped = []
+for b, lst in by_brand.items():
+    lim = None if b == "Herology" else (CAP_HEAVY if any(a["tier"] == "heavy" for a in lst) else CAP)
+    log[b]["scoped"] = len(lst)
+    if lim is None or len(lst) <= lim:
+        capped += lst
+        continue
+    L_ = sorted(lst, key=lambda a: (-a["days"], a["id"]))
+    N_ = sorted(lst, key=lambda a: (a["start"] or "", a["id"]), reverse=True)
+    S_ = sorted(lst, key=lambda a: (-(a["saves"] or 0), -a["days"], a["id"]))
+    q = round(lim * 34 / 100)
+    q2 = (lim - q) // 2
+    sel, seen_ = [], set()
+    for src_, k in ((L_, q), (N_, q2), (S_, lim - q - q2)):
+        for a in src_[:k]:
+            if a["id"] not in seen_:
+                seen_.add(a["id"]); sel.append(a)
+    its = [iter(L_), iter(N_), iter(S_)]
+    while len(sel) < lim:
+        moved = False
+        for it in its:
+            for a in it:
+                if a["id"] not in seen_:
+                    seen_.add(a["id"]); sel.append(a); moved = True
+                    break
+            if len(sel) >= lim:
+                break
+        if not moved:
+            break
+    drops[b]["over cap"] += len(lst) - len(sel)
+    capped += sel
+for b in by_brand:
+    log[b]["kept"] = sum(1 for a in capped if a["brand"] == b)
+ads = capped
+
+# copy group (the old variant_group): brand + normalised headline and copy + landing URL without query, chained by start
+# dates within 7 days. Card fix (Ryan, 10 Nov: "folding quite a lot of ads into cards. Not all of which match exactly as
+# variants"): a card is ONE creative. Within each copy group, members (by start date) go into the first card with the same
+# display format, no ad of the same aspect bucket yet, and a start date within 3 days of the card's first ad; otherwise a new
+# card. Same rule as JD (jd-ad-briefing-room migrations/20261110_cd_variant_regroup.sql). conceptCount = cards per copy group.
 vg_key = collections.defaultdict(list)
 for a in ads:
     t = norm(a["title"] + " " + a["text"])
@@ -371,9 +440,9 @@ for a in ads:
         vg_key[("solo", a["id"])].append(a)
     else:
         vg_key[(a["brand"], hashlib.md5((t + "|" + land).encode()).hexdigest()[:12])].append(a)
-cards = []
+copy_groups = []
 for k, grp in vg_key.items():
-    grp.sort(key=lambda a: a["start"] or "")
+    grp.sort(key=lambda a: (a["start"] or "", a["id"]))
     chains, cur, last = [], [], None
     for a in grp:
         sd = datetime.date.fromisoformat(a["start"]) if a["start"] else None
@@ -383,8 +452,28 @@ for k, grp in vg_key.items():
         cur.append(a)
         last = sd or last
     chains.append(cur)
-    for ch in chains:
-        cards.append(ch)
+    copy_groups += chains
+cards = []
+old_cards = len(copy_groups)
+for gi, grp in enumerate(copy_groups):
+    gid = f"cg{gi}"
+    mine = []
+    for a in grp:
+        sd = datetime.date.fromisoformat(a["start"]) if a["start"] else None
+        for card in mine:
+            f0 = card[0]
+            s0_ = datetime.date.fromisoformat(f0["start"]) if f0["start"] else None
+            if f0["fmt"] == a["fmt"] and all(m["aspect"] != a["aspect"] for m in card) and \
+                    ((sd is None and s0_ is None) or (sd and s0_ and abs((sd - s0_).days) <= 3)):
+                card.append(a)
+                break
+        else:
+            mine.append([a])
+    for card in mine:
+        for a in card:
+            a["copy_group"] = gid
+            a["concept_n"] = len(mine)
+    cards += mine
 
 
 def media_url(a, key, fallback):
@@ -457,7 +546,8 @@ def template_of(h):
 # ---------------------------------------------------------------- write cards
 FIELDS = ["id", "brand", "market", "status", "fmt", "aspect", "start", "end", "days", "proven", "isProven", "saves",
           "vf", "benefit", "ingredient", "proof", "offer", "match", "title", "text", "cta", "link", "alib",
-          "poster", "video", "imgs", "hook", "onscreen", "hookKind", "hookFormat", "hookTpl", "formats", "n", "concept", "spend", "adName"]
+          "poster", "video", "imgs", "hook", "onscreen", "hookKind", "hookFormat", "hookTpl", "formats", "n", "concept", "spend", "adName",
+          "conceptCount", "tier"]
 out = []
 for ch in cards:
     lead = max(ch, key=lambda a: (a["proven"], a["start"] or ""))
@@ -476,10 +566,11 @@ for ch in cards:
                 lead["title"], lead["text"][:1500], lead["cta"], lead["link"].split("?")[0], lead["alib"],
                 lead.get("poster_u"), lead.get("video_u"), lead.get("imgs_u") or [],
                 hk.get("h"), hk.get("o"), hk.get("k"), hk.get("f"), template_of(hk.get("h")) if hk.get("k") in ("text", "image_text") else None,
-                formats if len(ch) > 1 else [], len(ch), lead["concept"], round(sum(a["extra"].get("spend", 0) or 0 for a in ch), 2) or None,
-                lead["extra"].get("ad_name")])
+                formats if len(ch) > 1 else [], len(ch), lead["copy_group"], round(sum(a["extra"].get("spend", 0) or 0 for a in ch), 2) or None,
+                lead["extra"].get("ad_name"), lead["concept_n"], lead["tier"]])
 # ---------------------------------------------------------------- gaps (Herology vs market)
-def compute_gaps(out):
+def compute_gaps(out, mkt=None):
+    """Herology vs one market (mkt = market code) or vs all markets except Heavy hitters (mkt None)."""
     Fi = {f: i for i, f in enumerate(FIELDS)}
     def vals(c, k):
         v = c[Fi[k]]
@@ -487,7 +578,7 @@ def compute_gaps(out):
             return [v or "none"]
         return v if isinstance(v, list) else ([] if v is None else [v])
     hg = [c for c in out if c[1] == "Herology"]
-    mk = [c for c in out if c[1] != "Herology"]
+    mk = [c for c in out if c[1] != "Herology" and ((c[Fi["market"]] == mkt) if mkt else c[Fi["market"]] != "HH")]
     if not hg or not mk:
         return []
     t30 = (TODAY - datetime.timedelta(days=30)).isoformat()
@@ -573,10 +664,11 @@ def compute_gaps(out):
 
 # hooks on non-lead members (viewer shows the member's own hook)
 GAPS = compute_gaps(out)
+GAPS_BY = {m: compute_gaps(out, m) for m in MARKETS if any(c[1] != "Herology" and c[2] == m for c in out)}
 member_hooks = {a["id"]: hooks[a["id"]] for ch in cards for a in ch if a["id"] in hooks and len(ch) > 1}
 out.sort(key=lambda c: (c[6] or ""), reverse=True)
 json.dump({"v": 1, "built": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "today": TODAY.isoformat(),
-           "fields": FIELDS, "cards": out, "memberHooks": member_hooks, "gaps": GAPS,
+           "fields": FIELDS, "cards": out, "memberHooks": member_hooks, "gaps": GAPS, "gapsByMarket": GAPS_BY, "markets": MARKETS,
            "pending": ["Gigi Supplements", "Cleanmarine", "Sentro Labs", "Mountaindrop", "Grova", "Byontale"]},
           open(os.path.join(D, "ads.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
@@ -616,15 +708,19 @@ for b in sorted(set(c[1] for c in out)):
     else:
         s2 += ", with no offer in most ads"
     s2 += "."
-    brands.append({"brand": b, "slug": brand_slug(b), "site": SITES.get(b, ""), "cards": n, "ads": sum(c[F["n"]] for c in cs),
+    if b not in SITES:
+        dom = collections.Counter(re.sub(r"^(www|get|try|shop|quiz)\.", "", re.sub(r"^https?://", "", c[F["link"]] or "").split("/")[0].lower()) for c in cs if c[F["link"]])
+        SITES[b] = dom.most_common(1)[0][0] if dom else ""
+    bm = collections.Counter(c[F["market"]] for c in cs).most_common(1)[0][0]
+    brands.append({"brand": b, "slug": brand_slug(b), "site": SITES.get(b, ""), "market": bm, "tier": cs[0][F["tier"]], "cards": n, "ads": sum(c[F["n"]] for c in cs),
                    "live": live, "proven": prov, "new30": new30, "medianDays": med_days,
                    "formats": dict(fm), "benefits": dict(ben.most_common()), "proof": dict(prf.most_common()),
                    "offers": dict(off.most_common()), "match": dict(mt.most_common()),
-                   "raw": log[b]["raw"], "english": log[b]["english"], "kept": log[b]["kept"], "drops": dict(drops[b]),
+                   "raw": log[b]["raw"], "english": log[b]["english"], "scoped": log[b]["scoped"], "kept": log[b]["kept"], "drops": dict(drops[b]),
                    "summary": s1 + s2, "pending": False})
 for p in ["Gigi Supplements", "Cleanmarine", "Sentro Labs", "Mountaindrop", "Grova", "Byontale"]:
     if p not in [x["brand"] for x in brands]:
-        brands.append({"brand": p, "slug": brand_slug(p), "cards": 0, "pending": True,
+        brands.append({"brand": p, "slug": brand_slug(p), "market": "IE", "cards": 0, "pending": True,
                        "summary": "Not in Motion. Coming from Meta Ad Library in a later run."})
 json.dump(brands, open(os.path.join(D, "brands.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
 
@@ -639,14 +735,23 @@ for j in jobs:
 json.dump(jobs_u, open(os.path.join(D, "media_jobs.json"), "w"), indent=0)
 hook_jobs.sort(key=lambda j: (j["brand"] != "Herology", -j["proven"]))
 json.dump(hook_jobs, open(os.path.join(D, "hook_jobs.json"), "w"), indent=0)
-bl = {b: {"raw": log[b]["raw"], "english": log[b]["english"], "kept": log[b]["kept"], "drops": dict(drops[b])} for b in log}
-json.dump({"brands": bl, "cards": len(out), "ads": len(ads), "media_jobs": len(jobs_u), "video_ads": len(hook_jobs),
+bl = {b: {"raw": log[b]["raw"], "english": log[b]["english"], "scoped": log[b]["scoped"], "kept": log[b]["kept"], "drops": dict(drops[b]),
+          "market": next((a["market"] for a in ads if a["brand"] == b), next((m for r, m, o, t in raw if r[1] == b), None))} for b in log}
+multi = [c for c in out if c[F["n"]] > 1]
+CARDLOG = {"copy_groups_before": old_cards, "cards_after": len(out), "multi_size_cards": len(multi),
+           "repeated_size_cards": sum(1 for c in multi if len({m["aspect"] for m in c[F["formats"]]}) < len(c[F["formats"]])),
+           "largest_card": max(c[F["n"]] for c in out), "same_copy_cards": sum(1 for c in out if c[F["conceptCount"]] > 1)}
+MKTLOG = {m: {"brands": len({c[1] for c in out if c[2] == m and c[1] != "Herology"}), "ads": sum(c[F["n"]] for c in out if c[2] == m and c[1] != "Herology"),
+              "cards": sum(1 for c in out if c[2] == m and c[1] != "Herology")} for m in MARKETS}
+json.dump({"brands": bl, "markets": MKTLOG, "card_fix": CARDLOG, "cards": len(out), "ads": len(ads), "media_jobs": len(jobs_u), "video_ads": len(hook_jobs),
            "hooks_read": sum(1 for c in out if c[F["hookKind"]]), "media_done": len(done)},
           open(os.path.join(D, "build_log.json"), "w"), indent=1)
 for b, v in bl.items():
-    print(f"{b:20s} raw {v['raw']:5d}  English {v['english']:5d}  kept {v['kept']:5d}  drops {v['drops']}")
+    print(f"{str(v['market']):3s} {b:26s} raw {v['raw']:5d}  English {v['english']:5d}  scoped {v['scoped']:5d}  kept {v['kept']:4d}  drops {v['drops']}")
 for i, g in enumerate(GAPS[:8], 1):
     print(f"gap {i}: {g['title']} [{g['dim']}] H {g['herology']}% M {g['market']}% P {g['proven']}% score {g['score']}")
+print("markets", MKTLOG)
+print("card fix", CARDLOG)
 print(f"cards {len(out)}  ads {len(ads)}  media jobs {len(jobs_u)}  video ads {len(hook_jobs)}  hooks on cards {sum(1 for c in out if c[F['hookKind']])}  media done {len(done)}")
 if SHOW_DOUBTFUL:
     json.dump(doubt, open("/tmp/cd_doubt.json", "w"), ensure_ascii=False, indent=0)
