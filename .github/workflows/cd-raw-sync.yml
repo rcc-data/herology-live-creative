@@ -1,6 +1,6 @@
 name: Creative Discovery raw sync (Herology)
 # Copies the raw Motion pull from the transit table herology_cd_staging (public ad data)
-# into discovery/data/raw/<file>.json. Needs repo secret SUPABASE_ANON_KEY (added by Ryan).
+# into discovery/data/raw/<file>.json. Needs repo secret SUPABASE_ANON_KEY = the project's PUBLISHABLE key (sb_publishable_..., read-only; never the secret key).
 on:
   workflow_dispatch:
     inputs:
@@ -28,7 +28,7 @@ jobs:
           rows, off = [], 0
           while True:
               req = urllib.request.Request(os.environ["SB"] + f"herology_cd_staging?select=payload&order=id&limit=1000&offset={off}",
-                  headers={"apikey": os.environ["K"], "Authorization": "Bearer " + os.environ["K"]})
+                  headers={"apikey": os.environ["K"]})
               page = json.load(urllib.request.urlopen(req, timeout=60))
               rows += [r["payload"] for r in page]
               if len(page) < 1000: break
