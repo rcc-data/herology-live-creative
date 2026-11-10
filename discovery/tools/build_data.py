@@ -156,10 +156,10 @@ DROP_SLUG = [
     ("weight-loss", r"slim|weight-loss|lose-weight|belly|puffy|smooth-body|tone-sculpt|cellulite|glp|fat-burn|ultimate-slim"),
     ("men-only", r"andropause|male-andropause|mens-digestive|for-men|gut-power-for-men|bloating-relief-for-men|shilajit"),
     ("gut-only", r"de-blo|bloat|digestive|gut-|belly-reset|complete-gut"),
-    ("not in range", r"joint|cholesterol|heart|tan-glow|turn-me-on|her-v-confidence|electrolyte|omega|iron-gummies|biotin|lion-mane|focus-concentration|kids-focus|calcium"),
+    ("not in range", r"joint|cholesterol|heart|tan-glow|turn-me-on|her-v-confidence|womens-bio-balance|electrolyte|omega|iron-gummies|biotin|lion-mane|focus-concentration|kids-focus|calcium"),
 ]
 KEEP_SLUG = [  # slug pattern -> Herology match
-    (r"womens-bio-balance|complete-women|womens-multivitamin|womens-health|saffron", "Balance"),
+    (r"complete-women|womens-multivitamin|womens-health|saffron", "Balance"),
     (r"fertility", "PPN"), (r"her-moisture|meno|menopause", "Meno"),
     (r"magnesium|sleep|calm|theanine|relax|cortisol", "Zen"),
     (r"collagen|skin-glow|facial-glow", "Collagen"), (r"creatine", "Creatine"),

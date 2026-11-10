@@ -16,12 +16,12 @@
   "Novomins Nutrition": {
    "raw": 771,
    "english": 673,
-   "kept": 278,
+   "kept": 148,
    "drops": {
     "kids": 173,
-    "not in range": 113,
+    "not in range": 244,
     "no overlap": 22,
-    "weight-loss": 15,
+    "weight-loss": 14,
     "gut-only": 68,
     "not English": 98,
     "men-only": 4
@@ -64,10 +64,10 @@
    }
   }
  },
- "cards": 674,
- "ads": 1481,
- "media_jobs": 2539,
- "video_ads": 749,
- "hooks_read": 0,
+ "cards": 606,
+ "ads": 1351,
+ "media_jobs": 2291,
+ "video_ads": 662,
+ "hooks_read": 328,
  "media_done": 2536
 }

@@ -169,43 +169,42 @@
 "brand": "Novomins Nutrition",
 "slug": "novomins-nutrition",
 "site": "novomins.com",
-"cards": 144,
-"ads": 278,
-"live": 63,
-"proven": 9,
-"new30": 48,
-"medianDays": 14,
+"cards": 76,
+"ads": 148,
+"live": 32,
+"proven": 3,
+"new30": 24,
+"medianDays": 15,
 "formats": {
-"video": 91,
-"image": 52,
+"image": 35,
+"video": 40,
 "carousel": 1
 },
 "benefits": {
-"hormones/PMS": 74,
 "sleep/stress": 29,
 "energy": 15,
 "skin/hair": 14,
+"hormones/PMS": 13,
 "performance": 12,
-"gut": 11,
 "menopause": 10,
-"fertility/pregnancy": 5
+"fertility/pregnancy": 5,
+"gut": 3
 },
 "proof": {
-"UGC testimonial": 52,
-"expert/GP": 16,
-"before-after": 9,
+"UGC testimonial": 19,
 "study": 8,
-"reviews": 6
+"before-after": 6,
+"expert/GP": 4
 },
 "offers": {
 "% off": 13,
 "bundle": 13,
-"free shipping": 7,
-"subscription": 2
+"subscription": 2,
+"free shipping": 1
 },
 "match": {
-"Balance": 86,
 "Zen": 31,
+"Balance": 18,
 "Collagen": 11,
 "Meno": 8,
 "Creatine": 4,
@@ -213,17 +212,17 @@
 },
 "raw": 771,
 "english": 673,
-"kept": 278,
+"kept": 148,
 "drops": {
 "kids": 173,
-"not in range": 113,
+"not in range": 244,
 "no overlap": 22,
-"weight-loss": 15,
+"weight-loss": 14,
 "gut-only": 68,
 "not English": 98,
 "men-only": 4
 },
-"summary": "144 cards (63 live), mostly video (63%), led by hormones/PMS (51%) and sleep/stress (20%). 9 have run 60+ days (median 14 days live) and 48 launched in the last 30 days; top proof is UGC testimonial (36%), top offer % off (9%).",
+"summary": "76 cards (32 live), mostly video (53%), led by sleep/stress (38%) and energy (20%). 3 have run 60+ days (median 15 days live) and 24 launched in the last 30 days; top proof is UGC testimonial (25%), top offer % off (17%).",
 "pending": false
 },
 {

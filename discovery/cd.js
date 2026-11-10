@@ -424,7 +424,7 @@
     const fmts = HOOKF.map(f => [f, fc[f] || 0]).filter(r => r[1]);
     const tpl = {};
     pool.forEach(c => { if (c.hookTpl) (tpl[c.hookTpl] = tpl[c.hookTpl] || []).push(c); });
-    const tpls = Object.entries(tpl).filter(([, v]) => v.length >= 2).sort((a, b) => b[1].length - a[1].length).slice(0, 25);
+    const tpls = Object.entries(tpl).filter(([k, v]) => k.length <= 70 && new Set(v.map(c => norm(c.hook))).size >= 2).sort((a, b) => b[1].length - a[1].length).slice(0, 25);
     const t = norm(S.hk.q).split(/\s+/).filter(Boolean);
     const lib = pool.filter(c => c.hook && (!S.hk.fmt || c.hookFormat === S.hk.fmt) && t.every(x => norm(c.hook + ' ' + c.brand).includes(x))).sort((a, b) => b.proven - a.proven);
     LISTS.hooks = lib;
@@ -432,7 +432,7 @@
     m.innerHTML = `<div class="cd-h"><div><h2>Hooks</h2><p>On-screen text in the first 3 seconds, read from video frames (not the Meta headline). ${fmtN(read.length)} of ${fmtN(vids.length)} video cards read (${fmtN(nHg)} Herology).</p></div>
       <div class="cd-seg" role="group" aria-label="Whose hooks">${[['all', 'All'], ['market', 'Market'], ['hg', 'Herology']].map(([k, l]) => `<button data-who="${k}" class="${who === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>
       <div class="cd-panels"><section class="cd-panel"><h3>Hook formats</h3><div class="sub">Cards per format${S.hk.fmt ? ` · filtering the library by ${esc(S.hk.fmt)} (click again to clear)` : ' · click a bar to filter the library'}</div>${hbars(fmts, { click: 'hf' })}</section>
-      <section class="cd-panel"><h3>Templates</h3><div class="sub">Patterns used on 2+ ads ([PRODUCT], [N], [AGE] are placeholders)</div>${tpls.length ? tpls.map(([k, v]) => `<div class="cd-tpl"><code>${esc(k)}</code><span style="color:var(--ink-muted)">${v.length} ads · ${esc([...new Set(v.map(c => c.brand))].join(', '))}</span></div>`).join('') : '<p class="sub">No shared templates yet.</p>'}</section></div>
+      <section class="cd-panel"><h3>Templates</h3><div class="sub">Patterns shared by 2+ different hooks ([PRODUCT], [N], [AGE] are placeholders)</div>${tpls.length ? tpls.map(([k, v]) => `<div class="cd-tpl"><code>${esc(k)}</code><span style="color:var(--ink-muted)">${v.length} ads · ${esc([...new Set(v.map(c => c.brand))].join(', '))}</span></div>`).join('') : '<p class="sub">No shared templates yet.</p>'}</section></div>
       <div class="cd-bar" style="margin-top:20px"><label class="cd-search">${ICON.search}<input id="cd-hq" type="search" placeholder="Search hooks" value="${esc(S.hk.q)}" aria-label="Search hooks"></label><span class="cd-count">${fmtN(lib.length)} hooks</span></div>
       <div class="cd-panel" style="padding:4px 8px" data-list="hooks">${lib.slice(0, 300).map(c => `<div class="cd-hrow" data-open="${esc(c.id)}"><div class="th">${poster(c) ? `<img data-src="${esc(poster(c))}" alt="">` : ''}</div><div><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="${c.hg ? 'hg' : ''}">${esc(c.brand)}</span> · ${esc(c.hookFormat || 'unclassified')} · ${fmtN(c.days)} days · Proven score ${fmtN(c.proven)}${c.match && c.match !== 'none' ? ' · ' + esc(c.match) : ''}</div></div></div>`).join('') || '<div class="cd-empty">No hooks match.</div>'}${lib.length > 300 ? `<div class="cd-more">Top 300 by Proven score shown; search to narrow.</div>` : ''}</div>`;
     watchImgs(m);
