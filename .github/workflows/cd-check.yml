@@ -1,0 +1,32 @@
+name: Creative Discovery page check (Herology)
+# Headless Chromium at 1440 and 390 against the live page (discovery/tools/check.js).
+# Screenshots and results.json are pushed to data branch cd-check/run-<run id>.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Page URL"
+        required: false
+        default: "https://rcc-data.github.io/herology-live-creative/discovery/"
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright
+        run: |
+          mkdir -p /tmp/pw && cd /tmp/pw && npm init -y >/dev/null && npm i -s playwright@1.48.2 && npx playwright install --with-deps chromium >/dev/null
+      - name: Run check
+        run: |
+          mkdir -p out
+          NODE_PATH=/tmp/pw/node_modules node discovery/tools/check.js "${{ inputs.url }}" "$PWD/out" | tee out/log.txt
+      - name: Push results
+        if: always()
+        run: |
+          B="cd-check/run-${{ github.run_id }}"
+          cd out && git init -q -b "$B" && git add -A \
+            && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Check $B" \
+            && git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$B:$B"
