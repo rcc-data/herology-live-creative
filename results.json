@@ -1,0 +1,152 @@
+[
+ [
+  "PASS",
+  "1440 cards render",
+  48
+ ],
+ [
+  "PASS",
+  "1440 card media loaded",
+  "13 images"
+ ],
+ [
+  "PASS",
+  "1440 lazy batch",
+  "48 -> 96"
+ ],
+ [
+  "PASS",
+  "1440 filter changes count",
+  "674 of 674 cards -> 71 of 674 cards"
+ ],
+ [
+  "PASS",
+  "1440 search",
+  "2 of 674 cards for \"hot flush\""
+ ],
+ [
+  "PASS",
+  "1440 viewer from #ad link",
+  "6af0eabd246fdd0f41628f6a"
+ ],
+ [
+  "PASS",
+  "1440 viewer closes",
+  ""
+ ],
+ [
+  "PASS",
+  "1440 brands renders",
+  ""
+ ],
+ [
+  "PASS",
+  "1440 brands/happy-mammoth renders",
+  ""
+ ],
+ [
+  "PASS",
+  "1440 hooks renders",
+  ""
+ ],
+ [
+  "PASS",
+  "1440 gaps renders",
+  ""
+ ],
+ [
+  "PASS",
+  "1440 gap list",
+  15
+ ],
+ [
+  "PASS",
+  "1440 no horizontal scroll",
+  ""
+ ],
+ [
+  "PASS",
+  "1440 no NaN/undefined anywhere",
+  ""
+ ],
+ [
+  "PASS",
+  "1440 no JS errors",
+  ""
+ ],
+ [
+  "PASS",
+  "390 cards render",
+  48
+ ],
+ [
+  "PASS",
+  "390 card media loaded",
+  "4 images"
+ ],
+ [
+  "PASS",
+  "390 lazy batch",
+  "48 -> 96"
+ ],
+ [
+  "PASS",
+  "390 filter changes count",
+  "674 of 674 cards -> 71 of 674 cards"
+ ],
+ [
+  "PASS",
+  "390 search",
+  "2 of 674 cards for \"hot flush\""
+ ],
+ [
+  "PASS",
+  "390 viewer from #ad link",
+  "6af0eabd246fdd0f41628f6a"
+ ],
+ [
+  "PASS",
+  "390 viewer closes",
+  ""
+ ],
+ [
+  "PASS",
+  "390 brands renders",
+  ""
+ ],
+ [
+  "PASS",
+  "390 brands/happy-mammoth renders",
+  ""
+ ],
+ [
+  "PASS",
+  "390 hooks renders",
+  ""
+ ],
+ [
+  "PASS",
+  "390 gaps renders",
+  ""
+ ],
+ [
+  "PASS",
+  "390 gap list",
+  15
+ ],
+ [
+  "PASS",
+  "390 no horizontal scroll",
+  ""
+ ],
+ [
+  "PASS",
+  "390 no NaN/undefined anywhere",
+  ""
+ ],
+ [
+  "PASS",
+  "390 no JS errors",
+  ""
+ ]
+]
