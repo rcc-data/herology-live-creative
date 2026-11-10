@@ -1,0 +1,46 @@
+name: Creative Discovery media copy (Herology)
+# Copies supplement-ad media (posters, images, videos) from Motion/Meta URLs into the
+# herology-creative R2 bucket under discovery/. Input: discovery/data/media_jobs.json,
+# a list of {"id": "<ad id>", "src": "<source url>", "key": "discovery/<path>"}.
+# Output: discovery/data/media_done.json ({"<key>": bytes} for every copied file) committed back.
+# Secrets (added by Ryan in repo settings): R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY.
+on:
+  workflow_dispatch:
+    inputs:
+      max_files:
+        description: "Max files this run (0 = all)"
+        required: false
+        default: "0"
+permissions:
+  contents: write
+concurrency:
+  group: cd-media-copy
+  cancel-in-progress: false
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check secrets
+        env:
+          A: ${{ secrets.R2_ACCOUNT_ID }}
+          K: ${{ secrets.R2_ACCESS_KEY_ID }}
+          S: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          for v in A K S; do [ -n "${!v}" ] || { echo "Missing R2 secret ($v)"; exit 1; }; done
+          echo "R2 secrets present"
+      - name: Copy media to R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          MAX: ${{ inputs.max_files }}
+        run: python3 discovery/tools/media_copy.py
+      - name: Commit results
+        run: |
+          git add discovery/data/media_done.json
+          git diff --cached --quiet && { echo "Nothing new"; exit 0; }
+          git -c user.name="Herology Discovery (Actions)" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -qm "Discovery media copied to R2"
+          git pull -q --rebase && git push -q origin HEAD:main
