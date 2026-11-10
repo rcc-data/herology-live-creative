@@ -19,6 +19,19 @@ const { chromium } = require('playwright');
     const cnt1 = await p.textContent('#cd-count');
     const imgs = await p.$$eval('.cd-card img', e => e.filter(i => i.complete && i.naturalWidth > 0).length);
     ok(`${w} card media loaded`, imgs > 0, imgs + ' images');
+    const r2 = await p.$$eval('.cd-card img[src]', e => e.filter(i => i.src.includes('r2.dev')).length);
+    ok(`${w} media from R2`, r2 > 0, r2);
+    if (w === 1440) {
+      const fr = await p.$('.cd-fr[data-v]');
+      if (fr) { await fr.hover(); await p.waitForTimeout(4000);
+        const st = await p.evaluate(() => { const v = document.querySelector('.cd-fr video'); return v ? { rs: v.readyState, t: v.currentTime, src: v.currentSrc.slice(0, 60) } : null; });
+        ok('1440 hover plays video', st && st.rs >= 2, JSON.stringify(st));
+        await p.mouse.move(5, 5); await p.waitForTimeout(300);
+        ok('1440 video removed on leave', !(await p.$('.cd-fr video')));
+      }
+      const auto = await p.evaluate(() => [...document.querySelectorAll('video')].filter(v => !v.paused).length);
+      ok('1440 no autoplay', auto === 0, auto);
+    }
     await p.screenshot({ path: `${out}/discover_${w}.png` });
     await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)); await p.waitForTimeout(900);
     const n2 = await p.$$eval('.cd-card', e => e.length);
@@ -29,7 +42,7 @@ const { chromium } = require('playwright');
     await p.click('[data-fapply]'); await p.waitForTimeout(500);
     const cnt2 = await p.textContent('#cd-count');
     ok(`${w} filter changes count`, cnt1 !== cnt2, `${cnt1} -> ${cnt2}`);
-    await p.fill('#cd-q', 'hot flush'); await p.waitForTimeout(600);
+    await p.fill('#cd-q', 'magnesium'); await p.waitForTimeout(600);
     ok(`${w} search`, (await p.textContent('#cd-count')) !== cnt2, await p.textContent('#cd-count'));
     const id = await p.evaluate(() => window.CD.state.cards.find(c => c.fmt === 'video').id);
     await p.goto(base + '#ad/' + id); await p.waitForSelector('.cd-vwp', { timeout: 10000 });
