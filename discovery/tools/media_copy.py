@@ -12,7 +12,6 @@ Env: MAX (max files this run, 0 = all), VIDEO_GB (stop copying videos after this
 """
 import json, os, sys, time, subprocess, tempfile, threading
 import concurrent.futures as cf
-subprocess.run([sys.executable, "-m", "pip", "install", "-q", "boto3", "requests", "pillow"], check=True)
 import boto3, requests
 from PIL import Image
 

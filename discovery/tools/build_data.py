@@ -135,6 +135,9 @@ OFFER = [
     ("gift", rx(r"free gift", r"gift with", r"\bgwp\b", r"free .{0,20}(?:gift|bag|shaker|sample|tote|bottle)", r"gift set", r"stocking filler", r"christmas gift")),
     ("free shipping", rx(r"free (?:shipping|delivery|postage)", r"ships free", r"free next day")),
 ]
+HOOK_FORMATS = ["Question", "Symptom callout", "POV / Relatable", "Bold claim", "Expert intro", "Testimonial quote", "Personal story",
+                "Social proof / Numbers", "Offer / Price first", "Product reveal", "List / Tips", "Myth buster / Mistake",
+                "Results / Before and after", "Founder story", "Urgency", "Ingredient focus", "Visual only", "Other"]
 MATCH_ORDER = ["Balance", "PPN", "Meno", "Zen", "Collagen", "Inositol", "Creatine", "Men's Prenatal"]
 MATCH_KW = {
     "Meno": rx(r"menopaus", r"peri-?menopaus", r"\bperi\b", r"post-?menopaus", r"hot flush", r"hot flash", r"night sweat", r"\bmeno"),
@@ -473,11 +476,97 @@ for ch in cards:
                 hk.get("h"), hk.get("o"), hk.get("k"), hk.get("f"), template_of(hk.get("h")) if hk.get("k") in ("text", "image_text") else None,
                 formats if len(ch) > 1 else [], len(ch), lead["concept"], round(sum(a["extra"].get("spend", 0) or 0 for a in ch), 2) or None,
                 lead["extra"].get("ad_name")])
+# ---------------------------------------------------------------- gaps (Herology vs market)
+def compute_gaps(out):
+    Fi = {f: i for i, f in enumerate(FIELDS)}
+    def vals(c, k):
+        v = c[Fi[k]]
+        if k == "match":
+            return [v or "none"]
+        return v if isinstance(v, list) else ([] if v is None else [v])
+    hg = [c for c in out if c[1] == "Herology"]
+    mk = [c for c in out if c[1] != "Herology"]
+    if not hg or not mk:
+        return []
+    t30 = (TODAY - datetime.timedelta(days=30)).isoformat()
+    t60 = (TODAY - datetime.timedelta(days=60)).isoformat()
+    last = [c for c in mk if (c[Fi["start"]] or "") > t30]
+    prior = [c for c in mk if t60 < (c[Fi["start"]] or "") <= t30]
+    proven = [c for c in mk if c[Fi["isProven"]]]
+    dims = [("Format", "fmt", ["video", "image", "carousel"]), ("Aspect", "aspect", ["9:16", "4:5", "1:1", "16:9"]),
+            ("Benefit", "benefit", [b for b, _ in BENEFIT]), ("Proof", "proof", [p for p, _ in PROOF]),
+            ("Offer", "offer", [o for o, _ in OFFER]), ("Hook type", "hookFormat", HOOK_FORMATS),
+            ("Visual format", "vf", sorted({v for c in mk for v in c[Fi["vf"]]}))]
+    res = []
+    def sh(cs, k, v):
+        return 100.0 * sum(1 for c in cs if v in vals(c, k)) / len(cs) if cs else 0.0
+    def one(dim, k, v, H, M, P, L, R, prod=None):
+        if k == "hookFormat":
+            H = [c for c in H if c[Fi["hookKind"]]]; M = [c for c in M if c[Fi["hookKind"]]]; P = [c for c in P if c[Fi["hookKind"]]]
+            L = [c for c in L if c[Fi["hookKind"]]]; R = [c for c in R if c[Fi["hookKind"]]]
+            if len(H) < 8 or len(M) < 20:
+                return
+        if k == "vf" and not H:
+            return
+        h, m, pv = sh(H, k, v), sh(M, k, v), (sh(P, k, v) if len(P) >= 10 else 0.0)
+        if sum(1 for c in M if v in vals(c, k)) < 5:
+            return
+        l = sum(1 for c in L if v in vals(c, k)); r = sum(1 for c in R if v in vals(c, k))
+        rise = (l - r) / max(r, 3)
+        top = max(m, pv)
+        if k == "vf":
+            return  # Herology ads carry no Motion visual-format tags, so this dimension cannot be compared
+        if top < 10 and not (l >= 5 and rise > 0.5):
+            return
+        if h > 0.5 * top:
+            return
+        score = (top - h) * (1 + max(0.0, min(rise, 2.0)) * 0.5)
+        ex = sorted([c for c in (P or M) if v in vals(c, k)], key=lambda c: -c[Fi["proven"]])[:8]
+        if len(ex) < 3:
+            ex = sorted([c for c in M if v in vals(c, k)], key=lambda c: -c[Fi["proven"]])[:8]
+        brands = collections.Counter(c[1] for c in M if v in vals(c, k)).most_common(3)
+        scope = f"{prod} ads" if prod else "all ads"
+        title = (f"{prod}: " if prod else "") + {"fmt": f"{v} ads", "aspect": f"{v} creative", "benefit": f"{v} angle",
+                 "proof": f"{v} as proof", "offer": f"{v} offers" if v != "none" else "no-offer ads", "hookFormat": f"{v} hooks"}.get(k, v)
+        why = (f"{round(m)}% of market {scope} ({len(M)} cards) and {round(pv)}% of market ads that ran 60+ days use it; "
+               f"Herology {round(h)}% of {len(H)} cards. Launches: {l} in the last 30 days vs {r} in the 30 before. "
+               f"Most used by " + ", ".join(f"{b} ({n})" for b, n in brands) + ".")
+        res.append({"title": title, "dim": dim + (f" · {prod}" if prod else ""), "key": k, "value": v, "product": prod,
+                    "herology": round(h), "market": round(m), "proven": round(pv), "last30": l, "prior30": r,
+                    "score": round(score, 1), "why": why, "examples": [c[0] for c in ex]})
+    for dim, k, vs in dims:
+        for v in vs:
+            if v in ("other", "none") and k in ("benefit",):
+                continue
+            one(dim, k, v, hg, mk, proven, last, prior)
+    for prod in ["Balance", "PPN", "Meno", "Zen"]:
+        H = [c for c in hg if c[Fi["match"]] == prod]; M = [c for c in mk if c[Fi["match"]] == prod]
+        if len(H) < 5 or len(M) < 15:
+            continue
+        P = [c for c in M if c[Fi["isProven"]]]
+        L = [c for c in M if (c[Fi["start"]] or "") > t30]; R = [c for c in M if t60 < (c[Fi["start"]] or "") <= t30]
+        for dim, k, vs in dims[:6]:
+            for v in vs:
+                if k == "benefit":
+                    continue
+                one(dim, k, v, H, M, P, L, R, prod)
+    res.sort(key=lambda g: -g["score"])
+    seen, outg = set(), []
+    for g in res:
+        key = (g["key"], g["value"])
+        if g["product"] and key in seen and len(outg) > 6:
+            continue
+        seen.add(key)
+        outg.append(g)
+    return outg[:15]
+
+
 # hooks on non-lead members (viewer shows the member's own hook)
+GAPS = compute_gaps(out)
 member_hooks = {a["id"]: hooks[a["id"]] for ch in cards for a in ch if a["id"] in hooks and len(ch) > 1}
 out.sort(key=lambda c: (c[6] or ""), reverse=True)
 json.dump({"v": 1, "built": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "today": TODAY.isoformat(),
-           "fields": FIELDS, "cards": out, "memberHooks": member_hooks,
+           "fields": FIELDS, "cards": out, "memberHooks": member_hooks, "gaps": GAPS,
            "pending": ["Gigi Supplements", "Cleanmarine", "Sentro Labs", "Mountaindrop", "Grova", "Byontale"]},
           open(os.path.join(D, "ads.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
@@ -546,6 +635,8 @@ json.dump({"brands": bl, "cards": len(out), "ads": len(ads), "media_jobs": len(j
           open(os.path.join(D, "build_log.json"), "w"), indent=1)
 for b, v in bl.items():
     print(f"{b:20s} raw {v['raw']:5d}  English {v['english']:5d}  kept {v['kept']:5d}  drops {v['drops']}")
+for i, g in enumerate(GAPS[:8], 1):
+    print(f"gap {i}: {g['title']} [{g['dim']}] H {g['herology']}% M {g['market']}% P {g['proven']}% score {g['score']}")
 print(f"cards {len(out)}  ads {len(ads)}  media jobs {len(jobs_u)}  video ads {len(hook_jobs)}  hooks on cards {sum(1 for c in out if c[F['hookKind']])}  media done {len(done)}")
 if SHOW_DOUBTFUL:
     json.dump(doubt, open("/tmp/cd_doubt.json", "w"), ensure_ascii=False, indent=0)
