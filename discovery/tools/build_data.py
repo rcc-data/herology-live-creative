@@ -96,7 +96,7 @@ def rx(*ws):
 
 
 BENEFIT = [
-    ("hormones/PMS", rx(r"hormon", r"pms\b", r"pmdd", r"period", r"menstrua", r"cycle\b", r"cramp", r"mood swing", r"luteal", r"time of the month")),
+    ("hormones/PMS", rx(r"hormon", r"pms\b", r"pmdd", r"period", r"menstrua", r"cycle\b", r"cramp", r"mood swing", r"luteal", r"time of the month", r"of (?:the|your) month", r"monthly")),
     ("menopause", rx(r"menopaus", r"peri-?menopaus", r"\bperi\b", r"post-?menopaus", r"hot flush", r"hot flash", r"night sweat", r"\bmeno\b", r"meno ", r"meno-")),
     ("fertility/pregnancy", rx(r"fertil", r"\bttc\b", r"trying to conceive", r"conceiv", r"pregnan", r"prenatal", r"pre-natal", r"\bivf\b", r"egg quality", r"sperm", r"bump\b", r"trimester")),
     ("postnatal", rx(r"postnatal", r"post-natal", r"postpartum", r"post-partum", r"post partum", r"breastfe", r"new mum", r"new mom", r"after baby", r"newborn", r"4th trimester", r"fourth trimester")),
@@ -305,7 +305,7 @@ for r, mkt, origin in raw:
     proof = sorted(set(proof), key=lambda x: [p for p, _ in PROOF].index(x))
     offer = tags_of(OFFER, tl) or ["none"]
     hm = herology_match(alltext, slug_m, ben)
-    DEF_BEN = {"Zen": "sleep/stress", "Collagen": "skin/hair", "Meno": "menopause", "PPN": "fertility/pregnancy",
+    DEF_BEN = {"Balance": "hormones/PMS", "Zen": "sleep/stress", "Collagen": "skin/hair", "Meno": "menopause", "PPN": "fertility/pregnancy",
                "Inositol": "PCOS", "Creatine": "performance", "Men's Prenatal": "fertility/pregnancy"}
     if ben == ["other"] and DEF_BEN.get(slug_m or (hm if brand != "Herology" else (extra or {}).get("product"))):
         ben = [DEF_BEN[slug_m or (hm if brand != "Herology" else (extra or {}).get("product"))]]
@@ -521,13 +521,21 @@ def compute_gaps(out):
         if h > 0.5 * top:
             return
         score = (top - h) * (1 + max(0.0, min(rise, 2.0)) * 0.5)
-        ex = sorted([c for c in (P or M) if v in vals(c, k)], key=lambda c: -c[Fi["proven"]])[:8]
-        if len(ex) < 3:
-            ex = sorted([c for c in M if v in vals(c, k)], key=lambda c: -c[Fi["proven"]])[:8]
+        pool = sorted([c for c in M if v in vals(c, k)], key=lambda c: (-c[Fi["isProven"]], -c[Fi["proven"]]))
+        ex, used = [], collections.Counter()
+        for rnd in range(8):  # round robin by brand so one brand does not fill the examples
+            for c in pool:
+                if len(ex) >= 8:
+                    break
+                if c in ex or used[c[1]] > rnd:
+                    continue
+                ex.append(c); used[c[1]] += 1
+        ex = ex[:8]
         brands = collections.Counter(c[1] for c in M if v in vals(c, k)).most_common(3)
-        scope = f"{prod} ads" if prod else "all ads"
-        title = (f"{prod}: " if prod else "") + {"fmt": f"{v} ads", "aspect": f"{v} creative", "benefit": f"{v} angle",
-                 "proof": f"{v} as proof", "offer": f"{v} offers" if v != "none" else "no-offer ads", "hookFormat": f"{v} hooks"}.get(k, v)
+        scope = f"{prod} ads" if prod else "ads"
+        cap = v[:1].upper() + v[1:]
+        title = (f"{prod}: " if prod else "") + {"fmt": f"More {v} ads", "aspect": f"More {v} creative", "benefit": f"Lead with {v}",
+                 "proof": f"{cap} as proof", "offer": f"{cap} offers" if v != "none" else "Ads with no offer", "hookFormat": f"{cap} hooks"}.get(k, v)
         why = (f"{round(m)}% of market {scope} ({len(M)} cards) and {round(pv)}% of market ads that ran 60+ days use it; "
                f"Herology {round(h)}% of {len(H)} cards. Launches: {l} in the last 30 days vs {r} in the 30 before. "
                f"Most used by " + ", ".join(f"{b} ({n})" for b, n in brands) + ".")

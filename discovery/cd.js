@@ -153,8 +153,8 @@
     return `<article class="cd-card" data-open="${esc(c.id)}" tabindex="0" aria-label="${esc(c.brand)} ad">
       <div class="cd-fr" style="aspect-ratio:${r.toFixed(4)}"${vid}>
         ${p ? `<img data-src="${esc(p)}" alt="" decoding="async">` : ''}<div class="cd-shim"></div>
-        <span class="cd-tagv">${c.fmt === 'video' ? ICON.play + ' Video' : c.fmt === 'carousel' ? 'Carousel' : 'Image'} · ${esc(c.aspect)}</span>
-        ${c.isProven ? '<span class="cd-tagp">Proven</span>' : ''}
+        <span class="cd-tagv">${c.fmt === 'video' ? ICON.play + (small ? '' : ' Video') : c.fmt === 'carousel' ? 'Carousel' : 'Image'}${small ? '' : ' · ' + esc(c.aspect)}</span>
+        ${c.isProven ? `<span class="cd-tagp">${small ? 'P' : 'Proven'}</span>` : ''}
       </div>
       <div class="cd-cb">
         <div class="t"><span class="b ${c.hg ? 'hg' : ''}">${esc(c.brand)}</span><span>${fmtN(c.days)}d${c.status === 'active' ? ' · live' : ''}</span></div>

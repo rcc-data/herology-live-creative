@@ -122,9 +122,9 @@
 "image": 62
 },
 "benefits": {
+"hormones/PMS": 72,
 "fertility/pregnancy": 52,
 "postnatal": 52,
-"hormones/PMS": 46,
 "sleep/stress": 39,
 "energy": 38,
 "performance": 17,
@@ -162,7 +162,7 @@
 "drops": {
 "never ran": 60
 },
-"summary": "198 cards (87 live), mostly video (69%), led by fertility/pregnancy (26%) and postnatal (26%). 96 have run 60+ days (median 57 days live) and 17 launched in the last 30 days; top proof is UGC testimonial (63%), top offer subscription (4%).",
+"summary": "198 cards (87 live), mostly video (69%), led by hormones/PMS (36%) and fertility/pregnancy (26%). 96 have run 60+ days (median 57 days live) and 17 launched in the last 30 days; top proof is UGC testimonial (63%), top offer subscription (4%).",
 "pending": false
 },
 {
@@ -181,13 +181,13 @@
 "carousel": 1
 },
 "benefits": {
+"hormones/PMS": 74,
 "sleep/stress": 29,
 "energy": 15,
 "skin/hair": 14,
 "performance": 12,
 "gut": 11,
 "menopause": 10,
-"hormones/PMS": 6,
 "fertility/pregnancy": 5
 },
 "proof": {
@@ -223,7 +223,7 @@
 "not English": 98,
 "men-only": 4
 },
-"summary": "144 cards (63 live), mostly video (63%), led by sleep/stress (20%) and energy (10%). 9 have run 60+ days (median 14 days live) and 48 launched in the last 30 days; top proof is UGC testimonial (36%), top offer % off (9%).",
+"summary": "144 cards (63 live), mostly video (63%), led by hormones/PMS (51%) and sleep/stress (20%). 9 have run 60+ days (median 14 days live) and 48 launched in the last 30 days; top proof is UGC testimonial (36%), top offer % off (9%).",
 "pending": false
 },
 {
@@ -242,6 +242,7 @@
 "video": 8
 },
 "benefits": {
+"hormones/PMS": 15,
 "energy": 8,
 "sleep/stress": 6,
 "skin/hair": 4,
@@ -266,7 +267,7 @@
 "not in range": 5,
 "no overlap": 1
 },
-"summary": "36 cards (21 live), mostly image (69%), led by energy (22%) and sleep/stress (17%). 12 have run 60+ days (median 44 days live) and 6 launched in the last 30 days; top proof is study (17%), with no offer in most ads.",
+"summary": "36 cards (21 live), mostly image (69%), led by hormones/PMS (42%) and energy (22%). 12 have run 60+ days (median 44 days live) and 6 launched in the last 30 days; top proof is study (17%), with no offer in most ads.",
 "pending": false
 },
 {
@@ -285,7 +286,7 @@
 },
 "benefits": {
 "energy": 88,
-"hormones/PMS": 38,
+"hormones/PMS": 74,
 "skin/hair": 38,
 "sleep/stress": 30,
 "menopause": 10,
@@ -317,7 +318,7 @@
 "drops": {
 "no overlap": 2
 },
-"summary": "139 cards (55 live), mostly video (57%), led by energy (63%) and hormones/PMS (27%). 25 have run 60+ days (median 25 days live) and 27 launched in the last 30 days; top proof is study (15%), top offer % off (14%).",
+"summary": "139 cards (55 live), mostly video (57%), led by energy (63%) and hormones/PMS (53%). 25 have run 60+ days (median 25 days live) and 27 launched in the last 30 days; top proof is study (15%), top offer % off (14%).",
 "pending": false
 },
 {
