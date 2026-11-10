@@ -18,12 +18,12 @@ const { chromium } = require('playwright');
     ok(`${w} cards render`, n1 >= 24, n1);
     const cnt1 = await p.textContent('#cd-count');
     const imgs = await p.$$eval('.cd-card img', e => e.filter(i => i.complete && i.naturalWidth > 0).length);
-    ok(`${w} card media loaded`, imgs > 0, imgs + ' images');
+    if (!process.env.LOCAL) ok(`${w} card media loaded`, imgs > 0, imgs + ' images');
     const r2 = await p.$$eval('.cd-card img[src]', e => e.filter(i => i.src.includes('r2.dev')).length);
-    ok(`${w} media from R2`, r2 > 0, r2);
+    if (!process.env.LOCAL) ok(`${w} media from R2`, r2 > 0, r2);
     if (w === 1440) {
       const fr = await p.$('.cd-fr[data-v]');
-      if (fr) { await fr.hover(); await p.waitForTimeout(4000);
+      if (fr && !process.env.LOCAL) { await fr.hover(); await p.waitForTimeout(4000);
         const st = await p.evaluate(() => { const v = document.querySelector('.cd-fr video'); return v ? { rs: v.readyState, t: v.currentTime, src: v.currentSrc.slice(0, 60) } : null; });
         ok('1440 hover plays video', st && st.rs >= 2, JSON.stringify(st));
         const head = await p.evaluate(async () => { const u = document.querySelector('.cd-fr[data-v]').dataset.v; const r = await fetch(u, { headers: { Range: 'bytes=0-1023' } }); return r.status + ' ' + r.headers.get('content-type'); });
@@ -44,11 +44,21 @@ const { chromium } = require('playwright');
     await p.click('[data-fapply]'); await p.waitForTimeout(500);
     const cnt2 = await p.textContent('#cd-count');
     ok(`${w} filter changes count`, cnt1 !== cnt2, `${cnt1} -> ${cnt2}`);
+    await p.click('#cd-fbtn'); await p.waitForSelector('.cd-fdp');
+    await p.click('[data-fclear]'); await p.click('.cd-opt[data-k="market"][data-v="UK"]'); await p.click('[data-fapply]'); await p.waitForTimeout(500);
+    const cnt3 = await p.textContent('#cd-count');
+    ok(`${w} market filter changes count`, cnt3 !== cnt2 && cnt3 !== cnt1, `${cnt1} -> UK ${cnt3}`);
+    const allUK = await p.evaluate(() => [...document.querySelectorAll('.cd-card')].every(e => { const c = window.CD.state.byId[e.dataset.open]; return c && c.market === 'UK'; }));
+    ok(`${w} market filter shows only that market`, allUK);
     await p.fill('#cd-q', 'magnesium'); await p.waitForTimeout(600);
     ok(`${w} search`, (await p.textContent('#cd-count')) !== cnt2, await p.textContent('#cd-count'));
     const id = await p.evaluate(() => window.CD.state.cards.find(c => c.fmt === 'video').id);
     await p.goto(base + '#ad/' + id); await p.waitForSelector('.cd-vwp', { timeout: 10000 });
     ok(`${w} viewer from #ad link`, true, id);
+    const cc = await p.evaluate(() => { const c = window.CD.state.cards.find(c => c.conceptCount > 2); return c && c.id; });
+    if (cc) { await p.goto(base + '#ad/' + cc); await p.waitForSelector('.cd-vwp', { timeout: 10000 }); await p.waitForTimeout(300);
+      const t = await p.textContent('.cd-vwp'); ok(`${w} viewer shows Same copy, N creatives`, /Same copy, \d+ creatives/.test(t), (t.match(/Same copy, \d+ creatives/) || [''])[0]);
+      await p.screenshot({ path: `${out}/viewer_samecopy_${w}.png` }); }
     await p.screenshot({ path: `${out}/viewer_${w}.png` });
     await p.keyboard.press('Escape'); await p.waitForTimeout(300);
     ok(`${w} viewer closes`, await p.$eval('#cd-vw', e => e.hidden));
@@ -60,6 +70,15 @@ const { chromium } = require('playwright');
     }
     const gapN = await p.$$eval('.cd-gap', e => e.length);
     ok(`${w} gap list`, gapN > 0, gapN);
+    for (const mk of ['IE', 'UK', 'NA', 'HH']) {
+      const btn = await p.$(`[data-gm="${mk}"]`);
+      if (!btn) { ok(`${w} gap market ${mk}`, false, 'no button'); continue; }
+      await btn.click(); await p.waitForTimeout(500);
+      const tx = await p.textContent('#cd-main');
+      ok(`${w} gap market ${mk} renders`, /Herology vs /.test(tx) && !/NaN|undefined/.test(tx) && (await p.$$eval('.cd-gap', e => e.length)) > 0, (tx.match(/Herology vs [A-Za-z ]+/) || [''])[0]);
+      if (mk === 'UK') await p.screenshot({ path: `${out}/gaps_uk_${w}.png` });
+    }
+    await p.click('[data-gm="ALL"]'); await p.waitForTimeout(300);
     const hs = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     ok(`${w} no horizontal scroll`, hs <= 1, hs);
     const body = await p.evaluate(() => document.body.innerText);

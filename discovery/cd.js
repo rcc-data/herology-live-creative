@@ -27,24 +27,30 @@
   };
 
   const S = { cards: [], byId: {}, brands: [], tab: 'discover', q: '', sort: store.get('sort', 'newest'), f: F0(), brand: null,
-    hk: { q: '', fmt: null, who: 'all' }, gapView: 'market', meta: {} };
+    hk: { q: '', fmt: null, who: 'all' }, gapView: 'market', gapMkt: store.get('gapMkt', 'ALL'), meta: {} };
   CD.state = S;
-  function F0() { return { brand: new Set(), benefit: new Set(), ingredient: new Set(), proof: new Set(), offer: new Set(), fmt: new Set(), aspect: new Set(), match: new Set(), status: new Set(), proven: new Set() }; }
-  const FKEYS = ['brand', 'match', 'benefit', 'ingredient', 'proof', 'offer', 'fmt', 'aspect', 'status', 'proven'];
-  const FLABEL = { brand: 'Brand', match: 'Herology product', benefit: 'Benefit', ingredient: 'Ingredient', proof: 'Proof', offer: 'Offer', fmt: 'Format', aspect: 'Aspect', status: 'Live or ended', proven: 'Proven' };
+  function F0() { return { market: new Set(), brand: new Set(), benefit: new Set(), ingredient: new Set(), proof: new Set(), offer: new Set(), fmt: new Set(), aspect: new Set(), match: new Set(), status: new Set(), proven: new Set() }; }
+  const FKEYS = ['market', 'brand', 'match', 'benefit', 'ingredient', 'proof', 'offer', 'fmt', 'aspect', 'status', 'proven'];
+  const FLABEL = { market: 'Market', brand: 'Brand', match: 'Herology product', benefit: 'Benefit', ingredient: 'Ingredient', proof: 'Proof', offer: 'Offer', fmt: 'Format', aspect: 'Aspect', status: 'Live or ended', proven: 'Proven' };
 
   // ------------------------------------------------------------ data
   async function load() {
     const [a, b] = await Promise.all([fetch('data/ads.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('ads.json HTTP ' + r.status); return r.json(); }),
       fetch('data/brands.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('brands.json HTTP ' + r.status); return r.json(); })]);
     const F = a.fields;
-    S.meta = { built: a.built, today: a.today, pending: a.pending || [], gaps: a.gaps || [], memberHooks: a.memberHooks || {} };
+    S.meta = { built: a.built, today: a.today, pending: a.pending || [], gaps: a.gaps || [], gapsBy: a.gapsByMarket || {}, memberHooks: a.memberHooks || {},
+      markets: a.markets || { IE: 'Ireland' } };
+    MK_ORDER = Object.keys(S.meta.markets);
     S.cards = a.cards.map(row => { const o = {}; F.forEach((k, i) => (o[k] = row[i])); return prep(o); });
     S.cards.forEach(c => { S.byId[c.id] = c; (c.formats || []).forEach(m => { if (!S.byId[m.id]) S.byId[m.id] = c; }); });
     S.brands = b;
   }
+  let MK_ORDER = ['IE'];
+  const mkName = k => (S.meta.markets && S.meta.markets[k]) || k || 'Ireland';
   function prep(c) {
     c.hg = c.brand === 'Herology';
+    c.mkt = mkName(c.market);
+    c.hh = c.market === 'HH';
     c.provenTag = c.isProven ? ['Proven (60+ days)'] : [];
     c.age = c.start ? Math.round((Date.parse(S.meta.today || '2026-11-10') - Date.parse(c.start)) / 864e5) : 999;
     c.hay = norm([c.brand, c.title, c.text, c.hook, c.onscreen, c.link, c.cta, c.match, (c.benefit || []).join(' '), (c.ingredient || []).join(' '), (c.proof || []).join(' '), (c.offer || []).join(' '), (c.vf || []).join(' '), c.hookFormat, c.adName].join(' '));
@@ -55,6 +61,7 @@
     if (k === 'status') return [c.status === 'active' ? 'Live' : 'Ended'];
     if (k === 'proven') return c.isProven ? ['Proven (60+ days)'] : [];
     if (k === 'match') return [c.match || 'none'];
+    if (k === 'market') return [c.mkt];
     const v = c[k];
     return Array.isArray(v) ? v : v == null ? [] : [v];
   }
@@ -124,13 +131,15 @@
 
   // ------------------------------------------------------------ shell
   function header() {
-    const comp = S.cards.filter(c => !c.hg);
+    const comp = S.cards.filter(c => !c.hg && !c.hh);
+    const hh = S.cards.filter(c => c.hh);
     const hg = S.cards.filter(c => c.hg);
     const nb = new Set(comp.map(c => c.brand)).size;
+    const nm = new Set(comp.map(c => c.market)).size;
     $('#cd-stats').innerHTML = [
-      [fmtN(comp.length), 'Market cards'], [fmtN(nb), 'Brands'], [fmtN(comp.filter(c => c.status === 'active').length), 'Live', 'p'], [fmtN(hg.length), 'Herology cards'],
+      [fmtN(comp.length), 'Market cards'], [fmtN(nb), 'Brands'], [fmtN(nm), 'Markets'], [fmtN(comp.filter(c => c.status === 'active').length), 'Live', 'p'], [fmtN(hg.length), 'Herology cards'], [fmtN(hh.length), 'Heavy hitter cards'],
     ].map(([n, l, c]) => `<div class="cd-stat"><span class="num ${c || ''}">${n}</span><span class="lbl">${l}</span></div>`).join('');
-    $('#cd-foot').innerHTML = `Ireland, batch 1. Market ads from Motion's Inspo library (last 12 months, English, supplements that overlap Herology's range); Herology ads from the Creative Hub (ads with spend). ${esc(S.meta.pending.join(', '))} are coming from Meta Ad Library in a later run. Data built ${esc((S.meta.built || '').replace('T', ' '))} UTC. Proven = 60+ days live; Proven score = days live (max 90) + concept variants + parallel launches.`;
+    $('#cd-foot').innerHTML = `Markets: ${esc(MK_ORDER.map(mkName).join(', '))}. Market ads from Motion's Inspo library (last 12 months, English, supplements that overlap Herology's range, no advertorials), at most 100 ads per brand (34 longest running, 33 newest, 33 most saved; heavy hitters 30, kept out of market stats); Herology ads from the Creative Hub (all ads with spend). A card is one creative; its sizes (9:16, 4:5, 1:1, 16:9) sit inside it. Irish brands ${esc(S.meta.pending.join(', '))} are coming from Meta Ad Library in a later run. Data built ${esc((S.meta.built || '').replace('T', ' '))} UTC. Proven = 60+ days live; Proven score = days live (max 90) + concept variants + parallel launches.`;
   }
   function tabs() { $$('#cd-tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === S.tab)); }
   function draw() {
@@ -147,7 +156,7 @@
   function cardHTML(c, small) {
     const p = poster(c);
     const r = ratio(c.aspect);
-    const n = c.n > 1 ? `<span class="cd-pill">${c.n} versions</span>` : '';
+    const n = c.n > 1 ? `<span class="cd-pill">${c.n} sizes</span>` : '';
     const vid = c.fmt === 'video' && c.video ? ` data-v="${esc(c.video)}"` : '';
     const hl = c.hook || c.title || (c.text || '').slice(0, 120);
     return `<article class="cd-card" data-open="${esc(c.id)}" tabindex="0" aria-label="${esc(c.brand)} ad">
@@ -157,7 +166,7 @@
         ${c.isProven ? `<span class="cd-tagp">${small ? 'P' : 'Proven'}</span>` : ''}
       </div>
       <div class="cd-cb">
-        <div class="t"><span class="b ${c.hg ? 'hg' : ''}">${esc(c.brand)}</span><span>${fmtN(c.days)}d${c.status === 'active' ? ' · live' : ''}</span></div>
+        <div class="t"><span class="b ${c.hg ? 'hg' : ''}" title="${esc(c.mkt)}">${esc(c.brand)}</span><span>${fmtN(c.days)}d${c.status === 'active' ? ' · live' : ''}</span></div>
         ${small ? '' : `<p class="h">${esc(hl)}</p>`}
         ${small ? '' : `<div class="cd-pills">${c.match && c.match !== 'none' ? `<span class="cd-pill m">${esc(c.match)}</span>` : ''}${(c.benefit || []).filter(x => x !== 'other').slice(0, 2).map(x => `<span class="cd-pill">${esc(x)}</span>`).join('')}${n}</div>`}
       </div></article>`;
@@ -249,8 +258,8 @@
     refresh();
   }
   function vDiscover(m) {
-    m.innerHTML = `<div class="cd-h"><div><h2>Discover</h2><p>Every kept ad in the Irish supplement market, Herology included. Hover a video to play it; click any card for the hook, copy and formats.</p></div></div>
-      ${S.meta.pending.length ? `<div class="cd-note"><b>More brands coming.</b> ${esc(S.meta.pending.join(', '))} are not in Motion; they will be added from Meta Ad Library in a later run.</div>` : ''}<div id="cd-db"></div>`;
+    m.innerHTML = `<div class="cd-h"><div><h2>Discover</h2><p>Supplement ads that overlap Herology's range in ${esc(MK_ORDER.filter(k => k !== 'HH').map(mkName).join(', '))}, plus global heavy hitters and Herology's own. Use the Market filter to narrow. Hover a video to play it; click any card for the hook, copy and sizes.</p></div></div>
+      ${S.meta.pending.length ? `<div class="cd-note"><b>More Irish brands coming.</b> ${esc(S.meta.pending.join(', '))} are not in Motion; they will be added from Meta Ad Library in a later run.</div>` : ''}<div id="cd-db"></div>`;
     bar($('#cd-db'), S.cards);
   }
 
@@ -265,7 +274,7 @@
   }
   function cloneF(F) { const o = F0(); FKEYS.forEach(k => F[k].forEach(v => o[k].add(v))); return o; }
   function opts(k, base) {
-    const all = { brand: [...new Set(S.cards.map(c => c.brand))].sort((a, b) => (a === 'Herology' ? -1 : b === 'Herology' ? 1 : a.localeCompare(b))), match: [...PRODUCTS, 'none'], benefit: BEN, proof: PROOF, offer: OFFER, fmt: FMT, aspect: ASP, status: ['Live', 'Ended'], proven: ['Proven (60+ days)'],
+    const all = { market: MK_ORDER.map(mkName), brand: [...new Set(S.cards.map(c => c.brand))].sort((a, b) => (a === 'Herology' ? -1 : b === 'Herology' ? 1 : a.localeCompare(b))), match: [...PRODUCTS, 'none'], benefit: BEN, proof: PROOF, offer: OFFER, fmt: FMT, aspect: ASP, status: ['Live', 'Ended'], proven: ['Proven (60+ days)'],
       ingredient: [...new Set(base.flatMap(c => c.ingredient || []))].sort() }[k];
     return all;
   }
@@ -309,7 +318,7 @@
     const hookTxt = hk.h ? `<div class="cd-hook">${esc(hk.h)}</div>` : `<div class="cd-hook" style="color:var(--ink-muted);font-size:15px">${hk.k === 'visual' || hk.k === 'none' ? 'No on-screen text in the first 3 seconds (visual hook)' : c.fmt === 'video' ? 'Hook not read yet' : 'Image ad (hooks are read for videos)'}</div>`;
     const tags = (k, l) => (c[k] && c[k].length ? `<dt>${l}</dt><dd>${c[k].map(esc).join(', ')}</dd>` : '');
     o.innerHTML = `<div class="cd-vwp" role="dialog" aria-modal="true" aria-label="Ad viewer"><div class="cd-vwm">${media}<button class="cd-x" data-vx aria-label="Close">✕</button></div><div class="cd-vwi">
-      <div style="font-size:12px;color:var(--ink-muted)">${idx >= 0 ? `${fmtN(idx + 1)} of ${fmtN(list.length)} · ` : ''}${c.status === 'active' ? 'Live' : 'Ended'} · ${esc(m.fmt)} ${esc(m.aspect)}</div>
+      <div style="font-size:12px;color:var(--ink-muted)">${idx >= 0 ? `${fmtN(idx + 1)} of ${fmtN(list.length)} · ` : ''}${esc(c.mkt)} · ${c.status === 'active' ? 'Live' : 'Ended'} · ${esc(m.fmt)} ${esc(m.aspect)}</div>
       <h3 class="${c.hg ? 'hg' : ''}">${esc(c.brand)}</h3>
       <div class="cd-sec"><h4>Hook line (on screen, first 3 seconds)</h4>${hookTxt}${hk.f ? `<div class="cd-pills"><span class="cd-pill m">${esc(hk.f)}</span></div>` : ''}</div>
       ${hk.o ? `<div class="cd-sec"><h4>All on-screen text</h4><div class="cd-copy">${esc(hk.o)}</div></div>` : ''}
@@ -325,11 +334,19 @@
         ${c.link ? `<dt>Landing page</dt><dd><a href="${esc(c.link)}" target="_blank" rel="noopener">${esc(c.link.replace(/^https?:\/\//, ''))}</a></dd>` : ''}
         ${c.spend ? `<dt>Herology spend</dt><dd>€${fmtN(Math.round(c.spend))}</dd>` : ''}
       </dl>
-      ${mem.length > 1 ? `<div class="cd-sec"><h4>Formats in this card (${mem.length})</h4><div class="cd-fmts">${mem.map(x => `<button class="cd-opt ${x.id === m.id ? 'on' : ''}" data-mem="${esc(x.id)}">${esc(x.fmt)} ${esc(x.aspect)}</button>`).join('')}</div></div>` : ''}
+      ${sameCopy(c)}
+      ${mem.length > 1 ? `<div class="cd-sec"><h4>Sizes of this creative (${mem.length})</h4><div class="cd-fmts">${mem.map(x => `<button class="cd-opt ${x.id === m.id ? 'on' : ''}" data-mem="${esc(x.id)}">${esc(x.fmt)} ${esc(x.aspect)}</button>`).join('')}</div></div>` : ''}
       <div class="cd-nav"><button class="cd-btn" data-vp ${idx <= 0 ? 'disabled' : ''}>Previous</button><button class="cd-btn" data-vn ${idx < 0 || idx >= list.length - 1 ? 'disabled' : ''}>Next</button>
       <button class="cd-btn p" data-copy>Copy link</button>${c.alib && /\/ads\/library\/\?id=|\d{6,}/.test(c.alib) ? `<a class="cd-btn" href="${esc(c.alib)}" target="_blank" rel="noopener">Ad Library</a>` : ''}
       <a class="cd-btn" href="#brands/${esc(slug(c.brand))}">Brand page</a></div></div></div>`;
     o.hidden = false; document.documentElement.style.overflow = 'hidden'; hoverOut();
+  }
+  function sameCopy(c) {
+    const k = c.conceptCount || 1;
+    if (k < 2) return '';
+    const others = S.cards.filter(x => x.concept === c.concept && x !== c).sort((a, b) => (a.start || '').localeCompare(b.start || ''));
+    LISTS['cc-' + c.id] = others;
+    return `<div class="cd-sec"><h4>Same copy, ${fmtN(k)} creatives</h4><div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">${esc(c.brand)} ran this caption on ${fmtN(k)} different creatives. Others:</div><div class="cd-fmts">${others.slice(0, 12).map(x => `<button class="cd-opt" data-cc="${esc(x.id)}">${esc(x.start || '')} · ${esc(x.fmt)} ${esc(x.aspect)}</button>`).join('')}${others.length > 12 ? `<span style="font-size:12px;color:var(--ink-muted)">+${fmtN(others.length - 12)} more</span>` : ''}</div></div>`;
   }
   function slug(b) { return b.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
   function closeViewer(push = true) {
@@ -342,6 +359,7 @@
     const t = e.target;
     if (t === $('#cd-vw') || t.closest('[data-vx]')) return closeViewer();
     const b = t.closest('button'); if (!b) return;
+    if (b.dataset.cc) { history.replaceState(null, '', '#' + curBase() + '/ad/' + b.dataset.cc); VW.list = VW.list.includes(S.byId[b.dataset.cc]) ? VW.list : S.cards; openViewer(b.dataset.cc, false); return; }
     if (b.dataset.mem) { history.replaceState(null, '', '#' + curBase() + '/ad/' + b.dataset.mem); openViewer(b.dataset.mem, false); }
     if (b.hasAttribute('data-vp') || b.hasAttribute('data-vn')) step(b.hasAttribute('data-vn') ? 1 : -1);
     if (b.hasAttribute('data-copy')) copyLink(VW && VW.id);
@@ -384,11 +402,13 @@
   function vBrands(m) {
     const live = S.brands.filter(b => !b.pending).sort((a, b) => (a.brand === 'Herology' ? -1 : b.brand === 'Herology' ? 1 : b.cards - a.cards));
     const pend = S.brands.filter(b => b.pending);
-    m.innerHTML = `<div class="cd-h"><div><h2>Brands</h2><p>${live.length} brands with ads in this build. Summaries use only the counts shown.</p></div></div>
-      <div class="cd-tiles">${live.map(b => `<a class="cd-tile" href="#brands/${esc(b.slug)}"><h3 class="${b.brand === 'Herology' ? 'hg' : ''}">${esc(b.brand)}</h3><div class="sub">${esc(b.site || '')}${b.brand !== 'Herology' ? ` · raw ${fmtN(b.raw)}, English ${fmtN(b.english)}, kept ${fmtN(b.kept)} ads` : ` · ${fmtN(b.ads)} ads with spend`}</div>
+    const tile = b => `<a class="cd-tile" href="#brands/${esc(b.slug)}"><h3 class="${b.brand === 'Herology' ? 'hg' : ''}">${esc(b.brand)}</h3><div class="sub">${esc(b.site || '')}${b.brand !== 'Herology' ? ` · raw ${fmtN(b.raw)}, English ${fmtN(b.english)}, in range ${fmtN(b.scoped != null ? b.scoped : b.kept)}, kept ${fmtN(b.kept)} ads` : ` · ${fmtN(b.ads)} ads with spend`}</div>
         <div class="cd-kpis"><div class="cd-kpi"><div class="n">${fmtN(b.cards)}</div><div class="l">Cards</div></div><div class="cd-kpi"><div class="n">${fmtN(b.live)}</div><div class="l">Live</div></div><div class="cd-kpi"><div class="n">${fmtN(b.proven)}</div><div class="l">Proven</div></div><div class="cd-kpi"><div class="n">${fmtN(b.new30)}</div><div class="l">New 30d</div></div></div>
-        ${mixBar(b.formats || {}, b.cards)}<p>${esc(b.summary)}</p></a>`).join('')}
-        ${pend.map(b => `<div class="cd-tile pend"><h3>${esc(b.brand)}</h3><p>${esc(b.summary)}</p></div>`).join('')}</div>`;
+        ${mixBar(b.formats || {}, b.cards)}<p>${esc(b.summary)}</p></a>`;
+    const groups = MK_ORDER.map(k => [k, live.filter(b => (b.market || 'IE') === k)]).filter(g => g[1].length);
+    m.innerHTML = `<div class="cd-h"><div><h2>Brands</h2><p>${live.length} brands with ads in this build, by market. At most 100 ads per brand (heavy hitters 30; Herology all). Summaries use only the counts shown.</p></div></div>
+      ${groups.map(([k, bs]) => `<h3 class="disp" style="font-size:20px;margin:22px 0 10px">${esc(mkName(k))} <span style="color:var(--ink-muted);font-size:14px">${bs.length} brands${k === 'HH' ? ' · kept out of market stats' : ''}</span></h3>
+      <div class="cd-tiles">${bs.map(tile).join('')}${k === 'IE' ? pend.map(b => `<div class="cd-tile pend"><h3>${esc(b.brand)}</h3><p>${esc(b.summary)}</p></div>`).join('') : ''}</div>`).join('')}`;
   }
   function vBrand(m) {
     const b = S.brands.find(x => x.slug === S.brand);
@@ -401,7 +421,7 @@
     m.innerHTML = `<div class="cd-h"><div><h2 class="${b.brand === 'Herology' ? 'hg' : ''}">${esc(b.brand)}</h2><p>${esc(b.summary)}</p></div><a class="cd-btn" href="#brands">All brands</a></div>
       <div class="cd-panels">
         <section class="cd-panel"><h3>At a glance</h3><div class="cd-kpis"><div class="cd-kpi"><div class="n">${fmtN(b.cards)}</div><div class="l">Cards</div></div><div class="cd-kpi"><div class="n">${fmtN(b.live)}</div><div class="l">Live</div></div><div class="cd-kpi"><div class="n">${fmtN(b.proven)}</div><div class="l">Proven</div></div><div class="cd-kpi"><div class="n">${fmtN(b.medianDays)}</div><div class="l">Median days</div></div></div>${mixBar(b.formats || {}, b.cards)}
-          ${b.brand !== 'Herology' ? `<p style="font-size:12px;color:var(--ink-muted);margin-top:10px">Raw ${fmtN(b.raw)} ads, English ${fmtN(b.english)}, kept ${fmtN(b.kept)}. Dropped: ${Object.entries(b.drops || {}).map(([k, v]) => `${esc(k)} ${fmtN(v)}`).join(', ') || 'none'}.</p>` : ''}</section>
+          ${b.brand !== 'Herology' ? `<p style="font-size:12px;color:var(--ink-muted);margin-top:10px">${esc(mkName(b.market))}. Raw ${fmtN(b.raw)} ads, English ${fmtN(b.english)}, in range ${fmtN(b.scoped != null ? b.scoped : b.kept)}, kept ${fmtN(b.kept)}. Dropped: ${Object.entries(b.drops || {}).map(([k, v]) => `${esc(k)} ${fmtN(v)}`).join(', ') || 'none'}.</p>` : ''}</section>
         <section class="cd-panel"><h3>Herology product overlap</h3><div class="sub">% of cards</div>${hbars(rows('match', [...PRODUCTS, 'none']), { unit: '%' })}</section>
         <section class="cd-panel"><h3>Benefits</h3><div class="sub">% of cards</div>${hbars(rows('benefit', BEN), { unit: '%' })}</section>
         <section class="cd-panel"><h3>Proof and offers</h3><div class="sub">% of cards</div>${hbars(rows('proof', PROOF).concat(rows('offer', OFFER.filter(x => x !== 'none')).map(r => ['offer: ' + r[0], r[1]])), { unit: '%' })}</section>
@@ -443,9 +463,13 @@
 
   // ------------------------------------------------------------ Herology vs market
   function vGaps(m) {
-    const hg = S.cards.filter(c => c.hg), mk = S.cards.filter(c => !c.hg);
+    const MK = S.gapMkt in S.meta.gapsBy || S.gapMkt === 'ALL' ? S.gapMkt : 'ALL';
+    const hg = S.cards.filter(c => c.hg), mk = S.cards.filter(c => !c.hg && (MK === 'ALL' ? !c.hh : c.market === MK));
+    const mkLabel = MK === 'ALL' ? 'All markets' : mkName(MK);
     const comps = [...new Set(mk.map(c => c.brand))].sort((a, b) => mk.filter(c => c.brand === b).length - mk.filter(c => c.brand === a).length);
-    const cols = [['Herology', hg], ['Market', mk], ...comps.map(b => [b, mk.filter(c => c.brand === b)])];
+    const sub = MK === 'ALL' ? MK_ORDER.filter(k => k !== 'HH' && mk.some(c => c.market === k)).map(k => [mkName(k), mk.filter(c => c.market === k)])
+      : comps.slice(0, 8).map(b => [b, mk.filter(c => c.brand === b)]);
+    const cols = [['Herology', hg], [mkLabel, mk], ...sub];
     const today = Date.parse(S.meta.today || '2026-11-10');
     const in30 = c => c.start && today - Date.parse(c.start) <= 30 * 864e5;
     const in60 = c => c.start && today - Date.parse(c.start) > 30 * 864e5 && today - Date.parse(c.start) <= 60 * 864e5;
@@ -464,7 +488,7 @@
     // per product
     const prodPanels = PRODUCTS.map(p => {
       const h = hg.filter(c => c.match === p), k = mk.filter(c => c.match === p);
-      if (!h.length && !k.length) return '';
+      if (!h.length || !k.length) return '';
       const rows = [];
       [['fmt', FMT], ['proof', PROOF], ['offer', OFFER.filter(x => x !== 'none')], ['benefit', BEN.filter(x => x !== 'other')]].forEach(([kk, vals]) => vals.forEach(v => {
         const a = h.length ? pct(h.filter(c => val(c, kk).includes(v)).length, h.length) : 0, b = k.length ? pct(k.filter(c => val(c, kk).includes(v)).length, k.length) : 0;
@@ -491,10 +515,11 @@
       if (p) pvr.push([k, v, p, h || 0]);
     }));
     pvr.sort((a, b) => (b[2] - b[3]) - (a[2] - a[3]));
-    const gaps = S.meta.gaps || [];
+    const gaps = (MK === 'ALL' ? S.meta.gaps : S.meta.gapsBy[MK]) || [];
+    const seg = `<div class="cd-seg" role="group" aria-label="Market">${[['ALL', 'All markets'], ...MK_ORDER.filter(k => k in S.meta.gapsBy).map(k => [k, mkName(k)])].map(([k, l]) => `<button data-gm="${k}" class="${MK === k ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`;
     LISTS.gapsAll = [];
-    m.innerHTML = `<div class="cd-h"><div><h2>Herology vs market</h2><p>Share of cards with each tag. Market = ${esc(comps.join(', '))}. Trending = launches in the last 30 days vs the 30 before; Proven in market = 60+ days live.</p></div></div>
-      <div class="cd-note"><b>Coverage.</b> ${esc(S.meta.pending.join(', '))} are not in Motion and are coming from Meta Ad Library in a later run, so the Irish market here is ${comps.length} brands for now. Herology = its ads with spend in the Creative Hub.</div>
+    m.innerHTML = `<div class="cd-h"><div><h2>Herology vs ${esc(MK === 'ALL' ? 'market' : mkLabel)}</h2><p>Share of cards with each tag. ${esc(mkLabel)} = ${fmtN(comps.length)} brands, ${fmtN(mk.length)} cards${MK === 'ALL' ? ' (Ireland, UK, North America and Australia; heavy hitters kept out)' : ''}. Trending = launches in the last 30 days vs the 30 before; Proven in market = 60+ days live.</p></div>${seg}</div>
+      <div class="cd-note"><b>Coverage.</b> ${MK === 'ALL' || MK === 'IE' ? `Irish brands ${esc(S.meta.pending.join(', '))} are not in Motion and are coming from Meta Ad Library in a later run. ` : ''}Each brand is capped at 100 ads, so big advertisers do not swamp the shares. Herology = all its ads with spend in the Creative Hub. ${MK === 'ALL' ? '' : `Brands: ${esc(comps.join(', '))}.`}</div>
       <h3 class="disp" style="font-size:22px;margin:8px 0 12px">Gaps, ranked</h3>
       <p style="color:var(--ink-muted);font-size:13px;margin:-6px 0 14px">Common, proven or rising in the market, little or none at Herology. Score = (bigger of market share and proven-in-market share minus Herology share) x a boost for growth in the last 30 days.</p>
       ${gaps.length ? gaps.map((g, i) => { const ex = g.examples.map(id => S.byId[id]).filter(Boolean); return `<section class="cd-gap"><div class="gh"><span class="rk">${i + 1}</span><h3>${esc(g.title)}</h3><span class="cd-pill m">${esc(g.dim)}</span></div><p class="why">${esc(g.why)}</p>${ex.length ? strip(ex, 'gap' + i) : ''}</section>`; }).join('') : '<div class="cd-empty">No gaps computed in this build.</div>'}
@@ -505,6 +530,7 @@
         <section class="cd-panel"><h3>Proven in market</h3><div class="sub">${fmtN(proven.length)} market cards ran 60+ days. Share with the tag vs Herology.</div>
         <table class="cd-t"><thead><tr><th>Tag</th><th>Proven market</th><th>Herology</th></tr></thead><tbody>${pvr.slice(0, 14).map(([k, v, p, h]) => `<tr><td>${esc(v)} <span style="color:var(--ink-muted)">${esc(FLABEL[k] || 'hook')}</span></td><td class="mk">${p}%</td><td class="hgc">${h}%</td></tr>`).join('')}</tbody></table></section></div>`;
     watchImgs(m);
+    $$('[data-gm]', m).forEach(b => b.addEventListener('click', () => { S.gapMkt = b.dataset.gm; store.set('gapMkt', S.gapMkt); vGaps(m); }));
   }
   function top1(cs, k) { const o = counter(cs, k); const e = Object.entries(o).sort((a, b) => b[1] - a[1])[0]; return e ? `${e[0]} (${pct(e[1], cs.length)}%)` : 'none read'; }
 
