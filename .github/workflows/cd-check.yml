@@ -18,11 +18,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Playwright
         run: |
-          mkdir -p /tmp/pw && cd /tmp/pw && npm init -y >/dev/null && npm i -s playwright@1.48.2 && npx playwright install --with-deps chromium >/dev/null
+          mkdir -p /tmp/pw && cd /tmp/pw && npm init -y >/dev/null && npm i -s playwright@1.48.2 && npx playwright install --with-deps chromium >/dev/null && (npx playwright install chrome >/dev/null 2>&1 || true)
       - name: Run check
         run: |
           mkdir -p out
-          NODE_PATH=/tmp/pw/node_modules node discovery/tools/check.js "${{ inputs.url }}" "$PWD/out" | tee out/log.txt
+          CHANNEL=$(command -v google-chrome >/dev/null && echo chrome || true) NODE_PATH=/tmp/pw/node_modules node discovery/tools/check.js "${{ inputs.url }}" "$PWD/out" | tee out/log.txt
       - name: Push results
         if: always()
         run: |

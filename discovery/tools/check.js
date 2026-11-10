@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 (async () => {
   const base = process.argv[2] || 'http://localhost:8765/discovery/';
   const out = process.argv[3] || '/tmp/claude-0/cdtest';
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.CHANNEL ? { channel: process.env.CHANNEL } : {});
   const res = [];
   const ok = (n, c, d) => { res.push([c ? 'PASS' : 'FAIL', n, d || '']); };
   for (const [w, h] of [[1440, 900], [390, 844]]) {
@@ -26,6 +26,8 @@ const { chromium } = require('playwright');
       if (fr) { await fr.hover(); await p.waitForTimeout(4000);
         const st = await p.evaluate(() => { const v = document.querySelector('.cd-fr video'); return v ? { rs: v.readyState, t: v.currentTime, src: v.currentSrc.slice(0, 60) } : null; });
         ok('1440 hover plays video', st && st.rs >= 2, JSON.stringify(st));
+        const head = await p.evaluate(async () => { const u = document.querySelector('.cd-fr[data-v]').dataset.v; const r = await fetch(u, { headers: { Range: 'bytes=0-1023' } }); return r.status + ' ' + r.headers.get('content-type'); });
+        ok('1440 video file served', /^20[06] video/.test(head), head);
         await p.mouse.move(5, 5); await p.waitForTimeout(300);
         ok('1440 video removed on leave', !(await p.$('.cd-fr video')));
       }
