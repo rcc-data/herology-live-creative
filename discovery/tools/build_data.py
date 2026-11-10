@@ -307,6 +307,8 @@ for r, mkt, origin in raw:
     hm = herology_match(alltext, slug_m, ben)
     DEF_BEN = {"Balance": "hormones/PMS", "Zen": "sleep/stress", "Collagen": "skin/hair", "Meno": "menopause", "PPN": "fertility/pregnancy",
                "Inositol": "PCOS", "Creatine": "performance", "Men's Prenatal": "fertility/pregnancy"}
+    if ben == ["other"] and any(re.search(r"revive-active|zest-active", l or "") for l in links):
+        ben = ["energy"]
     if ben == ["other"] and DEF_BEN.get(slug_m or (hm if brand != "Herology" else (extra or {}).get("product"))):
         ben = [DEF_BEN[slug_m or (hm if brand != "Herology" else (extra or {}).get("product"))]]
     if brand == "Herology" and slug_m:
@@ -536,7 +538,7 @@ def compute_gaps(out):
         cap = v[:1].upper() + v[1:]
         title = (f"{prod}: " if prod else "") + {"fmt": f"More {v} ads", "aspect": f"More {v} creative", "benefit": f"Lead with {v}",
                  "proof": f"{cap} as proof", "offer": f"{cap} offers" if v != "none" else "Ads with no offer", "hookFormat": f"{cap} hooks"}.get(k, v)
-        why = (f"{round(m)}% of market {scope} ({len(M)} cards) and {round(pv)}% of market ads that ran 60+ days use it; "
+        why = (f"{round(m)}% of market {scope} ({len(M)} cards)" + (f" and {round(pv)}% of the {len(P)} that ran 60+ days" if len(P) >= 10 else "") + " use it; "
                f"Herology {round(h)}% of {len(H)} cards. Launches: {l} in the last 30 days vs {r} in the 30 before. "
                f"Most used by " + ", ".join(f"{b} ({n})" for b, n in brands) + ".")
         res.append({"title": title, "dim": dim + (f" · {prod}" if prod else ""), "key": k, "value": v, "product": prod,
