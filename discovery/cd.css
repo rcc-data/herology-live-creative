@@ -160,7 +160,7 @@
 .cd .cd-strip{display:grid;grid-auto-flow:column;grid-auto-columns:150px;gap:10px;overflow-x:auto;padding-bottom:4px}
 .cd .cd-strip .cd-card .cd-cb{padding:6px 8px 8px}
 .cd .cd-strip .cd-card .h{font-size:11px}
-.cd .cd-seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.cd .cd-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;border:1px solid var(--line);border-radius:18px;overflow:hidden}
 .cd .cd-seg button{background:var(--card);border:0;padding:9px 14px;font:600 12px var(--font-body);cursor:pointer;min-height:40px}
 .cd .cd-seg button.on{background:var(--purple-deep);color:#fff}
 /* hooks */
