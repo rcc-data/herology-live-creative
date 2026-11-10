@@ -1,0 +1,365 @@
+[
+{
+"brand": "FabU",
+"slug": "fabu",
+"site": "fabuwellness.com",
+"cards": 33,
+"ads": 123,
+"live": 14,
+"proven": 0,
+"new30": 9,
+"medianDays": 22,
+"formats": {
+"video": 11,
+"image": 22
+},
+"benefits": {
+"menopause": 26,
+"hormones/PMS": 14,
+"energy": 12,
+"skin/hair": 5,
+"sleep/stress": 4
+},
+"proof": {
+"expert/GP": 20,
+"study": 1,
+"reviews": 1,
+"press": 1
+},
+"offers": {
+"subscription": 3,
+"gift": 2,
+"% off": 1,
+"bundle": 1
+},
+"match": {
+"Meno": 26,
+"Collagen": 5,
+"Zen": 2
+},
+"raw": 182,
+"english": 182,
+"kept": 123,
+"drops": {
+"no overlap": 4,
+"men-only": 23,
+"not in range": 32
+},
+"summary": "33 cards (14 live), mostly image (67%), led by menopause (79%) and hormones/PMS (42%). 0 have run 60+ days (median 22 days live) and 9 launched in the last 30 days; top proof is expert/GP (61%), top offer subscription (9%).",
+"pending": false
+},
+{
+"brand": "Happy Mammoth",
+"slug": "happy-mammoth",
+"site": "happymammoth.com",
+"cards": 124,
+"ads": 630,
+"live": 70,
+"proven": 39,
+"new30": 22,
+"medianDays": 13,
+"formats": {
+"video": 56,
+"image": 67,
+"carousel": 1
+},
+"benefits": {
+"hormones/PMS": 115,
+"energy": 101,
+"sleep/stress": 97,
+"gut": 33,
+"skin/hair": 30,
+"menopause": 29,
+"performance": 7,
+"fertility/pregnancy": 3
+},
+"proof": {
+"expert/GP": 43,
+"UGC testimonial": 40,
+"before-after": 23,
+"study": 22,
+"reviews": 18,
+"press": 2
+},
+"offers": {
+"bundle": 18,
+"% off": 15,
+"subscription": 7,
+"free shipping": 1
+},
+"match": {
+"Balance": 106,
+"Meno": 12,
+"Collagen": 5,
+"Zen": 1
+},
+"raw": 1124,
+"english": 1124,
+"kept": 630,
+"drops": {
+"men-only": 8,
+"weight-loss": 461,
+"gut-only": 1,
+"kids": 3,
+"no overlap": 7,
+"not in range": 14
+},
+"summary": "124 cards (70 live), mostly image (54%), led by hormones/PMS (93%) and energy (81%). 39 have run 60+ days (median 13 days live) and 22 launched in the last 30 days; top proof is expert/GP (35%), top offer bundle (15%).",
+"pending": false
+},
+{
+"brand": "Herology",
+"slug": "herology",
+"site": "herologysupplements.com",
+"cards": 198,
+"ads": 236,
+"live": 87,
+"proven": 96,
+"new30": 17,
+"medianDays": 57,
+"formats": {
+"video": 136,
+"image": 62
+},
+"benefits": {
+"fertility/pregnancy": 52,
+"postnatal": 52,
+"hormones/PMS": 46,
+"sleep/stress": 39,
+"energy": 38,
+"performance": 17,
+"menopause": 14,
+"skin/hair": 11,
+"gut": 9,
+"PCOS": 7
+},
+"proof": {
+"UGC testimonial": 124,
+"expert/GP": 85,
+"study": 25,
+"reviews": 9,
+"founder": 7,
+"press": 1
+},
+"offers": {
+"subscription": 7,
+"bundle": 4,
+"% off": 1
+},
+"match": {
+"Balance": 65,
+"PPN": 51,
+"Zen": 16,
+"Meno": 13,
+"Creatine": 11,
+"Inositol": 7,
+"Collagen": 5,
+"Men's Prenatal": 5
+},
+"raw": 296,
+"english": 236,
+"kept": 236,
+"drops": {
+"never ran": 60
+},
+"summary": "198 cards (87 live), mostly video (69%), led by fertility/pregnancy (26%) and postnatal (26%). 96 have run 60+ days (median 57 days live) and 17 launched in the last 30 days; top proof is UGC testimonial (63%), top offer subscription (4%).",
+"pending": false
+},
+{
+"brand": "Novomins Nutrition",
+"slug": "novomins-nutrition",
+"site": "novomins.com",
+"cards": 144,
+"ads": 278,
+"live": 63,
+"proven": 9,
+"new30": 48,
+"medianDays": 14,
+"formats": {
+"video": 91,
+"image": 52,
+"carousel": 1
+},
+"benefits": {
+"sleep/stress": 29,
+"energy": 15,
+"skin/hair": 14,
+"performance": 12,
+"gut": 11,
+"menopause": 10,
+"hormones/PMS": 6,
+"fertility/pregnancy": 5
+},
+"proof": {
+"UGC testimonial": 52,
+"expert/GP": 16,
+"before-after": 9,
+"study": 8,
+"reviews": 6
+},
+"offers": {
+"% off": 13,
+"bundle": 13,
+"free shipping": 7,
+"subscription": 2
+},
+"match": {
+"Balance": 86,
+"Zen": 31,
+"Collagen": 11,
+"Meno": 8,
+"Creatine": 4,
+"PPN": 4
+},
+"raw": 771,
+"english": 673,
+"kept": 278,
+"drops": {
+"kids": 173,
+"not in range": 113,
+"no overlap": 22,
+"weight-loss": 15,
+"gut-only": 68,
+"not English": 98,
+"men-only": 4
+},
+"summary": "144 cards (63 live), mostly video (63%), led by sleep/stress (20%) and energy (10%). 9 have run 60+ days (median 14 days live) and 48 launched in the last 30 days; top proof is UGC testimonial (36%), top offer % off (9%).",
+"pending": false
+},
+{
+"brand": "Revive Active",
+"slug": "revive-active",
+"site": "reviveactive.com",
+"cards": 36,
+"ads": 54,
+"live": 21,
+"proven": 12,
+"new30": 6,
+"medianDays": 44,
+"formats": {
+"carousel": 3,
+"image": 25,
+"video": 8
+},
+"benefits": {
+"energy": 8,
+"sleep/stress": 6,
+"skin/hair": 4,
+"menopause": 3
+},
+"proof": {
+"study": 6,
+"expert/GP": 5
+},
+"offers": {},
+"match": {
+"Balance": 22,
+"Zen": 7,
+"Collagen": 4,
+"Meno": 3
+},
+"raw": 66,
+"english": 66,
+"kept": 54,
+"drops": {
+"kids": 6,
+"not in range": 5,
+"no overlap": 1
+},
+"summary": "36 cards (21 live), mostly image (69%), led by energy (22%) and sleep/stress (17%). 12 have run 60+ days (median 44 days live) and 6 launched in the last 30 days; top proof is study (17%), with no offer in most ads.",
+"pending": false
+},
+{
+"brand": "Sisterly",
+"slug": "sisterly",
+"site": "sisterlylab.com",
+"cards": 139,
+"ads": 160,
+"live": 55,
+"proven": 25,
+"new30": 27,
+"medianDays": 25,
+"formats": {
+"image": 60,
+"video": 79
+},
+"benefits": {
+"energy": 88,
+"hormones/PMS": 38,
+"skin/hair": 38,
+"sleep/stress": 30,
+"menopause": 10,
+"performance": 1,
+"fertility/pregnancy": 1
+},
+"proof": {
+"study": 21,
+"expert/GP": 16,
+"reviews": 12,
+"founder": 9,
+"press": 8,
+"UGC testimonial": 5,
+"before-after": 4
+},
+"offers": {
+"% off": 19,
+"subscription": 10,
+"bundle": 4
+},
+"match": {
+"Balance": 128,
+"Meno": 9,
+"Collagen": 2
+},
+"raw": 162,
+"english": 162,
+"kept": 160,
+"drops": {
+"no overlap": 2
+},
+"summary": "139 cards (55 live), mostly video (57%), led by energy (63%) and hormones/PMS (27%). 25 have run 60+ days (median 25 days live) and 27 launched in the last 30 days; top proof is study (15%), top offer % off (14%).",
+"pending": false
+},
+{
+"brand": "Gigi Supplements",
+"slug": "gigi-supplements",
+"cards": 0,
+"pending": true,
+"summary": "Not in Motion. Coming from Meta Ad Library in a later run."
+},
+{
+"brand": "Cleanmarine",
+"slug": "cleanmarine",
+"cards": 0,
+"pending": true,
+"summary": "Not in Motion. Coming from Meta Ad Library in a later run."
+},
+{
+"brand": "Sentro Labs",
+"slug": "sentro-labs",
+"cards": 0,
+"pending": true,
+"summary": "Not in Motion. Coming from Meta Ad Library in a later run."
+},
+{
+"brand": "Mountaindrop",
+"slug": "mountaindrop",
+"cards": 0,
+"pending": true,
+"summary": "Not in Motion. Coming from Meta Ad Library in a later run."
+},
+{
+"brand": "Grova",
+"slug": "grova",
+"cards": 0,
+"pending": true,
+"summary": "Not in Motion. Coming from Meta Ad Library in a later run."
+},
+{
+"brand": "Byontale",
+"slug": "byontale",
+"cards": 0,
+"pending": true,
+"summary": "Not in Motion. Coming from Meta Ad Library in a later run."
+}
+]

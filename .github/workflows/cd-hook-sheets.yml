@@ -1,0 +1,43 @@
+name: Creative Discovery hook sheets (Herology)
+# Large-frame sheets (no headline or copy) for reading on-screen hook text (discovery/tools/hook_sheets.py).
+# Sheets are pushed to data branches cd-hooks/run-<run id>-p<part> (artifact downloads are blocked for the
+# reading session). The live site and main are untouched.
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Only the first N unread video ads (0 = all)"
+        required: false
+        default: "0"
+permissions:
+  contents: write
+concurrency:
+  group: cd-hook-sheets
+  cancel-in-progress: false
+jobs:
+  sheets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffmpeg and Python deps
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          pip install -q requests pillow
+      - name: Build hook sheets
+        env:
+          PART: ${{ matrix.part }}
+          PARTS: "4"
+          LIMIT: ${{ inputs.limit }}
+        run: python3 -u discovery/tools/hook_sheets.py
+      - name: Push sheets to a data branch
+        run: |
+          B="cd-hooks/run-${{ github.run_id }}-p${{ matrix.part }}"
+          cd out && git init -q -b "$B" && git add -A \
+            && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Hook sheets $B" \
+            && git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$B:$B"
+          echo "branch=$B"

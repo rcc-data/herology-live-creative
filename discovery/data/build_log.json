@@ -1,0 +1,73 @@
+{
+ "brands": {
+  "Happy Mammoth": {
+   "raw": 1124,
+   "english": 1124,
+   "kept": 630,
+   "drops": {
+    "men-only": 8,
+    "weight-loss": 461,
+    "gut-only": 1,
+    "kids": 3,
+    "no overlap": 7,
+    "not in range": 14
+   }
+  },
+  "Novomins Nutrition": {
+   "raw": 771,
+   "english": 673,
+   "kept": 278,
+   "drops": {
+    "kids": 173,
+    "not in range": 113,
+    "no overlap": 22,
+    "weight-loss": 15,
+    "gut-only": 68,
+    "not English": 98,
+    "men-only": 4
+   }
+  },
+  "Sisterly": {
+   "raw": 162,
+   "english": 162,
+   "kept": 160,
+   "drops": {
+    "no overlap": 2
+   }
+  },
+  "FabU": {
+   "raw": 182,
+   "english": 182,
+   "kept": 123,
+   "drops": {
+    "no overlap": 4,
+    "men-only": 23,
+    "not in range": 32
+   }
+  },
+  "Revive Active": {
+   "raw": 66,
+   "english": 66,
+   "kept": 54,
+   "drops": {
+    "kids": 6,
+    "not in range": 5,
+    "no overlap": 1
+   }
+  },
+  "Herology": {
+   "raw": 296,
+   "english": 236,
+   "kept": 236,
+   "drops": {
+    "never ran": 60
+   }
+  }
+ },
+ "cards": 674,
+ "ads": 1481,
+ "media_jobs": 2539,
+ "video_ads": 749,
+ "hooks_read": 0,
+ "media_done": 0
+}
