@@ -1,0 +1,37 @@
+PASS  1440 cards render  48
+PASS  1440 card media loaded  11 images
+PASS  1440 media from R2  11
+PASS  1440 hover plays video  {"rs":4,"t":3.690238,"src":"https://pub-70583d87d1ae49d78024fb434a4421a2.r2.dev/discover"}
+PASS  1440 video file served  206 video/mp4
+PASS  1440 video removed on leave  
+PASS  1440 no autoplay  
+PASS  1440 lazy batch  48 -> 96
+PASS  1440 filter changes count  606 of 606 cards -> 71 of 606 cards
+PASS  1440 search  5 of 606 cards for "magnesium"
+PASS  1440 viewer from #ad link  6af0ceb7b8700b4675314a32
+PASS  1440 viewer closes  
+PASS  1440 brands renders  
+PASS  1440 brands/happy-mammoth renders  
+PASS  1440 hooks renders  
+PASS  1440 gaps renders  
+PASS  1440 gap list  15
+PASS  1440 no horizontal scroll  
+PASS  1440 no NaN/undefined anywhere  
+PASS  1440 no JS errors  
+PASS  390 cards render  48
+PASS  390 card media loaded  4 images
+PASS  390 media from R2  4
+PASS  390 lazy batch  48 -> 96
+PASS  390 filter changes count  606 of 606 cards -> 71 of 606 cards
+PASS  390 search  5 of 606 cards for "magnesium"
+PASS  390 viewer from #ad link  6af0ceb7b8700b4675314a32
+PASS  390 viewer closes  
+PASS  390 brands renders  
+PASS  390 brands/happy-mammoth renders  
+PASS  390 hooks renders  
+PASS  390 gaps renders  
+PASS  390 gap list  15
+PASS  390 no horizontal scroll  
+PASS  390 no NaN/undefined anywhere  
+PASS  390 no JS errors  
+36/36 passed
