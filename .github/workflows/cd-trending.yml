@@ -1,0 +1,34 @@
+name: Creative Discovery Runneth trending (Herology)
+# Pulls the Runneth trending supplements and health-wellness lists, stores their media in R2
+# (discovery/trending/) and commits discovery/data/trending.json. Manual runs only (a weekly schedule needs Ryan yes).
+# Secrets (added by Ryan in repo settings): R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: cd-trending
+  cancel-in-progress: false
+jobs:
+  trending:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: python3 -m pip install -q boto3 requests beautifulsoup4
+      - name: Pull trending
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: python3 discovery/tools/trending_pull.py
+      - name: Commit results
+        if: always()
+        run: |
+          [ -f discovery/data/trending.json ] || exit 0
+          git add discovery/data/trending.json
+          git diff --cached --quiet && { echo "Nothing new"; exit 0; }
+          git -c user.name="Herology Discovery (Actions)" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -qm "Discovery Runneth trending"
+          for i in 1 2 3 4; do git pull -q --rebase && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done; exit 1
