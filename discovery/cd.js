@@ -387,7 +387,7 @@
   let HKS = null;
   function hookStats() {
     if (HKS) return HKS;
-    const read = S.cards.filter(c => c.hookKind), mk = read.filter(c => !c.hg && c.market !== 'Heavy hitters'), hg = read.filter(c => c.hg);
+    const read = S.cards.filter(c => c.hookKind), mk = read.filter(c => !c.hg), hg = read.filter(c => c.hg);
     const by = (arr) => { const o = {}; arr.forEach(c => { const f = c.hookFormat || 'Other'; (o[f] = o[f] || []).push(c); }); return o; };
     HKS = { read, mk, hg, mkBy: by(mk), hgBy: by(hg), mkMed: median(mk.map(c => c.days || 0)) };
     return HKS;
@@ -475,8 +475,8 @@
   function vBrands(m) {
     const B = S.bl || (S.bl = { q: '', mk: 'all', sort: 'cards' });
     const all = S.brands.filter(b => !b.pending), pend = S.brands.filter(b => b.pending);
-    const mkOf = b => (b.tier === 'heavy' ? 'Heavy hitters' : b.market || 'IE');
-    const chips = [['all', 'All', all.length], ...MK_ORDER.map(k => [k, mkName(k), all.filter(b => mkOf(b) === k).length]), ['Heavy hitters', 'Heavy hitters', all.filter(b => mkOf(b) === 'Heavy hitters').length]].filter(c => c[2] || c[0] === 'all');
+    const mkOf = b => b.market || 'IE';
+    const chips = [['all', 'All', all.length], ...MK_ORDER.map(k => [k, mkName(k), all.filter(b => mkOf(b) === k).length])].filter(c => c[2] || c[0] === 'all');
     const q = norm(B.q);
     const SORT = { cards: (a, b) => b.cards - a.cards, live: (a, b) => b.live - a.live, new30: (a, b) => b.new30 - a.new30, longest: (a, b) => b.medianDays - a.medianDays, az: (a, b) => a.brand.localeCompare(b.brand) };
     const list = all.filter(b => (B.mk === 'all' || mkOf(b) === B.mk) && (!q || norm(b.brand + ' ' + (b.site || '')).includes(q)))
@@ -515,7 +515,7 @@
     const hr = cs.filter(c => c.hookKind), hfc = counter(hr.filter(c => c.hookFormat && c.hookFormat !== 'Visual only' && c.hookFormat !== 'Other'), 'hookFormat');
     const hft = Object.entries(hfc).sort((x, y) => y[1] - x[1]).slice(0, 4).map(([f, n]) => { const ex = hr.filter(c => c.hookFormat === f && c.hook).sort((x, y) => y.proven - x.proven)[0]; return { f, n, ex }; });
     m.innerHTML = `<div class="cd-h"><div><h2 class="cd-bn ${b.brand === 'Herology' ? 'hg' : ''}">${LG(b.brand, 40)}${esc(b.brand)}</h2><p>${esc(b.summary)}</p></div><a class="cd-btn" href="#brands">All brands</a></div>
-      <div class="cd-bhd">${esc(mkName(b.tier === 'heavy' ? 'Heavy hitters' : b.market) || '')}${b.site ? ` · <a href="https://${esc(b.site)}" target="_blank" rel="noopener">${esc(b.site)}</a>` : ''} · <b>${fmtN(b.live)}</b> live of ${fmtN(b.cards)} cards · median <b>${fmtN(b.medianDays)}</b> days live</div>
+      <div class="cd-bhd">${esc(mkName(b.market) || '')}${b.site ? ` · <a href="https://${esc(b.site)}" target="_blank" rel="noopener">${esc(b.site)}</a>` : ''} · <b>${fmtN(b.live)}</b> live of ${fmtN(b.cards)} cards · median <b>${fmtN(b.medianDays)}</b> days live</div>
       <div class="cd-panels">
         <section class="cd-panel"><h3>Launches captured per week</h3><div class="sub">Last 8 weeks by start date · capped pull, so this is what was captured, not everything that launched</div>
           <div class="cd-wk">${wrows.map(r => `<div class="c" title="${r.v} video, ${r.i} image"><div class="st" style="height:${((r.v + r.i) / wmx) * 100}%"><i class="v" style="flex:${r.v}"></i><i class="i" style="flex:${r.i}"></i></div><b>${r.v + r.i}</b><span>${esc(r.l)}</span></div>`).join('')}</div>
@@ -604,7 +604,7 @@
     const hcard = c => `<article class="cd-hk" data-open="${esc(c.id)}" tabindex="0" aria-label="${esc(c.brand)} hook">${thumb(c)}${c.isProven ? '<span class="cd-tagp">Proven</span>' : ''}
       <div class="b"><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 16)}${esc(c.brand)}</span></div>
       <div class="mt"><span class="cd-pill m">${esc(c.hookFormat || 'unclassified')}</span> ${fmtN(c.days)}d live · score ${fmtN(c.proven)}</div></div></article>`;
-    m.innerHTML = `<div class="cd-h"><div><h2>Hooks</h2><p>What is written on screen in the first 3 seconds of each video, read from the frames (not the Meta headline). Market excludes Heavy hitters. Days live and Proven score show what brands keep running, not results.</p></div>
+    m.innerHTML = `<div class="cd-h"><div><h2>Hooks</h2><p>What is written on screen in the first 3 seconds of each video, read from the frames (not the Meta headline). Days live and Proven score show what brands keep running, not results.</p></div>
       <div class="cd-stats">${stat(fmtN(read.length), 'Videos read')}${stat(pct(text.length, read.length) + '%', 'Open with text')}${stat(fmtN(H.hg.length), 'Herology read', 1)}${stat(fmtN(H.mkMed) + 'd', 'Median live')}</div></div>
       ${ins.length ? `<section class="cd-ins">${ins.map(([h, b, f]) => `<${f ? `button type="button" data-hf="${esc(f)}"` : 'div'} class="i"><span>${esc(h)}</span><b>${esc(b)}</b>${f ? '<em>See these hooks ↓</em>' : ''}</${f ? 'button' : 'div'}>`).join('')}</section>` : ''}
       <section class="cd-panel"><div class="cd-ph"><div><h3>Hook formats: Herology vs market</h3><div class="sub">Share of each side's video hooks${S.hk.fmt ? ` · library filtered to <b>${esc(S.hk.fmt)}</b> (click again to clear)` : ' · click a row to filter the library below'}</div></div>

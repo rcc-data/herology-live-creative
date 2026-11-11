@@ -42,7 +42,7 @@ def jl(p, d=None):
 
 
 # ---------------------------------------------------------------- load
-# Markets: IE (Ireland), UK, NA (North America), AU (Australia / NZ). Heavy hitters (IM8, AG1, ...) sit in their home market, cap 30; no separate section
+# Markets: IE (Ireland), UK, NA (North America), AU (Australia / NZ). The big global brands (IM8, AG1, ...) sit in their home market, cap 30; no separate group or label (Ryan, 11 Nov)
 # motion_wide.json rows carry row[11] = "wide" | "heavy" (tier), not an extra dict.
 WIDE_MKT = {"Oriel Magnesium": "IE", "Revive Collagen": "UK", "Gold Collagen": "UK", "Free Soul": "UK", "Spacegoods": "UK",
             "Your Heights": "UK", "Metagenics ANZ": "AU", "The Gut Co": "AU", "Naternal": "AU"}
@@ -586,7 +586,7 @@ for ch in cards:
                 lead["extra"].get("ad_name"), lead["concept_n"], lead["tier"]])
 # ---------------------------------------------------------------- gaps (Herology vs market)
 def compute_gaps(out, mkt=None):
-    """Herology vs one market (mkt = market code) or vs all markets except Heavy hitters (mkt None)."""
+    """Herology vs one market (mkt = market code) or vs all markets (mkt None)."""
     Fi = {f: i for i, f in enumerate(FIELDS)}
     def vals(c, k):
         v = c[Fi[k]]
