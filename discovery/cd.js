@@ -114,7 +114,7 @@
     const adIdx = parts.indexOf('ad');
     const adId = adIdx >= 0 ? parts[adIdx + 1] : null;
     const base = adIdx >= 0 ? parts.slice(0, adIdx) : parts;
-    const tab = ['discover', 'herology', 'brands', 'hooks', 'gaps'].includes(base[0]) ? base[0] : 'discover';
+    const tab = ['discover', 'herology', 'brands', 'hooks', 'gaps', 'trending'].includes(base[0]) ? base[0] : 'discover';
     const pathKey = base.join('/') + '?' + (qs || '');
     S.tab = tab;
     S.brand = tab === 'brands' && base[1] ? base[1] : null;
@@ -149,6 +149,7 @@
     if (S.tab === 'brands') return S.brand ? vBrand(m) : vBrands(m);
     if (S.tab === 'hooks') return vHooks(m);
     if (S.tab === 'gaps') return vGaps(m);
+    if (S.tab === 'trending') return vTrending(m);
     if (S.tab === 'herology') return vHerology(m);
     return vDiscover(m);
   }
@@ -586,6 +587,48 @@
     $$('[data-hf]', m).forEach(b => b.addEventListener('click', () => { S.hk.fmt = S.hk.fmt === b.dataset.hf ? null : b.dataset.hf; vHooks(m); }));
     $('#cd-hs', m).addEventListener('change', e => { S.hk.sort = e.target.value; vHooks(m); });
     let tq; $('#cd-hq', m).addEventListener('input', e => { clearTimeout(tq); tq = setTimeout(() => { S.hk.q = e.target.value; vHooks(m); const i = $('#cd-hq'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 250); });
+  }
+
+  // ------------------------------------------------------------ Runneth trending (weekly top ads, media stored in R2)
+  let TR = null;
+  async function vTrending(m) {
+    if (!TR) { m.innerHTML = '<div class="cd-empty">Loading trending ads…</div>'; TR = await fetch('data/trending.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : null)).catch(() => null) || { weeks: {} }; if (S.tab !== 'trending') return; }
+    const weeks = Object.keys(TR.weeks || {}).sort().reverse();
+    if (!weeks.length) { m.innerHTML = '<div class="cd-h"><div><h2>Trending</h2><p>No trending pull yet.</p></div></div>'; return; }
+    const T = S.tr || (S.tr = { wk: weeks[0], cat: 'supplements' });
+    if (!TR.weeks[T.wk]) T.wk = weeks[0];
+    const cats = Object.keys(TR.weeks[T.wk]); if (!cats.includes(T.cat)) T.cat = cats[0];
+    const rows = TR.weeks[T.wk][T.cat] || [];
+    const prev = weeks[weeks.indexOf(T.wk) + 1], prevRanks = {};
+    if (prev && TR.weeks[prev][T.cat]) TR.weeks[prev][T.cat].forEach(r => (prevRanks[r.src] = r.rank));
+    const known = new Set(S.brands.map(b => b.brand.toLowerCase()));
+    const bl = b => S.brands.find(x => x.brand.toLowerCase() === (b || '').toLowerCase());
+    const label = c => (TR.cats || {})[c] || c;
+    m.innerHTML = `<div class="cd-h"><div><h2>Trending</h2><p>The week's top ads in Runneth's ${cats.map(c => esc(label(c))).join(' and ')} lists (Motion's trending ranking, not Herology data). Media is stored in our bucket, so ads stay viewable after they stop running.</p></div></div>
+      <div class="cd-bar"><div class="cd-seg" role="group" aria-label="List">${cats.map(c => `<button data-tc="${esc(c)}" class="${T.cat === c ? 'on' : ''}">${esc(label(c))}</button>`).join('')}</div>
+        <select id="cd-tw" class="cd-sel" aria-label="Week">${weeks.map(w => `<option value="${w}" ${w === T.wk ? 'selected' : ''}>Week of ${w}</option>`).join('')}</select>
+        <span class="cd-count">${fmtN(rows.length)} ads · ${fmtN(rows.filter(r => r.kind === 'video').length)} video</span></div>
+      <div class="cd-trg">${rows.map(r => { const b = bl(r.brand), img = r.poster || (r.images || [])[0] || '', pr = prevRanks[r.src];
+        const mv = !prev ? '' : pr == null ? '<span class="nw">New</span>' : pr > r.rank ? `<span class="up">▲ ${pr - r.rank}</span>` : pr < r.rank ? `<span class="dn">▼ ${r.rank - pr}</span>` : '<span class="eq">=</span>';
+        return `<button type="button" class="cd-trc" data-tr="${r.rank}"><div class="md">${img ? `<img data-src="${esc(img)}" alt="${esc(r.brand)} ad">` : ''}<span class="rk">${r.rank}</span>${r.kind !== 'image' ? `<span class="kd">${esc(r.kind)}</span>` : ''}</div>
+          <div class="bt">${r.logo ? `<img class="cd-lg" src="${esc(r.logo)}" alt="" style="--lg:18px" loading="lazy" data-m="${esc((r.brand || '?').slice(0, 1))}">` : LG(r.brand, 18)}<span class="bn">${esc(r.brand)}</span>${mv}</div>
+          <div class="mt">${r.age ? esc(r.age) + ' live' : ''}${b ? ` · <span class="in">in our build</span>` : ''}</div></button>`; }).join('')}</div>`;
+    watchImgs(m);
+    $$('[data-tc]', m).forEach(b => b.addEventListener('click', () => { T.cat = b.dataset.tc; vTrending(m); }));
+    $('#cd-tw', m).addEventListener('change', e => { T.wk = e.target.value; vTrending(m); });
+    $$('[data-tr]', m).forEach(b => b.addEventListener('click', () => trView(rows.find(r => String(r.rank) === b.dataset.tr), bl)));
+  }
+  function trView(r, bl) {
+    if (!r) return;
+    let o = $('#cd-trv'); if (!o) { o = document.createElement('div'); o.id = 'cd-trv'; o.className = 'cd-vw'; $('#cd-app').appendChild(o); o.addEventListener('click', e => { if (e.target === o || e.target.closest('[data-tx]')) { o.hidden = true; o.innerHTML = ''; document.documentElement.style.overflow = ''; } }); }
+    const b = bl(r.brand);
+    const media = r.video ? `<video controls playsinline autoplay muted preload="metadata" ${r.poster ? `poster="${esc(r.poster)}"` : ''} src="${esc(r.video)}"></video>` : (r.images || []).map(u => `<img src="${esc(u)}" alt="">`).join('');
+    o.innerHTML = `<div class="cd-vwp" role="dialog" aria-modal="true" aria-label="Trending ad"><div class="cd-vwm ${r.images && r.images.length > 1 ? 'car' : ''}">${media}<button class="cd-x" data-tx aria-label="Close">✕</button></div><div class="cd-vwi">
+      <div style="font-size:12px;color:var(--ink-muted)">Rank ${r.rank} · ${esc((TR.cats || {})[S.tr.cat] || S.tr.cat)} · week of ${esc(S.tr.wk)}</div>
+      <h3 class="cd-bn">${LG(r.brand, 28)}${esc(r.brand)}</h3>
+      <dl class="cd-kv"><dt>Format</dt><dd>${esc(r.kind)}</dd>${r.age ? `<dt>Live</dt><dd>${esc(r.age)}</dd>` : ''}</dl>
+      <div class="cd-nav">${b ? `<a class="cd-btn" href="#brands/${esc(b.slug)}">Brand page</a>` : ''}<button class="cd-btn" data-tx>Close</button></div></div></div>`;
+    o.hidden = false; document.documentElement.style.overflow = 'hidden';
   }
 
   // ------------------------------------------------------------ Herology vs market
