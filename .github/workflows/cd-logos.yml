@@ -1,0 +1,40 @@
+name: Creative Discovery brand logos (Herology)
+# Pulls a logo for each brand in discovery/data/brands.json from the brand's site into the
+# herology-creative R2 bucket (discovery/logos/<slug>.png) and commits discovery/data/logos.json.
+# Secrets (added by Ryan in repo settings): R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY.
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Re-pull logos that already exist (1 = yes)"
+        required: false
+        default: "0"
+permissions:
+  contents: write
+concurrency:
+  group: cd-logos
+  cancel-in-progress: false
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: python3 -m pip install -q boto3 requests pillow cairosvg
+      - name: Pull logos
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          FORCE: ${{ inputs.force }}
+        run: python3 discovery/tools/logo_pull.py
+      - name: Commit results
+        if: always()
+        run: |
+          [ -f discovery/data/logos.json ] || exit 0
+          git add discovery/data/logos.json
+          git diff --cached --quiet && { echo "Nothing new"; exit 0; }
+          git -c user.name="Herology Discovery (Actions)" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -qm "Discovery brand logos"
+          git pull -q --rebase && git push -q origin HEAD:main

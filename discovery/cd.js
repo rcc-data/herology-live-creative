@@ -45,6 +45,7 @@
     S.cards = a.cards.map(row => { const o = {}; F.forEach((k, i) => (o[k] = row[i])); return prep(o); });
     S.cards.forEach(c => { S.byId[c.id] = c; (c.formats || []).forEach(m => { if (!S.byId[m.id]) S.byId[m.id] = c; }); });
     S.brands = b;
+    S.logos = await fetch('data/logos.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {})).catch(() => ({}));
   }
   let MK_ORDER = ['IE'];
   const mkName = k => (S.meta.markets && S.meta.markets[k]) || k || 'Ireland';
@@ -166,7 +167,7 @@
         ${c.isProven ? `<span class="cd-tagp">${small ? 'P' : 'Proven'}</span>` : ''}
       </div>
       <div class="cd-cb">
-        <div class="t"><span class="b ${c.hg ? 'hg' : ''}" title="${esc(c.mkt)}">${esc(c.brand)}</span><span>${fmtN(c.days)}d${c.status === 'active' ? ' · live' : ''}</span></div>
+        <div class="t"><span class="b ${c.hg ? 'hg' : ''}" title="${esc(c.mkt)}">${LG(c.brand, 18)}${esc(c.brand)}</span><span>${fmtN(c.days)}d${c.status === 'active' ? ' · live' : ''}</span></div>
         ${small ? '' : `<p class="h">${esc(hl)}</p>`}
         ${small ? '' : `<div class="cd-pills">${c.match && c.match !== 'none' ? `<span class="cd-pill m">${esc(c.match)}</span>` : ''}${(c.vf || []).slice(0, 1).map(x => `<span class="cd-pill t">${esc(x)}</span>`).join('')}${(c.benefit || []).filter(x => x !== 'other').slice(0, 1).map(x => `<span class="cd-pill">${esc(x)}</span>`).join('')}${n}</div>`}
       </div></article>`;
@@ -324,7 +325,7 @@
     o.innerHTML = `<div class="cd-fdp" role="dialog" aria-modal="true" aria-label="Filters"><div class="cd-fdh"><h3 class="disp">Filters</h3><button class="cd-btn" data-fx aria-label="Close filters">✕</button></div><div class="cd-fdb">
       ${FKEYS.filter(k => k !== skip).map(k => {
         const counts = {}; base.filter(c => qMatch(c, t) && fMatch(c, D, k)).forEach(c => val(c, k).forEach(v => (counts[v] = (counts[v] || 0) + 1)));
-        return `<section class="cd-fg"><h4>${esc(FLABEL[k])}</h4><div class="cd-opts">${opts(k, base).map(v => { const n = counts[v] || 0, on = D[k].has(v); return `<button class="cd-opt ${on ? 'on' : ''}" data-k="${k}" data-v="${esc(v)}" ${!n && !on ? 'disabled' : ''} aria-pressed="${on}">${esc(v)}<b>${fmtN(n)}</b></button>`; }).join('')}</div></section>`;
+        return `<section class="cd-fg"><h4>${esc(FLABEL[k])}</h4><div class="cd-opts">${opts(k, base).map(v => { const n = counts[v] || 0, on = D[k].has(v); return `<button class="cd-opt ${on ? 'on' : ''}" data-k="${k}" data-v="${esc(v)}" ${!n && !on ? 'disabled' : ''} aria-pressed="${on}">${k === 'brand' ? LG(v, 16) : ''}${esc(v)}<b>${fmtN(n)}</b></button>`; }).join('')}</div></section>`;
       }).join('')}</div><div class="cd-fdf"><button class="cd-btn" data-fclear>Clear all</button><button class="cd-btn p" data-fapply>Show ${fmtN(total)} results</button></div></div>`;
   }
   function onFD(e) {
@@ -357,7 +358,7 @@
     const tags = (k, l) => (c[k] && c[k].length ? `<dt>${l}</dt><dd>${c[k].map(esc).join(', ')}</dd>` : '');
     o.innerHTML = `<div class="cd-vwp" role="dialog" aria-modal="true" aria-label="Ad viewer"><div class="cd-vwm">${media}<button class="cd-x" data-vx aria-label="Close">✕</button></div><div class="cd-vwi">
       <div style="font-size:12px;color:var(--ink-muted)">${idx >= 0 ? `${fmtN(idx + 1)} of ${fmtN(list.length)} · ` : ''}${esc(c.mkt)} · ${c.status === 'active' ? 'Live' : 'Ended'} · ${esc(m.fmt)} ${esc(m.aspect)}</div>
-      <h3 class="${c.hg ? 'hg' : ''}">${esc(c.brand)}</h3>
+      <h3 class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 28)}${esc(c.brand)}</h3>
       <div class="cd-sec"><h4>Hook line (on screen, first 3 seconds)</h4>${hookTxt}${hk.f ? `<div class="cd-pills"><span class="cd-pill m">${esc(hk.f)}</span></div>` : ''}</div>
       ${hk.o ? `<div class="cd-sec"><h4>All on-screen text</h4><div class="cd-copy">${esc(hk.o)}</div></div>` : ''}
       ${c.title ? `<div class="cd-sec"><h4>Ad headline (Meta)</h4><div>${esc(c.title)}</div></div>` : ''}
@@ -386,6 +387,11 @@
     LISTS['cc-' + c.id] = others;
     return `<div class="cd-sec"><h4>Same copy, ${fmtN(k)} creatives</h4><div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">${esc(c.brand)} ran this caption on ${fmtN(k)} different creatives. Others:</div><div class="cd-fmts">${others.slice(0, 12).map(x => `<button class="cd-opt" data-cc="${esc(x.id)}">${esc(x.start || '')} · ${esc(x.fmt)} ${esc(x.aspect)}</button>`).join('')}${others.length > 12 ? `<span style="font-size:12px;color:var(--ink-muted)">+${fmtN(others.length - 12)} more</span>` : ''}</div></div>`;
   }
+  // brand logo (from data/logos.json); falls back to a monogram if missing or broken
+  const MONO = b => (b || '?').replace(/[^A-Za-z0-9 ]/g, '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '?';
+  function LG(b, sz) { const l = (S.logos || {})[slug(b || '')]; const st = sz ? ` style="--lg:${sz}px"` : '';
+    return l ? `<img class="cd-lg" src="${esc(l.u)}" alt="" loading="lazy" data-m="${esc(MONO(b))}"${st}>` : `<span class="cd-lg mono"${st}>${esc(MONO(b))}</span>`; }
+  document.addEventListener('error', e => { const t = e.target; if (t && t.classList && t.classList.contains('cd-lg') && t.tagName === 'IMG') { const m = document.createElement('span'); m.className = 'cd-lg mono'; m.textContent = t.dataset.m || '?'; if (t.getAttribute('style')) m.setAttribute('style', t.getAttribute('style')); t.replaceWith(m); } }, true);
   function slug(b) { return b.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
   function closeViewer(push = true) {
     const o = $('#cd-vw'); if (!o || o.hidden) return;
@@ -440,23 +446,23 @@
   function vBrands(m) {
     const live = S.brands.filter(b => !b.pending).sort((a, b) => (a.brand === 'Herology' ? -1 : b.brand === 'Herology' ? 1 : b.cards - a.cards));
     const pend = S.brands.filter(b => b.pending);
-    const tile = b => `<a class="cd-tile" href="#brands/${esc(b.slug)}"><h3 class="${b.brand === 'Herology' ? 'hg' : ''}">${esc(b.brand)}</h3><div class="sub">${esc(b.site || '')}${b.brand !== 'Herology' ? ` · raw ${fmtN(b.raw)}, English ${fmtN(b.english)}, in range ${fmtN(b.scoped != null ? b.scoped : b.kept)}, kept ${fmtN(b.kept)} ads` : ` · ${fmtN(b.ads)} ads with spend`}</div>
+    const tile = b => `<a class="cd-tile" href="#brands/${esc(b.slug)}"><h3 class="cd-bn ${b.brand === 'Herology' ? 'hg' : ''}">${LG(b.brand, 32)}${esc(b.brand)}</h3><div class="sub">${esc(b.site || '')}${b.brand !== 'Herology' ? ` · raw ${fmtN(b.raw)}, English ${fmtN(b.english)}, in range ${fmtN(b.scoped != null ? b.scoped : b.kept)}, kept ${fmtN(b.kept)} ads` : ` · ${fmtN(b.ads)} ads with spend`}</div>
         <div class="cd-kpis"><div class="cd-kpi"><div class="n">${fmtN(b.cards)}</div><div class="l">Cards</div></div><div class="cd-kpi"><div class="n">${fmtN(b.live)}</div><div class="l">Live</div></div><div class="cd-kpi"><div class="n">${fmtN(b.proven)}</div><div class="l">Proven</div></div><div class="cd-kpi"><div class="n">${fmtN(b.new30)}</div><div class="l">New 30d</div></div></div>
         ${mixBar(b.formats || {}, b.cards)}<p>${esc(b.summary)}</p></a>`;
     const groups = MK_ORDER.map(k => [k, live.filter(b => (b.market || 'IE') === k)]).filter(g => g[1].length);
     m.innerHTML = `<div class="cd-h"><div><h2>Brands</h2><p>${live.length} brands with ads in this build, by market. At most 100 ads per brand (AG1, Cymbiotika, Winks Sleep 30; Herology all). Summaries use only the counts shown.</p></div></div>
       ${groups.map(([k, bs]) => `<h3 class="disp" style="font-size:20px;margin:22px 0 10px">${esc(mkName(k))} <span style="color:var(--ink-muted);font-size:14px">${bs.length} brands</span></h3>
-      <div class="cd-tiles">${bs.map(tile).join('')}${k === 'IE' ? pend.map(b => `<div class="cd-tile pend"><h3>${esc(b.brand)}</h3><p>${esc(b.summary)}</p></div>`).join('') : ''}</div>`).join('')}`;
+      <div class="cd-tiles">${bs.map(tile).join('')}${k === 'IE' ? pend.map(b => `<div class="cd-tile pend"><h3 class="cd-bn">${LG(b.brand, 32)}${esc(b.brand)}</h3><p>${esc(b.summary)}</p></div>`).join('') : ''}</div>`).join('')}`;
   }
   function vBrand(m) {
     const b = S.brands.find(x => x.slug === S.brand);
     if (!b) { m.innerHTML = '<div class="cd-empty">Brand not found. <a href="#brands">All brands</a></div>'; return; }
-    if (b.pending) { m.innerHTML = `<div class="cd-h"><div><h2>${esc(b.brand)}</h2><p>${esc(b.summary)}</p></div><a class="cd-btn" href="#brands">All brands</a></div>`; return; }
+    if (b.pending) { m.innerHTML = `<div class="cd-h"><div><h2 class="cd-bn">${LG(b.brand, 40)}${esc(b.brand)}</h2><p>${esc(b.summary)}</p></div><a class="cd-btn" href="#brands">All brands</a></div>`; return; }
     const cs = S.cards.filter(c => c.brand === b.brand);
     const top = cs.slice().sort((x, y) => y.proven - x.proven).slice(0, 8);
     const hooks = cs.filter(c => c.hook).sort((x, y) => y.proven - x.proven).slice(0, 6);
     const rows = (k, list) => list.map(v => [v, share(cs, k, v)]).filter(r => r[1] > 0).sort((x, y) => y[1] - x[1]);
-    m.innerHTML = `<div class="cd-h"><div><h2 class="${b.brand === 'Herology' ? 'hg' : ''}">${esc(b.brand)}</h2><p>${esc(b.summary)}</p></div><a class="cd-btn" href="#brands">All brands</a></div>
+    m.innerHTML = `<div class="cd-h"><div><h2 class="cd-bn ${b.brand === 'Herology' ? 'hg' : ''}">${LG(b.brand, 40)}${esc(b.brand)}</h2><p>${esc(b.summary)}</p></div><a class="cd-btn" href="#brands">All brands</a></div>
       <div class="cd-panels">
         <section class="cd-panel"><h3>At a glance</h3><div class="cd-kpis"><div class="cd-kpi"><div class="n">${fmtN(b.cards)}</div><div class="l">Cards</div></div><div class="cd-kpi"><div class="n">${fmtN(b.live)}</div><div class="l">Live</div></div><div class="cd-kpi"><div class="n">${fmtN(b.proven)}</div><div class="l">Proven</div></div><div class="cd-kpi"><div class="n">${fmtN(b.medianDays)}</div><div class="l">Median days</div></div></div>${mixBar(b.formats || {}, b.cards)}
           ${b.brand !== 'Herology' ? `<p style="font-size:12px;color:var(--ink-muted);margin-top:10px">${esc(mkName(b.market))}. Raw ${fmtN(b.raw)} ads, English ${fmtN(b.english)}, in range ${fmtN(b.scoped != null ? b.scoped : b.kept)}, kept ${fmtN(b.kept)}. Dropped: ${Object.entries(b.drops || {}).map(([k, v]) => `${esc(k)} ${fmtN(v)}`).join(', ') || 'none'}.</p>` : ''}</section>
@@ -492,7 +498,7 @@
       <div class="cd-panels"><section class="cd-panel"><h3>Hook formats</h3><div class="sub">Cards per format${S.hk.fmt ? ` · filtering the library by ${esc(S.hk.fmt)} (click again to clear)` : ' · click a bar to filter the library'}</div>${hbars(fmts, { click: 'hf' })}</section>
       <section class="cd-panel"><h3>Templates</h3><div class="sub">Patterns shared by 2+ different hooks ([PRODUCT], [N], [AGE] are placeholders)</div>${tpls.length ? tpls.map(([k, v]) => `<div class="cd-tpl"><code>${esc(k)}</code><span style="color:var(--ink-muted)">${v.length} ads · ${esc([...new Set(v.map(c => c.brand))].join(', '))}</span></div>`).join('') : '<p class="sub">No shared templates yet.</p>'}</section></div>
       <div class="cd-bar" style="margin-top:20px"><label class="cd-search">${ICON.search}<input id="cd-hq" type="search" placeholder="Search hooks" value="${esc(S.hk.q)}" aria-label="Search hooks"></label><span class="cd-count">${fmtN(lib.length)} hooks</span></div>
-      <div class="cd-panel" style="padding:4px 8px" data-list="hooks">${lib.slice(0, 300).map(c => `<div class="cd-hrow" data-open="${esc(c.id)}"><div class="th">${poster(c) ? `<img data-src="${esc(poster(c))}" alt="">` : ''}</div><div><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="${c.hg ? 'hg' : ''}">${esc(c.brand)}</span> · ${esc(c.hookFormat || 'unclassified')} · ${fmtN(c.days)} days · Proven score ${fmtN(c.proven)}${c.match && c.match !== 'none' ? ' · ' + esc(c.match) : ''}</div></div></div>`).join('') || '<div class="cd-empty">No hooks match.</div>'}${lib.length > 300 ? `<div class="cd-more">Top 300 by Proven score shown; search to narrow.</div>` : ''}</div>`;
+      <div class="cd-panel" style="padding:4px 8px" data-list="hooks">${lib.slice(0, 300).map(c => `<div class="cd-hrow" data-open="${esc(c.id)}"><div class="th">${poster(c) ? `<img data-src="${esc(poster(c))}" alt="">` : ''}</div><div><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 16)}${esc(c.brand)}</span> · ${esc(c.hookFormat || 'unclassified')} · ${fmtN(c.days)} days · Proven score ${fmtN(c.proven)}${c.match && c.match !== 'none' ? ' · ' + esc(c.match) : ''}</div></div></div>`).join('') || '<div class="cd-empty">No hooks match.</div>'}${lib.length > 300 ? `<div class="cd-more">Top 300 by Proven score shown; search to narrow.</div>` : ''}</div>`;
     watchImgs(m);
     $$('[data-who]', m).forEach(b => b.addEventListener('click', () => { S.hk.who = b.dataset.who; vHooks(m); }));
     $$('[data-hf]', m).forEach(b => b.addEventListener('click', () => { S.hk.fmt = S.hk.fmt === b.dataset.hf ? null : b.dataset.hf; vHooks(m); }));

@@ -203,3 +203,9 @@
 .cd .cd-skel i{display:block;border-radius:var(--r);background:linear-gradient(90deg,#1c1a2a,#262238,#1c1a2a);background-size:200% 100%;animation:cdsh 1.4s linear infinite}
 @media(max-width:560px){.cd .cd-skel{grid-template-columns:repeat(2,1fr);gap:10px}.cd .cd-vfq{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){.cd .cd-skel i,.cd .cd-fr .cd-shim{animation:none}}
+/* brand logos */
+.cd .cd-lg{--lg:18px;width:var(--lg);height:var(--lg);border-radius:50%;object-fit:contain;background:#fff;flex:none;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-right:.45em;box-shadow:0 0 0 1px rgba(255,255,255,.14)}
+.cd .cd-lg.mono{background:var(--purple-deep,#3b2a6b);color:#fff;font-family:'Inter Tight',system-ui,sans-serif;font-size:calc(var(--lg)*.4);font-weight:700;line-height:1;letter-spacing:0}
+.cd .cd-bn{display:inline-flex;align-items:center}
+.cd .cd-cb .b{display:inline-flex;align-items:center;min-width:0}
+.cd .cd-opt .cd-lg{margin-right:.35em}
