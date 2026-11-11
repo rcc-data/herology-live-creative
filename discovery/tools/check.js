@@ -33,6 +33,15 @@ const { chromium } = require('playwright');
       }
       const auto = await p.evaluate(() => [...document.querySelectorAll('video')].filter(v => !v.paused).length);
       ok('1440 no autoplay', auto === 0, auto);
+      const bc = await p.$$eval('#cd-vfq button', b => b.length);
+      ok('1440 benefit chips', bc >= 5, bc);
+      const c0 = await p.textContent('#cd-count'); await p.click('#cd-vfq button'); await p.waitForTimeout(500);
+      const c1 = await p.textContent('#cd-count'); ok('1440 benefit chip filters', c0 !== c1, `${c0} -> ${c1}`);
+      await p.click('#cd-vfq button'); await p.waitForTimeout(400);
+      await p.$eval('#cd-auto', e => e.click()); await p.waitForTimeout(1500);
+      const ap = await p.$$eval('video.ap', v => v.length);
+      ok('1440 autoplay on plays videos', ap > 0 && ap <= 6, ap);
+      await p.$eval('#cd-auto', e => e.click()); await p.waitForTimeout(300);
     }
     await p.screenshot({ path: `${out}/discover_${w}.png` });
     await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)); await p.waitForTimeout(900);

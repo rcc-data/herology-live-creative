@@ -10,6 +10,7 @@
   const BATCH = 48;
   const PRODUCTS = ['Balance', 'PPN', 'Meno', 'Zen', 'Collagen', 'Inositol', 'Creatine', "Men's Prenatal"];
   const BEN = ['hormones/PMS', 'menopause', 'fertility/pregnancy', 'postnatal', 'sleep/stress', 'skin/hair', 'PCOS', 'energy', 'performance', 'gut', 'other'];
+  const BENL = v => ({'hormones/PMS':'Hormones / PMS','menopause':'Menopause','fertility/pregnancy':'Fertility / pregnancy','postnatal':'Postnatal','sleep/stress':'Sleep / stress','skin/hair':'Skin / hair','PCOS':'PCOS','energy':'Energy','performance':'Performance','gut':'Gut'})[v] || v;
   const PROOF = ['reviews', 'founder', 'expert/GP', 'study', 'before-after', 'UGC testimonial', 'press'];
   const OFFER = ['subscription', 'bundle', '% off', 'gift', 'free shipping', 'none'];
   const FMT = ['video', 'image', 'carousel'];
@@ -182,7 +183,7 @@
   }
   function watchImgs(el) { $$('img[data-src]', el).forEach(i => imgIO().observe(i)); }
   function nCols(w) { return w < 560 ? 2 : w < 900 ? 3 : w < 1200 ? 4 : w < 1600 ? 5 : 6; }
-  function teardownGrid() { if (MORE) MORE.disconnect(); MORE = null; if (typeof AIO !== 'undefined' && AIO) { AIO.disconnect(); AIO = null; AP.forEach(stopAuto); AP.clear(); } G = null; }
+  function teardownGrid() { if (MORE) MORE.disconnect(); MORE = null; if (typeof AIO !== 'undefined' && AIO) { AIO.disconnect(); AIO = null; AP.forEach(stopAuto); AP.clear(); VIS.clear(); } G = null; }
   function grid(host, list) {
     teardownGrid();
     const w = host.clientWidth || window.innerWidth;
@@ -195,21 +196,28 @@
     MORE.observe(G.more);
     autoSync();
   }
-  // autoplay (off by default): plays videos in view, at most 4 at once, muted; hover still works when off
-  let AIO = null; const AP = new Set();
+  // autoplay (off by default): every video card that is mostly on screen is a candidate; the 6 most visible play,
+  // muted and looping. Cards added by infinite scroll are watched as they arrive; when one leaves, the next visible one takes its slot.
+  let AIO = null; const AP = new Set(); const VIS = new Map(); const AP_MAX = 6; let APT = 0;
   function autoSync() {
     if (AIO) { AIO.disconnect(); AIO = null; }
-    AP.forEach(stopAuto); AP.clear();
+    AP.forEach(stopAuto); AP.clear(); VIS.clear();
     if (!S.auto || !G) return;
-    AIO = new IntersectionObserver(es => es.forEach(e => {
-      const fr = e.target;
-      if (e.isIntersecting && e.intersectionRatio >= 0.6) { if (AP.size < 4 && !AP.has(fr)) { startAuto(fr); AP.add(fr); } }
-      else if (AP.has(fr)) { stopAuto(fr); AP.delete(fr); }
-    }), { threshold: [0, 0.6] });
+    AIO = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting && e.intersectionRatio >= 0.5) VIS.set(e.target, e.intersectionRatio); else VIS.delete(e.target); }); clearTimeout(APT); APT = setTimeout(rebalance, 120); }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
     $$('.cd-fr[data-v]', G.host).forEach(fr => AIO.observe(fr));
   }
-  function startAuto(fr) { const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.loop = true; v.setAttribute('playsinline', ''); v.src = fr.dataset.v; v.className = 'ap'; fr.appendChild(v); v.addEventListener('playing', () => fr.classList.add('play')); v.play().catch(() => {}); }
+  function rebalance() {
+    const want = [...VIS.entries()].filter(([fr]) => fr.isConnected)
+      .sort((a, b) => b[1] - a[1] || a[0].getBoundingClientRect().top - b[0].getBoundingClientRect().top)
+      .slice(0, AP_MAX).map(x => x[0]);
+    [...AP].forEach(fr => { if (!want.includes(fr)) { stopAuto(fr); AP.delete(fr); } });
+    want.forEach(fr => { if (!AP.has(fr) && !(H && H.fr === fr)) { startAuto(fr); AP.add(fr); } });
+  }
+  function startAuto(fr) { const v = document.createElement('video'); v.muted = true; v.defaultMuted = true; v.playsInline = true; v.loop = true; v.preload = 'metadata'; v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.className = 'ap';
+    v.addEventListener('playing', () => fr.classList.add('play')); v.addEventListener('error', () => { fr.classList.remove('play'); });
+    v.src = fr.dataset.v; fr.appendChild(v); const go = () => v.play().catch(() => {}); if (v.readyState >= 2) go(); else v.addEventListener('loadeddata', go, { once: true }); go(); }
   function stopAuto(fr) { const v = fr.querySelector('video.ap'); if (v) { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); } fr.classList.remove('play'); }
+  document.addEventListener('visibilitychange', () => { if (!S.auto) return; if (document.hidden) { AP.forEach(stopAuto); AP.clear(); } else rebalance(); });
   function addBatch() {
     if (!G || G.i >= G.list.length) return;
     const g = G;
@@ -251,7 +259,7 @@
       <select class="cd-sel" id="cd-sort" aria-label="Sort"><option value="newest">Newest</option><option value="proven">Proven score</option><option value="longest">Longest running</option></select>
       <span class="cd-count" id="cd-count"></span></div>
       <div class="cd-row2">${opts.hgToggle ? `<label class="cd-sw"><input type="checkbox" id="cd-inchg" ${S.incHg ? 'checked' : ''}><span></span>Include Herology</label>` : ''}<label class="cd-sw"><input type="checkbox" id="cd-auto" ${S.auto ? 'checked' : ''}><span></span>Autoplay videos</label>
-      <div class="cd-vfq" id="cd-vfq" role="group" aria-label="Creative type (Motion)"></div></div>
+      <div class="cd-vfq" id="cd-vfq" role="group" aria-label="Benefit"></div></div>
       <div class="cd-chips" id="cd-act"></div><div id="cd-gridhost"></div>`;
     $('#cd-sort', host).value = S.sort;
     let tq;
@@ -260,7 +268,7 @@
     $('#cd-fbtn', host).addEventListener('click', () => openFilters(base, opts.skip));
     if (opts.hgToggle) $('#cd-inchg', host).addEventListener('change', e => { S.incHg = e.target.checked; store.set('incHg', S.incHg); draw(); });
     $('#cd-auto', host).addEventListener('change', e => { S.auto = e.target.checked; store.set('auto', S.auto); autoSync(); });
-    $('#cd-vfq', host).addEventListener('click', e => { const b = e.target.closest('button[data-vfq]'); if (!b) return; const v = b.dataset.vfq; S.f.vf.has(v) ? S.f.vf.delete(v) : S.f.vf.add(v); setQS(); refresh(); });
+    $('#cd-vfq', host).addEventListener('click', e => { const b = e.target.closest('button[data-vfq]'); if (!b) return; const v = b.dataset.vfq; S.f.benefit.has(v) ? S.f.benefit.delete(v) : S.f.benefit.add(v); setQS(); refresh(); });
     const refresh = () => {
       const list = sorted(filtered(base, S.f, opts.skip));
       $('#cd-count').textContent = `${fmtN(list.length)} of ${fmtN(base.length)} cards` + (S.q.trim() ? ` for "${S.q.trim()}"` : '');
@@ -268,9 +276,9 @@
         (FKEYS.some(k => S.f[k].size) ? '<button class="cd-chip" data-clear>Clear all</button>' : '');
       const fcn = FKEYS.reduce((n, k) => n + (k === opts.skip ? 0 : S.f[k].size), 0);
       $('#cd-fbtn').innerHTML = `${ICON.filter} Filters${fcn ? ' · ' + fcn : ''}`;
-      const vc = {}; filtered(base, S.f, 'vf').forEach(c => (c.vf || []).forEach(v => (vc[v] = (vc[v] || 0) + 1)));
-      const top = Object.keys(vc).sort((a, b) => vc[b] - vc[a]).slice(0, 14); [...S.f.vf].forEach(v => { if (!top.includes(v)) top.unshift(v); });
-      $('#cd-vfq').innerHTML = top.length ? `<span class="lbl">Motion types</span>` + top.map(v => `<button class="cd-q ${S.f.vf.has(v) ? 'on' : ''}" data-vfq="${esc(v)}" aria-pressed="${S.f.vf.has(v)}">${esc(v)} <b>${fmtN(vc[v] || 0)}</b></button>`).join('') : '';
+      const bc = {}; filtered(base, S.f, 'benefit').forEach(c => (c.benefit || []).forEach(v => (bc[v] = (bc[v] || 0) + 1)));
+      const top = BEN.filter(v => v !== 'other' && (bc[v] || S.f.benefit.has(v))).sort((a, b) => (bc[b] || 0) - (bc[a] || 0));
+      $('#cd-vfq').innerHTML = top.length ? `<span class="lbl">Benefits</span>` + top.map(v => `<button class="cd-q ${S.f.benefit.has(v) ? 'on' : ''}" data-vfq="${esc(v)}" aria-pressed="${S.f.benefit.has(v)}">${esc(BENL(v))} <b>${fmtN(bc[v] || 0)}</b></button>`).join('') : '';
       grid($('#cd-gridhost'), list);
     };
     $('#cd-act', host).addEventListener('click', e => {
@@ -282,7 +290,7 @@
     refresh();
   }
   function vDiscover(m) {
-    m.innerHTML = `<div class="cd-h"><div><h2>Discover</h2><p>Supplement ads that overlap Herology's range in ${esc(MK_ORDER.map(mkName).join(', '))}. Herology's own ads are in the Herology tab (switch them on here to compare). Filter by Motion's creative types and formats below. Hover a video to play it, or switch on autoplay; click any card for the hook, copy and sizes.</p></div></div>
+    m.innerHTML = `<div class="cd-h"><div><h2>Discover</h2><p>Supplement ads that overlap Herology's range in ${esc(MK_ORDER.map(mkName).join(', '))}. Herology's own ads are in the Herology tab (switch them on here to compare). Filter by benefit below, or by Motion's creative types and formats in Filters. Hover a video to play it, or switch on autoplay; click any card for the hook, copy and sizes.</p></div></div>
       ${S.meta.pending.length ? `<div class="cd-note"><b>More Irish brands coming.</b> ${esc(S.meta.pending.join(', '))} are not in Motion; they will be added from Meta Ad Library in a later run.</div>` : ''}<div id="cd-db"></div>`;
     bar($('#cd-db'), S.incHg ? S.cards : S.cards.filter(c => !c.hg), { hgToggle: true });
   }
