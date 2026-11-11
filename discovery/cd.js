@@ -28,7 +28,7 @@
   };
 
   const S = { cards: [], byId: {}, brands: [], tab: 'discover', q: '', sort: store.get('sort', 'newest'), f: F0(), brand: null,
-    hk: { q: '', fmt: null, who: 'all' }, incHg: store.get('incHg', false), auto: store.get('auto', false), gapView: 'market', gapMkt: store.get('gapMkt', 'ALL'), meta: {} };
+    hk: { q: '', fmt: null, who: 'all', sort: 'proven' }, incHg: store.get('incHg', false), auto: store.get('auto', false), gapView: 'market', gapMkt: store.get('gapMkt', 'ALL'), meta: {} };
   CD.state = S;
   function F0() { return { market: new Set(), brand: new Set(), vf: new Set(), benefit: new Set(), ingredient: new Set(), proof: new Set(), offer: new Set(), fmt: new Set(), aspect: new Set(), match: new Set(), status: new Set(), proven: new Set() }; }
   const FKEYS = ['market', 'brand', 'vf', 'fmt', 'match', 'benefit', 'ingredient', 'proof', 'offer', 'aspect', 'status', 'proven'];
@@ -360,6 +360,7 @@
       <div style="font-size:12px;color:var(--ink-muted)">${idx >= 0 ? `${fmtN(idx + 1)} of ${fmtN(list.length)} · ` : ''}${esc(c.mkt)} · ${c.status === 'active' ? 'Live' : 'Ended'} · ${esc(m.fmt)} ${esc(m.aspect)}</div>
       <h3 class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 28)}${esc(c.brand)}</h3>
       <div class="cd-sec"><h4>Hook line (on screen, first 3 seconds)</h4>${hookTxt}${hk.f ? `<div class="cd-pills"><span class="cd-pill m">${esc(hk.f)}</span></div>` : ''}</div>
+      ${hookAnalysis(c, hk)}
       ${hk.o ? `<div class="cd-sec"><h4>All on-screen text</h4><div class="cd-copy">${esc(hk.o)}</div></div>` : ''}
       ${c.title ? `<div class="cd-sec"><h4>Ad headline (Meta)</h4><div>${esc(c.title)}</div></div>` : ''}
       ${c.text ? `<div class="cd-sec"><h4>Primary text</h4><div class="cd-copy">${esc(c.text)}</div></div>` : ''}
@@ -379,6 +380,32 @@
       <button class="cd-btn p" data-copy>Copy link</button>${c.alib && /\/ads\/library\/\?id=|\d{6,}/.test(c.alib) ? `<a class="cd-btn" href="${esc(c.alib)}" target="_blank" rel="noopener">Ad Library</a>` : ''}
       <a class="cd-btn" href="#brands/${esc(slug(c.brand))}">Brand page</a></div></div></div>`;
     o.hidden = false; document.documentElement.style.overflow = 'hidden'; hoverOut();
+  }
+  // hook analysis for one ad: how common its format is, how long that format runs, its pattern and similar hooks
+  const median = a => { if (!a.length) return 0; const b = [...a].sort((x, y) => x - y), h = b.length >> 1; return b.length % 2 ? b[h] : Math.round((b[h - 1] + b[h]) / 2); };
+  let HKS = null;
+  function hookStats() {
+    if (HKS) return HKS;
+    const read = S.cards.filter(c => c.hookKind), mk = read.filter(c => !c.hg && c.market !== 'Heavy hitters'), hg = read.filter(c => c.hg);
+    const by = (arr) => { const o = {}; arr.forEach(c => { const f = c.hookFormat || 'Other'; (o[f] = o[f] || []).push(c); }); return o; };
+    HKS = { read, mk, hg, mkBy: by(mk), hgBy: by(hg), mkMed: median(mk.map(c => c.days || 0)) };
+    return HKS;
+  }
+  function hookAnalysis(c, hk) {
+    if (!hk || !hk.f) return '';
+    const H = hookStats(), f = hk.f;
+    const mkN = (H.mkBy[f] || []).length, hgN = (H.hgBy[f] || []).length;
+    const med = median((H.mkBy[f] || []).map(x => x.days || 0));
+    const tplCards = c.hookTpl ? S.cards.filter(x => x.hookTpl === c.hookTpl && x !== c) : [];
+    const ben = new Set(c.benefit || []);
+    let sim = tplCards.length ? tplCards : (H.mkBy[f] || []).concat(H.hgBy[f] || []).filter(x => x !== c && x.hook && (x.benefit || []).some(b => ben.has(b) && b !== 'other'));
+    sim = sim.sort((a, b) => b.proven - a.proven).slice(0, 4);
+    LISTS['sim-' + c.id] = sim;
+    const line = f === 'Visual only' ? 'No text in the first 3 seconds; the opening relies on the picture.'
+      : `${pct(mkN, H.mk.length)}% of market video hooks use this format (Herology ${pct(hgN, H.hg.length)}%). In market these run a median ${fmtN(med)} days, against ${fmtN(H.mkMed)} days for all hooks.`;
+    return `<div class="cd-sec cd-ha"><h4>Hook analysis</h4><p>${esc(line)} <span class="nr">Days live, not results.</span></p>
+      ${c.hookTpl ? `<p>Pattern <code>${esc(c.hookTpl)}</code>${tplCards.length ? ` · used on ${fmtN(tplCards.length + 1)} ads by ${esc([...new Set([c, ...tplCards].map(x => x.brand))].slice(0, 4).join(', '))}` : ''}</p>` : ''}
+      ${sim.length ? `<div class="cd-sim" data-list="sim-${esc(c.id)}"><div class="sub">${tplCards.length ? 'Same pattern' : 'Same format and benefit'}, highest Proven score</div>${sim.map(x => `<button type="button" class="cd-simr" data-open="${esc(x.id)}">${LG(x.brand, 16)}<span>${esc(x.hook)}</span><b>${fmtN(x.days)}d</b></button>`).join('')}</div>` : ''}</div>`;
   }
   function sameCopy(c) {
     const k = c.conceptCount || 1;
@@ -403,6 +430,7 @@
     const t = e.target;
     if (t === $('#cd-vw') || t.closest('[data-vx]')) return closeViewer();
     const b = t.closest('button'); if (!b) return;
+    if (b.dataset.open) { const id = b.dataset.open, l = LISTS['sim-' + VW.id] || []; history.replaceState(null, '', '#' + curBase() + '/ad/' + id); VW.list = l.length ? [VW.c, ...l] : S.cards; openViewer(id, false); return; }
     if (b.dataset.cc) { history.replaceState(null, '', '#' + curBase() + '/ad/' + b.dataset.cc); VW.list = VW.list.includes(S.byId[b.dataset.cc]) ? VW.list : S.cards; openViewer(b.dataset.cc, false); return; }
     if (b.dataset.mem) { history.replaceState(null, '', '#' + curBase() + '/ad/' + b.dataset.mem); openViewer(b.dataset.mem, false); }
     if (b.hasAttribute('data-vp') || b.hasAttribute('data-vn')) step(b.hasAttribute('data-vn') ? 1 : -1);
@@ -480,28 +508,54 @@
 
   // ------------------------------------------------------------ Hooks
   function vHooks(m) {
-    const read = S.cards.filter(c => c.hookKind);
+    const H = hookStats(), read = H.read;
     const vids = S.cards.filter(c => c.fmt === 'video');
-    const who = S.hk.who;
+    const who = S.hk.who, sort = S.hk.sort || 'proven';
     const pool = read.filter(c => who === 'all' || (who === 'hg' ? c.hg : !c.hg));
-    const fc = counter(pool, 'hookFormat');
-    const fmts = HOOKF.map(f => [f, fc[f] || 0]).filter(r => r[1]);
+    const text = read.filter(c => c.hookKind === 'text');
+    // formats: Herology vs market share, plus days-live signals
+    const rows = HOOKF.map(f => { const mk = H.mkBy[f] || [], hg = H.hgBy[f] || [];
+      return { f, mk: mk.length, hg: hg.length, mkP: pct(mk.length, H.mk.length), hgP: pct(hg.length, H.hg.length), med: median(mk.map(c => c.days || 0)), ps: mk.length ? Math.round(mk.reduce((a, c) => a + (c.proven || 0), 0) / mk.length) : 0 }; })
+      .filter(r => r.mk || r.hg).sort((a, b) => b.mk - a.mk);
+    const mxP = Math.max(1, ...rows.map(r => Math.max(r.mkP, r.hgP)));
+    // monthly launches for the top 5 market formats (last 6 months)
+    const top5 = rows.filter(r => r.f !== 'Visual only' && r.f !== 'Other').slice(0, 5).map(r => r.f);
+    const today = S.meta.today || new Date().toISOString().slice(0, 10);
+    const months = []; { const d = new Date(today + 'T00:00:00Z'); for (let k = 5; k >= 0; k--) { const x = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - k, 1)); months.push(x.toISOString().slice(0, 7)); } }
+    const trend = top5.map(f => [f, months.map(mo => H.mk.filter(c => c.hookFormat === f && (c.start || '').startsWith(mo)).length)]);
+    const tmx = Math.max(1, ...trend.flatMap(t => t[1]));
+    const MON = mo => new Date(mo + '-01T00:00:00Z').toLocaleString('en-CA', { month: 'short', timeZone: 'UTC' });
+    // templates with a real example
     const tpl = {};
     pool.forEach(c => { if (c.hookTpl) (tpl[c.hookTpl] = tpl[c.hookTpl] || []).push(c); });
-    const tpls = Object.entries(tpl).filter(([k, v]) => k.length <= 70 && new Set(v.map(c => norm(c.hook))).size >= 2).sort((a, b) => b[1].length - a[1].length).slice(0, 25);
+    const tpls = Object.entries(tpl).filter(([k, v]) => k.length <= 80 && new Set(v.map(c => norm(c.hook))).size >= 2).sort((a, b) => b[1].length - a[1].length).slice(0, 20);
+    // library
     const t = norm(S.hk.q).split(/\s+/).filter(Boolean);
-    const lib = pool.filter(c => c.hook && (!S.hk.fmt || c.hookFormat === S.hk.fmt) && t.every(x => norm(c.hook + ' ' + c.brand).includes(x))).sort((a, b) => b.proven - a.proven);
+    const SORTS = { proven: (a, b) => b.proven - a.proven, newest: (a, b) => (b.start || '').localeCompare(a.start || ''), longest: (a, b) => (b.days || 0) - (a.days || 0) };
+    const lib = pool.filter(c => c.hook && (!S.hk.fmt || c.hookFormat === S.hk.fmt) && t.every(x => norm(c.hook + ' ' + c.brand + ' ' + (c.onscreen || '')).includes(x))).sort(SORTS[sort] || SORTS.proven);
     LISTS.hooks = lib;
-    const nHg = read.filter(c => c.hg).length;
-    m.innerHTML = `<div class="cd-h"><div><h2>Hooks</h2><p>On-screen text in the first 3 seconds, read from video frames (not the Meta headline). ${fmtN(read.length)} of ${fmtN(vids.length)} video cards read (${fmtN(nHg)} Herology).</p></div>
-      <div class="cd-seg" role="group" aria-label="Whose hooks">${[['all', 'All'], ['market', 'Market'], ['hg', 'Herology']].map(([k, l]) => `<button data-who="${k}" class="${who === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>
-      <div class="cd-panels"><section class="cd-panel"><h3>Hook formats</h3><div class="sub">Cards per format${S.hk.fmt ? ` · filtering the library by ${esc(S.hk.fmt)} (click again to clear)` : ' · click a bar to filter the library'}</div>${hbars(fmts, { click: 'hf' })}</section>
-      <section class="cd-panel"><h3>Templates</h3><div class="sub">Patterns shared by 2+ different hooks ([PRODUCT], [N], [AGE] are placeholders)</div>${tpls.length ? tpls.map(([k, v]) => `<div class="cd-tpl"><code>${esc(k)}</code><span style="color:var(--ink-muted)">${v.length} ads · ${esc([...new Set(v.map(c => c.brand))].join(', '))}</span></div>`).join('') : '<p class="sub">No shared templates yet.</p>'}</section></div>
-      <div class="cd-bar" style="margin-top:20px"><label class="cd-search">${ICON.search}<input id="cd-hq" type="search" placeholder="Search hooks" value="${esc(S.hk.q)}" aria-label="Search hooks"></label><span class="cd-count">${fmtN(lib.length)} hooks</span></div>
-      <div class="cd-panel" style="padding:4px 8px" data-list="hooks">${lib.slice(0, 300).map(c => `<div class="cd-hrow" data-open="${esc(c.id)}"><div class="th">${poster(c) ? `<img data-src="${esc(poster(c))}" alt="">` : ''}</div><div><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 16)}${esc(c.brand)}</span> · ${esc(c.hookFormat || 'unclassified')} · ${fmtN(c.days)} days · Proven score ${fmtN(c.proven)}${c.match && c.match !== 'none' ? ' · ' + esc(c.match) : ''}</div></div></div>`).join('') || '<div class="cd-empty">No hooks match.</div>'}${lib.length > 300 ? `<div class="cd-more">Top 300 by Proven score shown; search to narrow.</div>` : ''}</div>`;
+    const stat = (n, l, p) => `<div class="cd-stat"><span class="num ${p ? 'p' : ''}">${n}</span><span class="lbl">${l}</span></div>`;
+    m.innerHTML = `<div class="cd-h"><div><h2>Hooks</h2><p>What is written on screen in the first 3 seconds of each video, read from the frames (not the Meta headline).</p></div>
+      <div class="cd-stats">${stat(fmtN(read.length), 'Videos read')}${stat(pct(text.length, read.length) + '%', 'Open with text')}${stat(pct(read.length - text.length, read.length) + '%', 'Visual only')}${stat(fmtN(H.hg.length), 'Herology read', 1)}${stat(fmtN(Object.keys(tpl).length), 'Patterns')}</div></div>
+      <p style="margin:-6px 0 14px;font-size:13px;color:var(--ink-muted)">${fmtN(read.length)} of ${fmtN(vids.length)} video cards read. Market excludes Heavy hitters. Days live and Proven score are signals of what brands keep running, not results.</p>
+      <section class="cd-panel"><div class="cd-ph"><div><h3>Hook formats: Herology vs market</h3><div class="sub">Share of each side's video hooks${S.hk.fmt ? ` · library filtered to <b>${esc(S.hk.fmt)}</b> (click again to clear)` : ' · click a row to filter the library'}</div></div>
+        <div class="cd-leg2"><span class="mk">Market</span><span class="hg">Herology</span></div></div>
+        <div class="cd-cmp" role="list">${rows.map(r => `<button type="button" role="listitem" class="cd-cmpr ${S.hk.fmt === r.f ? 'on' : ''}" data-hf="${esc(r.f)}"><span class="l">${esc(r.f)}</span>
+          <span class="bars"><span class="tr mk"><i style="width:${(r.mkP / mxP) * 100}%"></i><em>${r.mkP}%</em></span><span class="tr hg"><i style="width:${(r.hgP / mxP) * 100}%"></i><em>${r.hgP}%</em></span></span>
+          <span class="sig"><b>${fmtN(r.med)}d</b><small>median live</small></span><span class="sig"><b>${fmtN(r.ps)}</b><small>avg Proven</small></span></button>`).join('')}</div></section>
+      <div class="cd-panels" style="margin-top:16px"><section class="cd-panel"><h3>Market launches by format</h3><div class="sub">New ads per month, top 5 text formats</div>
+        <table class="cd-trend"><thead><tr><th></th>${months.map(mo => `<th>${MON(mo)}</th>`).join('')}</tr></thead><tbody>${trend.map(([f, v]) => `<tr><td>${esc(f)}</td>${v.map(n => `<td><i style="--h:${Math.round((n / tmx) * 100)}%"></i><span>${n}</span></td>`).join('')}</tr>`).join('')}</tbody></table></section>
+      <section class="cd-panel"><h3>Patterns</h3><div class="sub">Hook shapes reused across 2+ different hooks ([PRODUCT], [N], [AGE] are placeholders), with a real example</div>${tpls.length ? tpls.map(([k, v]) => { const ex = [...v].sort((a, b) => b.proven - a.proven)[0];
+        return `<div class="cd-tpl2" data-open="${esc(ex.id)}"><code>${esc(k)}</code><div class="ex">“${esc(ex.hook)}”</div><div class="mt">${fmtN(v.length)} ads · ${[...new Set(v.map(c => c.brand))].slice(0, 4).map(b => `<span class="cd-bn">${LG(b, 14)}${esc(b)}</span>`).join(' ')}</div></div>`; }).join('') : '<p class="sub">No shared patterns yet.</p>'}</section></div>
+      <div class="cd-bar" style="margin-top:20px"><label class="cd-search">${ICON.search}<input id="cd-hq" type="search" placeholder="Search hooks, on-screen text, brands" value="${esc(S.hk.q)}" aria-label="Search hooks"></label>
+        <div class="cd-seg" role="group" aria-label="Whose hooks">${[['all', 'All'], ['market', 'Market'], ['hg', 'Herology']].map(([k, l]) => `<button data-who="${k}" class="${who === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+        <select id="cd-hs" class="cd-sel" aria-label="Sort hooks">${[['proven', 'Proven score'], ['newest', 'Newest'], ['longest', 'Longest running']].map(([k, l]) => `<option value="${k}" ${sort === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+        <span class="cd-count">${fmtN(lib.length)} hooks</span></div>
+      <div class="cd-panel" style="padding:4px 8px" data-list="hooks">${lib.slice(0, 300).map(c => `<div class="cd-hrow" data-open="${esc(c.id)}"><div class="th">${poster(c) ? `<img data-src="${esc(poster(c))}" alt="">` : ''}</div><div><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 16)}${esc(c.brand)}</span> <span class="cd-pill m">${esc(c.hookFormat || 'unclassified')}</span>${c.isProven ? ' <span class="cd-pill pv">Proven</span>' : ''} · ${fmtN(c.days)} days · Proven score ${fmtN(c.proven)}${c.match && c.match !== 'none' ? ' · ' + esc(c.match) : ''}</div></div></div>`).join('') || '<div class="cd-empty">No hooks match.</div>'}${lib.length > 300 ? `<div class="cd-more">First 300 shown; search or filter to narrow.</div>` : ''}</div>`;
     watchImgs(m);
     $$('[data-who]', m).forEach(b => b.addEventListener('click', () => { S.hk.who = b.dataset.who; vHooks(m); }));
     $$('[data-hf]', m).forEach(b => b.addEventListener('click', () => { S.hk.fmt = S.hk.fmt === b.dataset.hf ? null : b.dataset.hf; vHooks(m); }));
+    $('#cd-hs', m).addEventListener('change', e => { S.hk.sort = e.target.value; vHooks(m); });
     let tq; $('#cd-hq', m).addEventListener('input', e => { clearTimeout(tq); tq = setTimeout(() => { S.hk.q = e.target.value; vHooks(m); const i = $('#cd-hq'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 250); });
   }
 
