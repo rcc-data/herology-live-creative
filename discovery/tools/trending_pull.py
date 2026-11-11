@@ -19,7 +19,7 @@ UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit
 s3 = boto3.client("s3", endpoint_url=f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com")
 CT = {".mp4": "video/mp4", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif"}
 
-today = dt.datetime.now(dt.timezone(dt.timedelta(hours=-8))).date()
+today = dt.datetime.now(dt.timezone(dt.timedelta(hours=-7))).date()
 week = (today - dt.timedelta(days=today.weekday())).isoformat()
 data = json.load(open(OUT)) if os.path.exists(OUT) else {"weeks": {}}
 data["cats"] = CATS

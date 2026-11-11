@@ -1,8 +1,10 @@
 name: Creative Discovery Runneth trending (Herology)
 # Pulls the Runneth trending supplements and health-wellness lists, stores their media in R2
-# (discovery/trending/) and commits discovery/data/trending.json. Manual runs only (a weekly schedule needs Ryan yes).
+# (discovery/trending/) and commits discovery/data/trending.json. Weekly: Monday 3:47pm Vancouver (Ryan, 11 Nov), plus manual runs.
 # Secrets (added by Ryan in repo settings): R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY.
 on:
+  schedule:
+    - cron: '47 22 * * 1'   # Monday 22:47 UTC = 3:47pm Vancouver (UTC-7)
   workflow_dispatch:
 permissions:
   contents: write
