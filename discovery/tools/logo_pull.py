@@ -18,6 +18,7 @@ UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit
 brands = json.load(open("discovery/data/brands.json"))
 have = json.load(open(OUT)) if os.path.exists(OUT) else {}
 force = os.environ.get("FORCE") == "1"
+SMALL = 100  # re-pull logos whose source was smaller than this, even without FORCE
 s3 = boto3.client("s3", endpoint_url=f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com")
 try:
     import cairosvg
@@ -49,8 +50,42 @@ def cands(site):
         print("  home", site, type(e).__name__)
     out.sort(key=lambda x: -x[0])
     host = up.urlparse(base).netloc or site
-    return [u for _, u in out] + [f"https://{host}/apple-touch-icon.png",
-                                  f"https://www.google.com/s2/favicons?domain={host}&sz=256"]
+    urls = []
+    for _, u in out:
+        big = big_shopify(u)
+        if big != u:
+            urls.append(big)
+        urls.append(u)
+    return urls + [f"https://{host}/apple-touch-icon.png", f"https://{host}/apple-touch-icon-precomposed.png",
+                   f"https://www.google.com/s2/favicons?domain={host}&sz=256",
+                   f"https://icons.duckduckgo.com/ip3/{host}.ico", f"https://{host}/favicon.ico"]
+
+
+def big_shopify(u):
+    """Shopify CDN icons are served resized (height=32, _32x32); ask for 256px instead."""
+    if "/cdn/shop/" not in u and "cdn.shopify.com" not in u:
+        return u
+    u2 = re.sub(r"_(\d{2,3})x(\d{2,3})(?=\.(png|jpg|jpeg|webp|gif))", "_256x256", u)
+    u2 = re.sub(r"([?&])(height|width)=\d+", r"\1\2=256", u2)
+    u2 = re.sub(r"([?&])crop=center&?", r"\1", u2)
+    return u2
+
+
+def ad_domains():
+    """Most common landing-page domain per brand, from its own ads (for brands with no site listed)."""
+    try:
+        d = json.load(open("discovery/data/ads.json"))
+    except Exception:
+        return {}
+    I = {k: i for i, k in enumerate(d["fields"])}
+    from collections import Counter
+    c = {}
+    for r in d["cards"]:
+        u = r[I["link"]] or ""
+        h = up.urlparse(u).netloc.lower().removeprefix("www.")
+        if h and not any(x in h for x in ("facebook", "instagram", "fb.me", "linktr", "bit.ly", "amazon", "tiktok", "l.facebook")):
+            c.setdefault(r[I["brand"]], Counter())[h] += 1
+    return {b: v.most_common(1)[0][0] for b, v in c.items()}
 
 
 def to_img(r, u):
@@ -86,9 +121,10 @@ def put(slug, body, src, px):
 
 
 ok = miss = 0
+ADS = ad_domains()
 for b in brands:
-    slug, site = b["slug"], (b.get("site") or "")
-    if slug in have and not force:
+    slug, site = b["slug"], (b.get("site") or ADS.get(b["brand"]) or "")
+    if slug in have and not force and (have[slug].get("px") or 0) >= SMALL:
         continue
     if b["brand"] == "Herology" and os.path.exists("discovery/assets/logo.png"):
         im = Image.open("discovery/assets/logo.png").convert("RGBA")
@@ -103,11 +139,12 @@ for b in brands:
             im = to_img(fetch(u), u)
         except Exception:
             continue
-        if im and min(im.size) >= 48:
+        if not im or min(im.size) < 16:
+            continue
+        if not best or min(im.size) > min(best[0].size):
             best = (im, u)
+        if min(best[0].size) >= 180:
             break
-        if im and not best:
-            best = (im, u)
     if best:
         put(slug, square128(best[0]), best[1], best[0].size[0]); ok += 1
         print("ok", b["brand"], best[0].size[0], best[1][:80])
