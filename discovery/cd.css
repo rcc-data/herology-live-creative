@@ -253,3 +253,31 @@
   .cd .cd-cmpr .sig:last-child{display:none}
   .cd .cd-trend{font-size:11px}
 }
+/* brands list + page */
+.cd .cd-chip:not(.on){background:var(--card);border:1px solid var(--line)}
+.cd .cd-chip b{font-weight:600;color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.cd .cd-chip.on b{color:var(--ink)}
+.cd .cd-bcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:14px}
+.cd .cd-bc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:10px;min-width:0}
+.cd a.cd-bc:hover{border-color:var(--purple)}
+.cd .cd-bc.hg{border-color:var(--terracotta)}
+.cd .cd-bc.pend{opacity:.7}
+.cd .cd-bc .hd{display:flex;align-items:center;gap:10px;min-width:0}
+.cd .cd-bc .hd .cd-lg{margin-right:0}
+.cd .cd-bc h3{font-size:18px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cd .cd-bc .mk{font-size:12px;color:var(--ink-muted)}
+.cd .cd-bc .nums{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--ink-soft)}
+.cd .cd-bc .nums b{color:var(--ink);font-variant-numeric:tabular-nums}
+.cd .cd-bc p{font-size:13px;color:var(--ink-soft);margin:0;line-height:1.45}
+.cd .cd-fbar{display:flex;height:8px;border-radius:5px;overflow:hidden;background:var(--card2)}
+.cd .cd-fbar i,.cd .cd-wk .st i{display:block}
+.cd .cd-fbar .v,.cd .cd-wk .v{background:var(--purple)}.cd .cd-fbar .i,.cd .cd-wk .i{background:var(--gold)}.cd .cd-fbar .o{background:var(--ink-muted)}
+.cd .cd-fleg{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--ink-muted)}
+.cd .cd-fleg span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.cd .cd-fleg .v:before{background:var(--purple)}.cd .cd-fleg .i:before{background:var(--gold)}.cd .cd-fleg .o:before{background:var(--ink-muted)}
+.cd .cd-bhd{font-size:13px;color:var(--ink-soft);margin:-6px 0 16px}
+.cd .cd-bhd a{color:var(--purple)}
+.cd .cd-wk{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;height:130px;align-items:end;margin:12px 0 6px}
+.cd .cd-wk .c{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0;font-size:10px;color:var(--ink-muted)}
+.cd .cd-wk .st{width:70%;max-width:28px;display:flex;flex-direction:column-reverse;border-radius:4px 4px 0 0;overflow:hidden;min-height:1px}
+.cd .cd-wk b{font-size:11px;color:var(--ink-soft);margin-top:3px;font-variant-numeric:tabular-nums}
