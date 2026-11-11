@@ -1527,49 +1527,6 @@
 "pending": false
 },
 {
-"brand": "Hello Klean",
-"slug": "hello-klean",
-"site": "helloklean.com",
-"market": "UK",
-"tier": null,
-"cards": 99,
-"ads": 100,
-"live": 66,
-"proven": 1,
-"new30": 66,
-"medianDays": 7,
-"formats": {
-"video": 71,
-"image": 28
-},
-"benefits": {
-"skin/hair": 99,
-"sleep/stress": 1
-},
-"proof": {
-"UGC testimonial": 12,
-"before-after": 4,
-"founder": 4
-},
-"offers": {},
-"match": {
-"Collagen": 98,
-"Zen": 1
-},
-"raw": 503,
-"english": 431,
-"scoped": 117,
-"kept": 100,
-"drops": {
-"no overlap": 41,
-"not a supplement": 273,
-"not English": 72,
-"over cap": 17
-},
-"summary": "99 cards (66 live), mostly video (72%), led by skin/hair (100%) and sleep/stress (1%). 1 have run 60+ days (median 7 days live) and 66 launched in the last 30 days; top proof is UGC testimonial (12%), with no offer in most ads.",
-"pending": false
-},
-{
 "brand": "Her Bodhi",
 "slug": "her-bodhi",
 "site": "herbodhi.com",

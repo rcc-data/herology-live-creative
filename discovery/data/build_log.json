@@ -138,19 +138,6 @@
    },
    "market": "UK"
   },
-  "Hello Klean": {
-   "raw": 503,
-   "english": 431,
-   "scoped": 117,
-   "kept": 100,
-   "drops": {
-    "no overlap": 41,
-    "not a supplement": 273,
-    "not English": 72,
-    "over cap": 17
-   },
-   "market": "UK"
-  },
   "Vida Glow": {
    "raw": 280,
    "english": 280,
@@ -941,9 +928,9 @@
    "cards": 454
   },
   "UK": {
-   "brands": 18,
-   "ads": 1328,
-   "cards": 1283
+   "brands": 17,
+   "ads": 1228,
+   "cards": 1184
   },
   "NA": {
    "brands": 46,
@@ -957,17 +944,17 @@
   }
  },
  "card_fix": {
-  "copy_groups_before": 2859,
-  "cards_after": 4803,
-  "multi_size_cards": 229,
+  "copy_groups_before": 2835,
+  "cards_after": 4704,
+  "multi_size_cards": 228,
   "repeated_size_cards": 0,
   "largest_card": 3,
-  "same_copy_cards": 2618
+  "same_copy_cards": 2532
  },
- "cards": 4803,
- "ads": 5036,
- "media_jobs": 9383,
- "video_ads": 2494,
- "hooks_read": 2426,
+ "cards": 4704,
+ "ads": 4936,
+ "media_jobs": 9183,
+ "video_ads": 2423,
+ "hooks_read": 2355,
  "media_done": 10996
 }

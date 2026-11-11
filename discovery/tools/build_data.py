@@ -47,6 +47,8 @@ def jl(p, d=None):
 WIDE_MKT = {"Oriel Magnesium": "IE", "Revive Collagen": "UK", "Gold Collagen": "UK", "Free Soul": "UK", "Spacegoods": "UK",
             "Your Heights": "UK", "Metagenics ANZ": "AU", "The Gut Co": "AU", "Naternal": "AU"}
 HEAVY = {"IM8", "Grüns", "Winks Sleep", "AG1", "Cymbiotika", "Seed", "Bloom Nutrition"}
+# brands removed from the build entirely (Ryan, 10 Nov 2026: Hello Klean not relevant)
+EXCLUDE_BRANDS = {"Hello Klean"}
 MARKETS = {"IE": "Ireland", "UK": "UK", "NA": "North America", "AU": "Australia"}
 raw = []
 for f, mkt in (("raw/motion_ie.json", "IE"), ("raw/adlib_ie.json", "IE"), ("raw/herology_ads.json", "IE"),
@@ -55,6 +57,8 @@ for f, mkt in (("raw/motion_ie.json", "IE"), ("raw/adlib_ie.json", "IE"), ("raw/
     rows = jl(f, [])
     for r in rows:
         r = list(r) + [None] * (12 - len(r))
+        if r[1] in EXCLUDE_BRANDS:
+            continue
         tier = None
         if f.endswith(("motion_wide.json", "motion_heavy.json")):
             tier = r[11] if isinstance(r[11], str) else "wide"

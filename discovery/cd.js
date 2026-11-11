@@ -537,56 +537,108 @@
   }
 
   // ------------------------------------------------------------ Hooks
+  // opening devices: repeatable ways a hook starts or frames itself (matched on the hook text)
+  const OPENERS = [
+    ['"If you…" callout', /^(if|when) (you|your)\b/i, 'Speaks straight to a reader who has the problem'],
+    ['Expert voice ("As a nurse…")', /\b(as an? (nurse|doctor|dr|gp|pharmacist|nutritionist|dietitian|midwife|registered|naturopath)|doctor|dr\.|pharmacist|dietitian|nutritionist|ob-?gyn)\b/i, 'A professional frames the claim'],
+    ['Life-stage or symptom named', /(perimenopaus|menopaus|pcos|postpartum|postnatal|pregnan|\bttc\b|period|\bpms\b|luteal|fertility|bloat|brain fog|hot flash|night sweat|over (30|40|50)|in your (30|40|50)s|after (30|40|50))/i, 'Names who it is for in the first line'],
+    ['Question', /\?/, 'Opens with a question'],
+    ['Numbered list ("3 reasons")', /(^\d+\s|\b(\d+|three|five) (reasons|signs|things|ways|tips|mistakes|supplements|benefits))/i, 'Promises a short list'],
+    ['"I wish someone told me"', /(wish (i|someone)|nobody (told|warned)|no one (told|warned)|didn'?t know)/i, 'Hindsight or confession'],
+    ['"Stop / Don\'t" warning', /^(stop|don'?t|never|quit|you'?re (doing|taking)\b.*wrong)/i, 'Myth-busting or warning'],
+    ['POV / relatable', /^(pov\b|me when|when you|that feeling)/i, 'Meme-style relatable caption'],
+    ['First-person story ("I…", "My…")', /^(i|i'm|i've|i was|my)\b/i, 'Personal experience up front'],
+    ['Reveal ("Meet…", "This is…")', /^(meet|introducing|say hello|new\b|this is|here'?s|these are)/i, 'Introduces the product or idea'],
+    ['Price or offer in the hook', /(% off|[$£€]\s?\d|free (gift|shipping|delivery|bottle|trial)|for free|\bsale\b|\bdeals?\b|bundle|discount|\bcode\b)/i, 'Leads with the deal'],
+    ['"This is your sign"', /your sign/i, 'Nudge to act'],
+  ];
   function vHooks(m) {
     const H = hookStats(), read = H.read;
     const vids = S.cards.filter(c => c.fmt === 'video');
     const who = S.hk.who, sort = S.hk.sort || 'proven';
     const pool = read.filter(c => who === 'all' || (who === 'hg' ? c.hg : !c.hg));
     const text = read.filter(c => c.hookKind === 'text');
-    // formats: Herology vs market share, plus days-live signals
+    const mkT = H.mk.filter(c => c.hook), hgT = H.hg.filter(c => c.hook);
     const rows = HOOKF.map(f => { const mk = H.mkBy[f] || [], hg = H.hgBy[f] || [];
       return { f, mk: mk.length, hg: hg.length, mkP: pct(mk.length, H.mk.length), hgP: pct(hg.length, H.hg.length), med: median(mk.map(c => c.days || 0)), ps: mk.length ? Math.round(mk.reduce((a, c) => a + (c.proven || 0), 0) / mk.length) : 0 }; })
       .filter(r => r.mk || r.hg).sort((a, b) => b.mk - a.mk);
     const mxP = Math.max(1, ...rows.map(r => Math.max(r.mkP, r.hgP)));
-    // monthly launches for the top 5 market formats (last 6 months)
+    // monthly launches, top 5 text formats, last 6 months
     const top5 = rows.filter(r => r.f !== 'Visual only' && r.f !== 'Other').slice(0, 5).map(r => r.f);
     const today = S.meta.today || new Date().toISOString().slice(0, 10);
     const months = []; { const d = new Date(today + 'T00:00:00Z'); for (let k = 5; k >= 0; k--) { const x = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - k, 1)); months.push(x.toISOString().slice(0, 7)); } }
     const trend = top5.map(f => [f, months.map(mo => H.mk.filter(c => c.hookFormat === f && (c.start || '').startsWith(mo)).length)]);
     const tmx = Math.max(1, ...trend.flatMap(t => t[1]));
     const MON = mo => new Date(mo + '-01T00:00:00Z').toLocaleString('en-CA', { month: 'short', timeZone: 'UTC' });
-    // templates with a real example
-    const tpl = {};
-    pool.forEach(c => { if (c.hookTpl) (tpl[c.hookTpl] = tpl[c.hookTpl] || []).push(c); });
-    const tpls = Object.entries(tpl).filter(([k, v]) => k.length <= 80 && new Set(v.map(c => norm(c.hook))).size >= 2).sort((a, b) => b[1].length - a[1].length).slice(0, 20);
+    const TC = ['var(--purple)', 'var(--terracotta)', 'var(--gold)', 'var(--green)', '#7FB3D5'];
+    // opening devices: market vs Herology share, best examples
+    const ops = OPENERS.map(([name, re, why]) => { const mk = mkT.filter(c => re.test(c.hook)), hg = hgT.filter(c => re.test(c.hook));
+      return { name, why, mk, hg, mkP: pct(mk.length, mkT.length), hgP: pct(hg.length, hgT.length), med: median(mk.map(c => c.days || 0)), ex: [...mk].sort((a, b) => b.proven - a.proven).slice(0, 3) }; })
+      .filter(o => o.mk.length >= 5).sort((a, b) => b.mk.length - a.mk.length);
+    ops.forEach(o => (LISTS['op-' + o.name] = o.ex));
+    // formats by benefit
+    const bens = BEN.filter(b => b !== 'other').map(b => { const mk = H.mk.filter(c => (c.benefit || []).includes(b) && c.hook), hg = H.hg.filter(c => (c.benefit || []).includes(b) && c.hook);
+      const fc = counter(mk.filter(c => c.hookFormat !== 'Other'), 'hookFormat'), top = Object.entries(fc).sort((x, y) => y[1] - x[1]).slice(0, 2);
+      const hfc = counter(hg.filter(c => c.hookFormat !== 'Other'), 'hookFormat'), htop = Object.entries(hfc).sort((x, y) => y[1] - x[1])[0];
+      const ex = top[0] ? [...mk].filter(c => c.hookFormat === top[0][0]).sort((x, y) => y.proven - x.proven)[0] : null;
+      return { b, n: mk.length, top: top.map(([f, n]) => [f, pct(n, mk.length)]), h: htop ? [htop[0], pct(htop[1], hg.length)] : null, hn: hg.length, ex }; }).filter(r => r.n >= 15).sort((a, b) => b.n - a.n);
+    // what stands out
+    const ins = [];
+    const gap = rows.filter(r => r.mk >= 20 && r.f !== 'Other' && r.f !== 'Visual only').sort((a, b) => (b.mkP - b.hgP) - (a.mkP - a.hgP))[0];
+    if (gap && gap.mkP - gap.hgP >= 3) ins.push(['Under-used format', `${gap.f}: ${gap.mkP}% of market hooks, ${gap.hgP}% of Herology's.`, gap.f]);
+    const lon = rows.filter(r => r.mk >= 25 && r.f !== 'Other').sort((a, b) => b.med - a.med)[0];
+    if (lon) ins.push(['Runs longest in market', `${lon.f}: median ${lon.med} days live against ${H.mkMed} for all hooks.`, lon.f]);
+    const d30 = new Date(new Date(today + 'T00:00:00Z') - 30 * 864e5).toISOString().slice(0, 10), d60 = new Date(new Date(today + 'T00:00:00Z') - 60 * 864e5).toISOString().slice(0, 10);
+    const ris = rows.filter(r => r.f !== 'Other').map(r => { const a2 = (H.mkBy[r.f] || []).filter(c => c.start > d30).length, b2 = (H.mkBy[r.f] || []).filter(c => c.start > d60 && c.start <= d30).length; return { f: r.f, a2, b2 }; }).filter(r => r.a2 >= 10).sort((x, y) => (y.a2 - y.b2) / Math.max(1, y.b2) - (x.a2 - x.b2) / Math.max(1, x.b2))[0];
+    if (ris && ris.a2 > ris.b2) ins.push(['Rising in launches captured', `${ris.f}: ${ris.a2} new in the last 30 days vs ${ris.b2} the 30 before.`, ris.f]);
+    const og = ops.filter(o => o.mk.length >= 20).sort((a, b) => (b.mkP - b.hgP) - (a.mkP - a.hgP))[0];
+    if (og && og.mkP - og.hgP >= 3) ins.push(['Opening Herology rarely uses', `${og.name}: ${og.mkP}% of market text hooks, ${og.hgP}% of Herology's.`, null]);
     // library
     const t = norm(S.hk.q).split(/\s+/).filter(Boolean);
     const SORTS = { proven: (a, b) => b.proven - a.proven, newest: (a, b) => (b.start || '').localeCompare(a.start || ''), longest: (a, b) => (b.days || 0) - (a.days || 0) };
     const lib = pool.filter(c => c.hook && (!S.hk.fmt || c.hookFormat === S.hk.fmt) && t.every(x => norm(c.hook + ' ' + c.brand + ' ' + (c.onscreen || '')).includes(x))).sort(SORTS[sort] || SORTS.proven);
     LISTS.hooks = lib;
+    const shown = lib.slice(0, S.hk.n || 48);
     const stat = (n, l, p) => `<div class="cd-stat"><span class="num ${p ? 'p' : ''}">${n}</span><span class="lbl">${l}</span></div>`;
-    m.innerHTML = `<div class="cd-h"><div><h2>Hooks</h2><p>What is written on screen in the first 3 seconds of each video, read from the frames (not the Meta headline).</p></div>
-      <div class="cd-stats">${stat(fmtN(read.length), 'Videos read')}${stat(pct(text.length, read.length) + '%', 'Open with text')}${stat(pct(read.length - text.length, read.length) + '%', 'Visual only')}${stat(fmtN(H.hg.length), 'Herology read', 1)}${stat(fmtN(Object.keys(tpl).length), 'Patterns')}</div></div>
-      <p style="margin:-6px 0 14px;font-size:13px;color:var(--ink-muted)">${fmtN(read.length)} of ${fmtN(vids.length)} video cards read. Market excludes Heavy hitters. Days live and Proven score are signals of what brands keep running, not results.</p>
-      <section class="cd-panel"><div class="cd-ph"><div><h3>Hook formats: Herology vs market</h3><div class="sub">Share of each side's video hooks${S.hk.fmt ? ` · library filtered to <b>${esc(S.hk.fmt)}</b> (click again to clear)` : ' · click a row to filter the library'}</div></div>
+    const thumb = (c, cls) => `<div class="cd-fr ${cls || ''}" ${c.video ? `data-v="${esc(c.video)}"` : ''}>${poster(c) ? `<img data-src="${esc(poster(c))}" alt="" decoding="async">` : ''}<div class="cd-shim"></div></div>`;
+    const hcard = c => `<article class="cd-hk" data-open="${esc(c.id)}" tabindex="0" aria-label="${esc(c.brand)} hook">${thumb(c)}${c.isProven ? '<span class="cd-tagp">Proven</span>' : ''}
+      <div class="b"><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 16)}${esc(c.brand)}</span></div>
+      <div class="mt"><span class="cd-pill m">${esc(c.hookFormat || 'unclassified')}</span> ${fmtN(c.days)}d live · score ${fmtN(c.proven)}</div></div></article>`;
+    m.innerHTML = `<div class="cd-h"><div><h2>Hooks</h2><p>What is written on screen in the first 3 seconds of each video, read from the frames (not the Meta headline). Market excludes Heavy hitters. Days live and Proven score show what brands keep running, not results.</p></div>
+      <div class="cd-stats">${stat(fmtN(read.length), 'Videos read')}${stat(pct(text.length, read.length) + '%', 'Open with text')}${stat(fmtN(H.hg.length), 'Herology read', 1)}${stat(fmtN(H.mkMed) + 'd', 'Median live')}</div></div>
+      ${ins.length ? `<section class="cd-ins">${ins.map(([h, b, f]) => `<${f ? `button type="button" data-hf="${esc(f)}"` : 'div'} class="i"><span>${esc(h)}</span><b>${esc(b)}</b>${f ? '<em>See these hooks ↓</em>' : ''}</${f ? 'button' : 'div'}>`).join('')}</section>` : ''}
+      <section class="cd-panel"><div class="cd-ph"><div><h3>Hook formats: Herology vs market</h3><div class="sub">Share of each side's video hooks${S.hk.fmt ? ` · library filtered to <b>${esc(S.hk.fmt)}</b> (click again to clear)` : ' · click a row to filter the library below'}</div></div>
         <div class="cd-leg2"><span class="mk">Market</span><span class="hg">Herology</span></div></div>
         <div class="cd-cmp" role="list">${rows.map(r => `<button type="button" role="listitem" class="cd-cmpr ${S.hk.fmt === r.f ? 'on' : ''}" data-hf="${esc(r.f)}"><span class="l">${esc(r.f)}</span>
           <span class="bars"><span class="tr mk"><i style="width:${(r.mkP / mxP) * 100}%"></i><em>${r.mkP}%</em></span><span class="tr hg"><i style="width:${(r.hgP / mxP) * 100}%"></i><em>${r.hgP}%</em></span></span>
           <span class="sig"><b>${fmtN(r.med)}d</b><small>median live</small></span><span class="sig"><b>${fmtN(r.ps)}</b><small>avg Proven</small></span></button>`).join('')}</div></section>
-      <div class="cd-panels" style="margin-top:16px"><section class="cd-panel"><h3>Market launches by format</h3><div class="sub">New ads per month, top 5 text formats</div>
-        <table class="cd-trend"><thead><tr><th></th>${months.map(mo => `<th>${MON(mo)}</th>`).join('')}</tr></thead><tbody>${trend.map(([f, v]) => `<tr><td>${esc(f)}</td>${v.map(n => `<td><i style="--h:${Math.round((n / tmx) * 100)}%"></i><span>${n}</span></td>`).join('')}</tr>`).join('')}</tbody></table></section>
-      <section class="cd-panel"><h3>Patterns</h3><div class="sub">Hook shapes reused across 2+ different hooks ([PRODUCT], [N], [AGE] are placeholders), with a real example</div>${tpls.length ? tpls.map(([k, v]) => { const ex = [...v].sort((a, b) => b.proven - a.proven)[0];
-        return `<div class="cd-tpl2" data-open="${esc(ex.id)}"><code>${esc(k)}</code><div class="ex">“${esc(ex.hook)}”</div><div class="mt">${fmtN(v.length)} ads · ${[...new Set(v.map(c => c.brand))].slice(0, 4).map(b => `<span class="cd-bn">${LG(b, 14)}${esc(b)}</span>`).join(' ')}</div></div>`; }).join('') : '<p class="sub">No shared patterns yet.</p>'}</section></div>
-      <div class="cd-bar" style="margin-top:20px"><label class="cd-search">${ICON.search}<input id="cd-hq" type="search" placeholder="Search hooks, on-screen text, brands" value="${esc(S.hk.q)}" aria-label="Search hooks"></label>
+      <section class="cd-panel" style="margin-top:16px"><div class="cd-ph"><div><h3>New market ads per month, top 5 text formats</h3><div class="sub">By launch date · capped pull, so counts are ads captured</div></div>
+        <div class="cd-leg2">${trend.map(([f], k) => `<span style="--c:${TC[k]}" class="c">${esc(f)}</span>`).join('')}</div></div>
+        <div class="cd-mchart">${months.map((mo, mi) => `<div class="mo"><div class="bars">${trend.map(([f, v], k) => `<div class="b" style="height:${(v[mi] / tmx) * 100}%;background:${TC[k]}" title="${esc(f)} · ${MON(mo)}: ${v[mi]}"><span>${v[mi] || ''}</span></div>`).join('')}</div><div class="lb">${MON(mo)}${mi === months.length - 1 ? ' (to date)' : ''}</div></div>`).join('')}</div></section>
+      <section class="cd-panel" style="margin-top:16px"><div class="cd-ph"><div><h3>Opening lines that repeat</h3><div class="sub">How hooks start, matched on the text: share of each side's text hooks, how long the market keeps them running, and the market's highest-scoring examples</div></div>
+        <div class="cd-leg2"><span class="mk">Market</span><span class="hg">Herology</span></div></div>
+        <div class="cd-ops">${ops.map(o => `<div class="op"><div class="hd"><h4>${esc(o.name)}</h4><div class="why">${esc(o.why)}</div>
+          <div class="nums"><span class="mk"><b>${o.mkP}%</b> market</span><span class="hg"><b>${o.hgP}%</b> Herology</span><span><b>${fmtN(o.med)}d</b> median live</span></div></div>
+          <div class="exs" data-list="op-${esc(o.name)}">${o.ex.map(c => `<div class="ex" data-open="${esc(c.id)}">${thumb(c, 'sm')}<div><div class="tx">${esc(c.hook)}</div><div class="mt">${LG(c.brand, 14)}${esc(c.brand)} · ${fmtN(c.days)}d</div></div></div>`).join('')}</div></div>`).join('')}</div></section>
+      ${bens.length ? `<section class="cd-panel" style="margin-top:16px"><h3>Which hooks the market uses per benefit</h3><div class="sub">Top two market hook formats for each benefit, Herology's most used, and the market's highest-scoring example</div>
+        <div class="cd-bens">${bens.map(r => `<div class="br" ${r.ex ? `data-open="${esc(r.ex.id)}"` : ''}><div class="bn">${esc(BENL(r.b))}<small>${fmtN(r.n)} market hooks</small></div>
+          <div class="fm">${r.top.map(([f, p2]) => `<span class="cd-pill m">${esc(f)} ${p2}%</span>`).join(' ')}</div>
+          <div class="hg">${r.h ? `Herology: ${esc(r.h[0])} ${r.h[1]}%` : r.hn ? 'Herology: mostly Other' : 'Herology: none read'}</div>
+          <div class="ex">${r.ex ? `“${esc(r.ex.hook)}” <span>${esc(r.ex.brand)}</span>` : ''}</div></div>`).join('')}</div></section>` : ''}
+      <div class="cd-bar" style="margin-top:22px" id="cd-hlib"><label class="cd-search">${ICON.search}<input id="cd-hq" type="search" placeholder="Search hooks, on-screen text, brands" value="${esc(S.hk.q)}" aria-label="Search hooks"></label>
         <div class="cd-seg" role="group" aria-label="Whose hooks">${[['all', 'All'], ['market', 'Market'], ['hg', 'Herology']].map(([k, l]) => `<button data-who="${k}" class="${who === k ? 'on' : ''}">${l}</button>`).join('')}</div>
         <select id="cd-hs" class="cd-sel" aria-label="Sort hooks">${[['proven', 'Proven score'], ['newest', 'Newest'], ['longest', 'Longest running']].map(([k, l]) => `<option value="${k}" ${sort === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+        ${S.hk.fmt ? `<button type="button" class="cd-chip on" data-hf="${esc(S.hk.fmt)}">${esc(S.hk.fmt)} ✕</button>` : ''}
         <span class="cd-count">${fmtN(lib.length)} hooks</span></div>
-      <div class="cd-panel" style="padding:4px 8px" data-list="hooks">${lib.slice(0, 300).map(c => `<div class="cd-hrow" data-open="${esc(c.id)}"><div class="th">${poster(c) ? `<img data-src="${esc(poster(c))}" alt="">` : ''}</div><div><div class="tx">${esc(c.hook)}</div><div class="mt"><span class="cd-bn ${c.hg ? 'hg' : ''}">${LG(c.brand, 16)}${esc(c.brand)}</span> <span class="cd-pill m">${esc(c.hookFormat || 'unclassified')}</span>${c.isProven ? ' <span class="cd-pill pv">Proven</span>' : ''} · ${fmtN(c.days)} days · Proven score ${fmtN(c.proven)}${c.match && c.match !== 'none' ? ' · ' + esc(c.match) : ''}</div></div></div>`).join('') || '<div class="cd-empty">No hooks match.</div>'}${lib.length > 300 ? `<div class="cd-more">First 300 shown; search or filter to narrow.</div>` : ''}</div>`;
+      <div class="cd-hkg" data-list="hooks">${shown.map(hcard).join('') || '<div class="cd-empty">No hooks match.</div>'}</div>
+      ${lib.length > shown.length ? `<div style="text-align:center;margin:18px 0"><button class="cd-btn" data-more>Show more (${fmtN(lib.length - shown.length)} left)</button></div>` : ''}`;
     watchImgs(m);
-    $$('[data-who]', m).forEach(b => b.addEventListener('click', () => { S.hk.who = b.dataset.who; vHooks(m); }));
-    $$('[data-hf]', m).forEach(b => b.addEventListener('click', () => { S.hk.fmt = S.hk.fmt === b.dataset.hf ? null : b.dataset.hf; vHooks(m); }));
-    $('#cd-hs', m).addEventListener('change', e => { S.hk.sort = e.target.value; vHooks(m); });
-    let tq; $('#cd-hq', m).addEventListener('input', e => { clearTimeout(tq); tq = setTimeout(() => { S.hk.q = e.target.value; vHooks(m); const i = $('#cd-hq'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 250); });
+    const re = (scroll) => { const y = scroll ? null : window.scrollY; vHooks(m); if (scroll) { const l = $('#cd-hlib'); l && l.scrollIntoView({ behavior: 'smooth', block: 'start' }); } else window.scrollTo(0, y); };
+    $$('[data-who]', m).forEach(b => b.addEventListener('click', () => { S.hk.who = b.dataset.who; S.hk.n = 48; re(); }));
+    $$('[data-hf]', m).forEach(b => b.addEventListener('click', () => { S.hk.fmt = S.hk.fmt === b.dataset.hf ? null : b.dataset.hf; S.hk.n = 48; re(!!S.hk.fmt); }));
+    $('#cd-hs', m).addEventListener('change', e => { S.hk.sort = e.target.value; re(); });
+    const mb = $('[data-more]', m); if (mb) mb.addEventListener('click', () => { S.hk.n = (S.hk.n || 48) + 48; re(); });
+    let tq; $('#cd-hq', m).addEventListener('input', e => { clearTimeout(tq); tq = setTimeout(() => { S.hk.q = e.target.value; S.hk.n = 48; vHooks(m); const i = $('#cd-hq'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 250); });
   }
 
   // ------------------------------------------------------------ Runneth trending (weekly top ads, media stored in R2)
