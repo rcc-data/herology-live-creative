@@ -22,7 +22,9 @@ jobs:
       - name: Run check
         run: |
           mkdir -p out
+          set -o pipefail
           CHANNEL=$(command -v google-chrome >/dev/null && echo chrome || true) NODE_PATH=/tmp/pw/node_modules node discovery/tools/check.js "${{ inputs.url }}" "$PWD/out" | tee out/log.txt
+          grep -q " passed" out/log.txt && ! grep -q "^FAIL" out/log.txt
       - name: Push results
         if: always()
         run: |

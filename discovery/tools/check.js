@@ -71,7 +71,7 @@ const { chromium } = require('playwright');
     await p.screenshot({ path: `${out}/viewer_${w}.png` });
     await p.keyboard.press('Escape'); await p.waitForTimeout(300);
     ok(`${w} viewer closes`, await p.$eval('#cd-vw', e => e.hidden));
-    for (const t of ['brands', 'brands/happy-mammoth', 'hooks', 'gaps', 'trending']) {
+    for (const t of ['brands', 'brands/happy-mammoth', 'hooks', 'trending', 'gaps']) {
       await p.goto(base + '#' + t); await p.waitForTimeout(900);
       const txt = await p.textContent('#cd-main');
       ok(`${w} ${t} renders`, txt.length > 200 && !/NaN|undefined/.test(txt), (txt.match(/NaN|undefined/) || [''])[0]);
